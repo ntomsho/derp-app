@@ -1,0 +1,1010 @@
+body, html {
+  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* Home */
+
+#home-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#dnd-button {
+  font-family: 'Grenze', serif;
+  color: orangered;
+  text-align: center;
+  text-decoration: none;
+  font-size: 30px;
+  padding: 10% 20%;
+  cursor: pointer;
+  border: 1px solid darkgray;
+  border-radius: 3%;
+}
+
+#dndb-sheet-container {
+  padding: 0 2% 0 2%;
+}
+
+/* Navbar */
+.amplify-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navbar-menu-button {
+  width: 8vw;
+  cursor: pointer;
+}
+
+.navbar-menu {
+  position: absolute;
+  width: 45vw;
+  height: 50vh;
+  transition: height 1s;
+  background-color: white;
+  z-index: 5;
+  font-size: 4vw;
+  overflow: auto;
+}
+
+.navbar-menu.hidden {
+  height: 0px;
+  transition: height 1s;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 600px) {
+  #navbar-menu-button {
+    width: 4vw;
+  }
+
+  .navbar-menu {
+    width: 35vw;
+    font-size: 2vw;
+  }
+}
+
+
+/* Char Select */
+
+.char-select-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.char-select-link {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+
+/* Char Gen */
+
+#char-gen-main {
+  position: relative;
+}
+
+.rerolls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rerolls-container > h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.class-column {
+  width: 40vw;
+}
+
+.class-selections {
+  columns: 20vw;
+}
+
+.class-button {
+  height: 6vh;
+  width: 25vw;
+  border: solid 1px black;
+  border-radius: 4%;
+  color: white;
+  font-size: 3vw;
+  font-family: 'Grenze', serif;
+  margin: 3% 1%;
+}
+
+.class-button.selected {
+  border-color: gold;
+}
+
+
+/* Rules Modal */
+.rules-modal-container.hidden {
+  display: none;
+}
+
+.rules-modal-container {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(100, 100, 100, 0.2);
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.rules-modal-main {
+  position: absolute;
+  height: 90vh;
+  width: 90vw;
+  background-color: white;
+  border: 1px solid black;
+  top: 5vh;
+  left: 5vw;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3vw;
+}
+
+.rules-modal-main ul {
+  margin: 0;
+  padding-left: 7%;
+}
+
+.rules-modal-header {
+  margin: 0;
+  align-self: center;
+}
+
+.rules-modal-row {
+  display: flex;
+  width: 60%;
+}
+
+.rules-modal-left-tab {
+  width: 15%;
+}
+
+.rules-modal-columns-container {
+  display: flex;
+  justify-content: space-around;
+  width: 80vw;
+}
+
+.rules-modal-single-column {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rules-modal-column {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1vw;
+}
+
+.rules-modal-column > h3 {
+  font-size: 1.6vw;
+}
+
+@media screen and (max-width: 600px) {
+  .rules-modal-main {
+    font-size: 1.9vw;
+  }
+
+  .rules-modal-column {
+    font-size: 1.8vw;
+  }
+
+  .rules-modal-column > h3 {
+    font-size: 2.5vw;
+    height: 7vh;
+  }
+}
+
+/* Dice Roller */
+
+.dice-roller-container.hidden {
+  display: none;
+}
+
+.dice-roller-container {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(100, 100, 100, 0.2);
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.dice-roller-main {
+  position: absolute;
+  height: 90vh;
+  width: 90vw;
+  background-color: white;
+  border: 1px solid black;
+  top: 5vh;
+  left: 5vw;
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roller-top {
+  display: flex;
+  width: 100%;
+  height: 50%;
+}
+
+.roller-top-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  border: 1px solid black;
+}
+
+.d20 {
+  width: 15vw;
+  height: 15vh;
+  background: url("https://thecarnivoreproject.typepad.com/.a/6a00d8345295c269e201b7c86447b6970b-600wi") no-repeat center;
+  background-size: contain;
+  position: relative;
+}
+
+.d20-value{
+  position: absolute;
+  top: 37%;
+  left: 41%;
+  width: 17%;
+  height: 23%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4vw;
+}
+
+.current-d6 {
+  font-size: 13vw;
+  line-height:0.6em;
+}
+
+.history-box {
+  overflow-y: auto;
+  width: 75%;
+  height: 65%;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-left: 12vw;
+}
+
+.history-box span {
+  margin: 0 0.5vw;
+}
+
+.advantage-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 2vh;
+}
+
+.advantage-die {
+  font-size: 20vw;
+  opacity: 20%;
+}
+
+.advantage-die-selected {
+  font-size: 20vw;
+  opacity: 100%;
+  position: relative;
+}
+
+.disadvantage-die {
+  color: red;
+  font-size: 11vw;
+}
+
+.dice-roller-main button {
+  width: 10vw;
+  height: 8vh;
+  font-size: 5vw;
+  margin: 2vh 0;
+  border-radius: 7%;
+}
+
+.canceled-x {
+  color: red;
+  position: absolute;
+  top: -11%;
+  left: 2%;
+  font-size: 28vw;
+}
+
+.canceled-x.hidden {
+  display: none;
+}
+
+/* Dndb Main */
+
+h1, h2, h3 {
+  font-family: 'Grenze', serif;
+}
+
+#modal-button {
+  position: absolute;
+  top: 10vh;
+  left: 5vw;
+  height: 5vh;
+  width: 10vw;
+  border: 1px solid black;
+}
+
+.color-header {
+  color: orangered;
+  text-align: center;
+}
+
+#dndb-main {
+  display: flex;
+  align-items: center;
+}
+
+#main-button-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2%;
+}
+
+#main-button-row button {
+  font-family: 'Grenze', serif;
+  font-size: 3vw;
+  width: 20vw;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 1%;
+  background-color: white;
+  box-shadow: darkgray 0.5vw 0.4vh;
+}
+
+.sheet-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 1% 0 1% 0;
+}
+
+.field-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 8vh;
+  width: 30vw;
+}
+
+.field-container input, select {
+  border: 1px solid black;
+  height: 3vh;
+  width: 75%;
+  border-radius: 5px;
+  font-size: 2.4vw
+}
+
+.field-header {
+  font-family: 'grenze', serif;
+  font-size: 3.5vw
+}
+
+.sub-field {
+  white-space: nowrap;
+}
+
+.randomize-button {
+  font-size: 4vw;
+  border: none;
+  background: transparent;
+}
+
+.health-tracker {
+  width: 70vw;
+}
+
+.heart-container {
+  width: 90%;
+  padding: 0 1%;
+  cursor: pointer;
+}
+
+.pp-container {
+  font-size: 8vw;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 600px) {
+  #modal-button {
+    top: 14vh;
+    left: 2vw;
+    height: 5vh;
+    width: 10vw;
+  }
+  
+  #main-button-row button {
+    font-size: 1.5vw;
+    width: 15vw;
+  }
+
+  .randomize-button {
+    font-size: 2vw;
+  }
+  
+  .field-container input, select {
+    font-size: 1.5vw;
+    height: 4vh;
+  }
+
+  .field-header {
+    font-family: 'grenze', serif;
+    font-size: 1.5vw
+  }
+
+  .heart-container {
+    width: 55%;
+  }
+
+  .pp-container {
+    width: 5vw;
+  }
+}
+
+/* Skills */
+#skills-container {
+  width: 73%;
+}
+
+.remaining-skills {
+  margin: 0 0 1vh 0;
+  height: 3.5vh;
+}
+
+.skill-button {
+  height: 8vh;
+  width: 23vw;
+  margin: 0.25vh 0 0.25vh 0;
+  font-size: 3vw;
+  font-family: 'grenze', serif;
+  border: 1px solid gray;
+  cursor: pointer;
+  outline: none;
+  line-height: 1.1em;
+}
+
+.skill-button.class-skill {
+  border: 3px solid;
+}
+
+.skill-button.selected {
+  background: gold;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.skill-desc-headline {
+  margin-bottom: 1%;
+  font-size: 4vw;
+}
+
+.skill-desc-content {
+  margin: 1vh 0 2vh 0;
+}
+
+.select-skill-button {
+  font-size: 3.5vw;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+@media screen and (min-width: 600px) {
+  #skills-container {
+    width: 60%;
+  }
+  
+  .skill-button {
+    height: 5vh;
+    width: 17vw;
+    font-size: 2vw;
+  }
+  
+  .skill-desc-headline {
+    font-size: 3vw;
+  }
+  
+  .select-skill-button {
+    font-size: 1.5vw;
+  }
+}
+
+/* Classes */
+
+@keyframes stretchRight { from { width: 0; } to { width:100vw; } };
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1}};
+
+.class-headline {
+  position: relative;
+  /* right: 5vw; */
+  /* width: 100vw; */
+  margin: 1.5% 0 1.5% 0;
+  height: 8vh;
+}
+
+.class-headline.extend {
+  animation: stretchRight 0.7s ease-in-out;
+}
+
+.class-headline-text {
+  color: white;
+  padding: 1.5% 0 1.5% 7%;
+}
+
+/* This doesn't work yet, easier to do it when compartmentalized */
+.class-headline-text.fade {
+  animation: fadeIn 1.5s ease-in;
+}
+
+.class-ability-container {
+  display: flex;
+}
+
+.class-info {
+  width: 35vw;
+}
+
+.class-desc {
+  font-style: italic;
+}
+
+.class-ability-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64vw;
+}
+
+.ability-main {
+  display: flex;
+  justify-content: space-around;
+  margin: 2vh 1vw;
+}
+
+.ability-main input {
+  height: 5vh;
+  width: 55vw;
+  font-size: 5vw;
+  font-weight: bold;
+  font-family: 'grenze', serif;
+  text-align: center;
+  padding: 2%;
+}
+
+.ability-main div {
+  height: auto;
+  width: 55vw;
+  font-size: 5vw;
+  font-weight: bold;
+  font-family: 'grenze', serif;
+  text-align: center;
+  padding: 2%;
+}
+
+.ability-desc {
+    box-shadow: inset 0px -10px 5px 0px lightgrey;
+    max-height: 30vh;
+}
+
+.ability-desc-scrollbox {
+  overflow: auto;
+  max-height: 30vh;
+}
+
+.class-radio-container button {
+  font-size: 8vw;
+  border: none;
+  background-color: white;
+}
+
+.ability-management-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ability-randomize-button {
+  font-size: 3vw;
+  padding: 2%;
+  width: 29vw;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  margin: 1vh 1vw;
+}
+
+.custom-add-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-add-row > div {
+  font-size: 3vw;
+}
+
+.custom-add-field {
+  display: flex;
+}
+
+.custom-add-field input {
+  font-size: 4vw;
+  padding: 1.5%;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.custom-add-field select {
+  height: 5vh;
+  font-size: 4vw;
+  padding: 1.5%;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.custom-add-field button {
+  border: 1px solid black;
+  background-color: white;
+  width: 8vw;
+  font-size: 4vw;
+}
+
+.resource-lists-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+}
+
+.resource-list-entry {
+  display: flex;
+  width: 50vw;
+  margin: 1vh 0;
+}
+
+.selected {
+  background-color: gold;
+}
+
+.resource-list-entry div {
+  border: 1px solid black;
+  word-break: break-word;
+  border-radius: 5px;
+  padding: 5%;
+  width: 22vw;
+}
+
+.resource-list-entry button {
+  font-size: 3vw;
+  border: 1px solid black;
+  background-color: lightgray;
+  width: 8vw;
+}
+
+.ability-main-button {
+  font-size: 6vw;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.resource-subfield {
+  font-size: 2.5vw;
+}
+
+.rune-on-input {
+  font-size: 3.5vw;
+  border: 1px solid black;
+  width: 21vw;
+  padding: 2%;
+  border-radius: 5px;
+}
+
+.wizcaster-spell-word {
+  width: 18vw !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.wizcaster-spell-word button {
+  font-size: 3vw;
+  margin: 1vh 0;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+@media screen and (min-width: 600px) {
+  .ability-main input {
+    font-size: 3vw;
+    width: 40vw;
+  }
+
+  .ability-main div {
+    font-size: 3vw;
+    width: 40vw;
+  }
+  
+  .class-radio-container button {
+      font-size: 4vw;
+  }
+
+  .ability-randomize-button {
+    font-size: 1.5vw;
+    width: 14vw;
+    margin: 0.5vh 0.5vw
+  }
+
+  .custom-add-row > div {
+    font-size: 1.5vw;
+  }
+
+  .custom-add-field input {
+    font-size: 2vw;
+    padding: 1%;
+  }
+
+  .custom-add-field select {
+    font-size: 2vw;
+    padding: 1%;
+  }
+
+  .custom-add-field button {
+    width: 4vw;
+    font-size: 2vw;
+  }
+
+  .resource-lists-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .resource-list {
+    margin: 0 1vw;
+  }
+
+  .resource-list-entry {
+    width: 25vh;
+  }
+
+  .resource-list-entry div {
+    width: 25vw;
+    font-size: 2vw;
+  }
+
+  .resource-list-entry button {
+    width: 5vw;
+    font-size: 2vw;
+  }
+
+  .ability-main-button {
+    font-size: 3vw;
+  }
+
+  .blessing-skills {
+    font-size: 1.5vw;
+  }
+
+  .rune-on-input {
+    width: 15vw;
+    font-size: 2vw;
+  }
+
+  .wizcaster-spell-word {
+    width: 10vw !important;
+  }
+
+  .wizcaster-spell-word button {
+    font-size: 1.5vw;
+    margin: 0.5vh 0;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+}
+
+/* Class-specific */
+
+.form.selected {
+  background-color: gold;
+}
+
+.keepword.selected {
+  background-color: gold;
+}
+
+.components-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.comp {
+  cursor: pointer;
+}
+
+.comp.selected {
+  background-color: gold;
+}
+
+.wizcaster-word {
+  cursor: pointer;
+}
+
+.wizcaster-word.selected {
+  background-color: gold;
+}
+
+/* .zoomaster-ability-section {
+  display: flex;
+  flex-direction: column;
+} */
+
+/* Inventory */
+
+.starting-items-choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+  margin: 1% 3%;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 35%;
+  text-align: center;
+  cursor: pointer;
+  font-size: 4vw;
+}
+
+.starting-items-choice.selected {
+  background-color: gold;
+}
+
+.accept-button {
+  font-size: 4vw;
+  font-family: 'grenze', serif;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.inventory-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.inv-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.inv-space-container {
+  width: 44vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 4vh;
+  margin: 1vh 0;
+}
+
+.inventory-space {
+  border: 1px solid black;
+  height: 4vh;
+  width: 75%;
+  border-radius: 5px;
+  font-size: 4vw;
+}
+
+.move-item-button {
+  width: 25%;
+  height: 4vh;
+  font-size: 3vw;
+  border: 1px solid black;
+}
+
+@media screen and (min-width: 600px) {
+  .starting-items-choice {
+    width: 15%;
+    font-size: inherit;
+    margin: 0.5% 1%;
+    padding: 1%;
+  }
+
+  .accept-button {
+    font-size: 3vw;
+  }
+
+  .inventory-container {
+    flex-direction: column;
+  }
+
+  .inv-row {
+    flex-direction: row;
+  }
+
+  .inv-space-container {
+    width: 30vw;
+    margin: 0.25vh 0;
+  }
+
+  .inventory-space {
+    height: 3vh;
+    font-size: 1.5vw;
+  }
+
+  .move-item-button {
+    height: 3vh;
+    width: 20%;
+    font-size: 1.5vw;
+  }
+}
+
+/* Advancement */
+
+#advancement-container {
+  display: flex;
+}
+
+#exp-tracker {
+  display: flex;
+}
+
+#exp-bar {
+  display: flex;
+  width: 50vw;
+  height: 4.5vh;
+  background: linear-gradient(to left, white 50%, gold 50%);
+  background-size: 200% 100%;
+  overflow: hidden;
+  transition: all 1.5s ease;
+}
+
+.exp-bar-segment {
+  width: 5vw;
+  background: transparent;
+  border: 1px solid black;
+}
+
+.exp-button {
+  border: 1px solid black;
+  width: 8%;
+}
+
+@media screen and (min-width: 600px) {
+  .exp-button {
+    width: 5%;
+    background-color: lightgray;
+  }
+}
