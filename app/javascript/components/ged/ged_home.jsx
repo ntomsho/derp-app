@@ -4,14 +4,14 @@ const GEDHome = () => {
     const [usersList, setUsersList] = useState([]);
 
     const fetchUsers = () => {
-        return $.ajax({
+        $.ajax({
             method: "GET",
             url: "api/users"
-        })
+        }).then(users =>  setUsersList(Object.values(users)));
     };
 
     useEffect(() => {
-        setUsersList(fetchUsers());
+        fetchUsers();
     }, [])
 
     const usersListDisp = () => {
@@ -21,7 +21,7 @@ const GEDHome = () => {
                     {usersList.map((user, i) => {
                         return (
                             <li key={i}>
-                                <div>{user}</div>
+                                <div>{user.username}</div>
                             </li>
                         )
                     })}
