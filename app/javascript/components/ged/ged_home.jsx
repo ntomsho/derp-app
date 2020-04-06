@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { fetchUsers } from '../../actions/user_actions';
 
 const GEDHome = () => {
     const [usersList, setUsersList] = useState([]);
+    const [campaignsList, setCampaignsList] = useState([]);
 
-    const fetchUsers = () => {
-        $.ajax({
-            method: "GET",
-            url: "api/users"
-        }).then(users =>  setUsersList(Object.values(users)));
-    };
+    const campaignsListDisp = () => {
+
+    }
 
     useEffect(() => {
-        fetchUsers();
+        fetchUsers(setUsersList);
     }, [])
+
 
     const usersListDisp = () => {
         if (usersList.length > 0) {
             return (
-                <ul>
-                    {usersList.map((user, i) => {
-                        return (
-                            <li key={i}>
-                                <div>{user.username}</div>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <div>
+                    <h2>Users</h2>
+                    <ul>
+                        {usersList.map((user, i) => {
+                            return (
+                                <li key={i}>
+                                    <div>{user.username}</div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
             )
         } else {
             return (
