@@ -4,7 +4,7 @@ import { signup } from '../actions/session_actions';
 
 const SignupForm = () => {
     return (
-        <SessionForm formType="Login" processForm={signup} />
+        <SessionForm formType="Sign Up" processForm={signup} />
     )
 }
 
