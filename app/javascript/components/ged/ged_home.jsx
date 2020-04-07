@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../actions/user_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions';
+import { fetchCharacters } from '../../actions/character_actions';
+import Navbar from '../navbar';
+import { Link } from 'react-router-dom';
 
 const GEDHome = () => {
     const [usersList, setUsersList] = useState([]);
     const [campaignsList, setCampaignsList] = useState([]);
+    const [charactersList, setCharactersList] = useState([]);
 
     const usersListDisp = () => {
         if (usersList.length > 0) {
@@ -13,11 +17,13 @@ const GEDHome = () => {
                     <h2>Users</h2>
                     <ul>
                         {usersList.map((user, i) => {
-                            return (
-                                <li key={i}>
-                                    <div>{user.username}</div>
-                                </li>
-                            )
+                            if (!window.currentUser || user.id !== window.currentUser.id) {
+                                return (
+                                    <li key={i}>
+                                        <div>{user.username}</div>
+                                    </li>
+                                )
+                            }
                         })}
                     </ul>
                 </div>
@@ -34,15 +40,16 @@ const GEDHome = () => {
             let myCampaigns = [];
             let otherCampaigns = [];
             campaignsList.forEach(campaign => {
-                debugger
-                if (campaign.subs.some(sub => sub.user_id === window.currentUser.id)) {
+                if (window.currentUser && campaign.subs.some(sub => sub.user_id === window.currentUser.id)) {
                     myCampaigns.push(campaign);
                 } else {
                     otherCampaigns.push(campaign)
                 }
             })
-            return (
-                <div>
+            let userCampaigns;
+            if (myCampaigns.length > 0) {
+                userCampaigns = (
+                    <>
                     <h2>Your Campaigns</h2>
                     <ul>
                         {myCampaigns.map((campaign, i) => {
@@ -53,11 +60,18 @@ const GEDHome = () => {
                             )
                         })}
                     </ul>
+                    </>
+                )
+            }
+            return (
+                <div>
+                    <Link to="/ged/campaign/new"><button>New Campaign</button></Link>
+                    {userCampaigns}
                     <h2>Other Campaigns</h2>
                     <ul>
-                        {otherCampaigns.map((campaign, i) => {
+                        {otherCampaigns.map(campaign => {
                             return (
-                                <li key={i}>
+                                <li key={campaign.id}>
                                     <div>{campaign.title}</div>
                                 </li>
                             )
@@ -72,18 +86,41 @@ const GEDHome = () => {
         }
     }
 
+    const CharactersListDisp = () => {
+        if (window.currentUser) {
+            <div>
+                <h2>Your Characters</h2>
+                <ul>
+                    {charactersList.map(character => {
+                        return (
+                            <li key={character.id}>
+                                <div>{character.name}</div>
+                            </li>
+                        )
+                    })}
+                </ul>
+            </div>
+        }
+    }
+
     useEffect(() => {
+        // Look into useReducer to combine these
         fetchUsers(setUsersList);
         fetchCampaigns(setCampaignsList);
+        if (window.currentUser) fetchCharacters(window.currentUser.id, setCharactersList)
     }, [])
 
     return (
         <div id="ged-background">
+            <Navbar />
             <div>
                 {usersListDisp()}
             </div>
             <div>
                 {campaignsListDisp()}
+            </div>
+            <div>
+                {CharactersListDisp()}
             </div>
         </div>
     )
