@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
 
     has_many :campaign_subs,
         foreign_key: :campaign_id,
-        class_name: :CampaignSubs
+        class_name: :CampaignSub
 
     has_many :characters,
         foreign_key: :campaign_id,
