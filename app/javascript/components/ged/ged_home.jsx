@@ -87,8 +87,9 @@ const GEDHome = () => {
     }
 
     const CharactersListDisp = () => {
-        if (window.currentUser) {
+        return (
             <div>
+                <Link to="/ged/characters/new"><button>New Character</button></Link>
                 <h2>Your Characters</h2>
                 <ul>
                     {charactersList.map(character => {
@@ -100,7 +101,7 @@ const GEDHome = () => {
                     })}
                 </ul>
             </div>
-        }
+        )
     }
 
     useEffect(() => {
@@ -110,20 +111,26 @@ const GEDHome = () => {
         if (window.currentUser) fetchCharacters(window.currentUser.id, setCharactersList)
     }, [])
 
-    return (
-        <div id="ged-background">
-            <Navbar />
-            <div>
-                {usersListDisp()}
+    if (!window.currentUser) {
+        return (
+            <div>Login to see more</div>
+        )
+    } else {
+        return (
+            <div id="ged-background">
+                <Navbar />
+                <div>
+                    {usersListDisp()}
+                </div>
+                <div>
+                    {campaignsListDisp()}
+                </div>
+                <div>
+                    {CharactersListDisp()}
+                </div>
             </div>
-            <div>
-                {campaignsListDisp()}
-            </div>
-            <div>
-                {CharactersListDisp()}
-            </div>
-        </div>
-    )
+        )
+    }
 
 }
 
