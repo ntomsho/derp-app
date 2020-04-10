@@ -26,13 +26,6 @@ export const createCharacter = (character) => {
 }
 
 export const updateCharacter = (character, character_id) => {
-    character['race_traits'] = JSON.stringify(character.race_traits);
-    character['trained_skills'] = JSON.stringify(character.trained_skills);
-    character['inventory'] = JSON.stringify(character.inventory);
-    character['current_specials'] = JSON.stringify(character.current_specials);
-    character['advancements'] = JSON.stringify(character.advancements);
-    character['favorite_tags'] = JSON.stringify(character.favoriteTags);
-    debugger
     return $.ajax({
         method: "PATCH",
         url: `api/characters/${character_id}`,

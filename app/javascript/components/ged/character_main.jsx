@@ -57,7 +57,6 @@ class CharacterMain extends React.Component {
         });
         //Temporary until polymorphic assoc is figured out
         newState.favoriteTags = [];
-        debugger
         this.setState({ char: newState });
     }
 
@@ -65,7 +64,6 @@ class CharacterMain extends React.Component {
         const JSONValues = ["raceTraits", "trainedSkills", "currentSpecials", "inventory", "advancements", "favoriteTags"];
         let newState = {};
         Object.keys(this.state.char).forEach(key => {
-            debugger
             newState[camelToSnake(key)] = JSONValues.includes(key) ? 
                 JSON.stringify(this.state.char[key]) : 
                 this.state.char[key]
