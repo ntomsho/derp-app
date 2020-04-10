@@ -4,7 +4,7 @@ export default function FavoriteTags(props) {
     function handleChange(event) {
         props.updateState('savedTag', event.target.value)
     }
-    
+
     return (
         <>
         <h3>Favorite Tags</h3>
@@ -13,7 +13,7 @@ export default function FavoriteTags(props) {
             {props.favoriteTags.map((tag, i) => <li key={i}>{tag}</li>)}
         </ul>
         <div><strong>Saved Tag</strong></div>
-        <input type="text" onChange={handleChange} value={props.savedTag}></input>
+        <input type="text" onChange={handleChange} value={props.savedTag || ""}></input>
         <div>You can put any tag that you roll or acquire here and can change it whenever you want. When you gain a favorite tag from advancement, you may choose this tag instead of the three that are rolled.</div>
         </>
     )

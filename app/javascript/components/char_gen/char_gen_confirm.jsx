@@ -37,7 +37,7 @@ export default function CharGenConfirm(props) {
             charCopy.campaign_id = 2;
             charCopy.health = 7;
             charCopy.plot_points = 1;
-            charCopy.current_specials = JSON.stringify({});
+            charCopy.current_specials = {};
             charCopy.regulation = props.rerolls > 0 ? true : false;
             createCharacter(charCopy).then((newChar) => setNewCharId(newChar.id));
         }

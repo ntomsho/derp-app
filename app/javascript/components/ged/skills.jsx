@@ -13,6 +13,7 @@ export default function Skills(props) {
         const skillSet = props.trainedSkills;
         let classSkillCount = 0;
         let regSkillCount = 0;
+        debugger
         skillSet.forEach(skill => {
             if (classSkills.includes(skill)) {
                 classSkillCount === 0 ? classSkillCount++ : regSkillCount++;

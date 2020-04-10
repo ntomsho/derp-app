@@ -17,7 +17,7 @@ export const createCharacter = (character) => {
     character['race_traits'] = JSON.stringify(character.race_traits);
     character['trained_skills'] = JSON.stringify(character.trained_skills);
     character['inventory'] = JSON.stringify(character.inventory);
-    // character['currentSpecials'] = JSON.stringify(character.currentSpecials);
+    character['current_specials'] = JSON.stringify(character.current_specials);
     // character['advancements'] = JSON.stringify(character.advancements);
     // character['favoriteTags'] = JSON.stringify(character.favoriteTags);
     // character['regulation'] = character.regulation ? "true" : "false";

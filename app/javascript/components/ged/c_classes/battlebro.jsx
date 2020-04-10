@@ -9,7 +9,7 @@ export default function Battlebro(props) {
     const input1 = React.createRef();
     const input2 = React.createRef();
     const input3 = React.createRef();
-
+debugger
     if (!currentSpecials.weapons) {
         props.updateState('currentSpecials', { 'weapons': [] });
     }
@@ -19,6 +19,7 @@ export default function Battlebro(props) {
     }
 
     function randomWeapon() {
+        debugger
         const specialCat = random(["Verb", "Element"]);
         const special = specialCat === "Verb" ? random(GERUNDS) : random(ELEMENTS_OF);
         return { 'category': specialCat, 'special': special, 'type': randomWeaponType() }
