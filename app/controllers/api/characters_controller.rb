@@ -13,7 +13,6 @@ class Api::CharactersController < ApplicationController
     def create
         @character = Character.new(character_params)
         @character.user_id = current_user.id
-        @character.campaign_id = params[:campaign_id]
         if @character.save
             render "api/characters/show"
         else
@@ -40,7 +39,7 @@ class Api::CharactersController < ApplicationController
     private
 
     def character_params
-        params.require(:character).permit(:name, :c_class, :race_string, :race_traits, :background, 
+        params.require(:character).permit(:campaign_id, :name, :c_class, :race_string, :race_traits, :background, 
         :appearance, :derp, :health, :max_health, :plot_points, :selected_fighting_skill, :trained_skills, 
         :current_specials, :inventory, :level, :experience, :advancements, :saved_tag, :regulation)
     end

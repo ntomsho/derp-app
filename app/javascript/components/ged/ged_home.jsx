@@ -95,7 +95,9 @@ const GEDHome = () => {
                     {charactersList.map(character => {
                         return (
                             <li key={character.id}>
-                                <div>{character.name}</div>
+                                <Link to={`/ged/characters/${character.id}`} >
+                                    <div>{character.name}</div>
+                                </Link>
                             </li>
                         )
                     })}

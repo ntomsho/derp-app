@@ -20,7 +20,7 @@ class Api::CampaignSubsController < ApplicationController
         @sub = CampaignSub.find(params[:id])
         sub_id = @sub.id
         @sub.destroy
-        render {id: sub_id}
+        render json: {id: sub_id}
     end
 
     private
