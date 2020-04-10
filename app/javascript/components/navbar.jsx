@@ -3,6 +3,9 @@ import { logout } from '../actions/session_actions';
 
 const Navbar = () => {
 
+    const [charsList, setCharsList] = useState();
+    const [campaignList, setCampaignsList] = useState();
+
     if (window.currentUser) {
         return (
             <div id="navbar-main">

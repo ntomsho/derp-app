@@ -6,8 +6,8 @@ import Skills from './skills';
 import ClassMain from './class_main';
 import Inventory from './inventory';
 import Advancement from './advancement';
-import { snakeToCamel } from '../../case_converter';
-import { fetchCharacter } from '../../actions/character_actions';
+import { snakeToCamel, camelToSnake } from '../../case_converter';
+import { fetchCharacter, updateCharacter } from '../../actions/character_actions';
 
 class CharacterMain extends React.Component {
     constructor(props) {
@@ -39,6 +39,7 @@ class CharacterMain extends React.Component {
         }
         this.updateState = this.updateState.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
+        this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -56,7 +57,21 @@ class CharacterMain extends React.Component {
         });
         //Temporary until polymorphic assoc is figured out
         newState.favoriteTags = [];
+        debugger
         this.setState({ char: newState });
+    }
+
+    saveCharacter() {
+        const JSONValues = ["raceTraits", "trainedSkills", "currentSpecials", "inventory", "advancements", "favoriteTags"];
+        let newState = {};
+        Object.keys(this.state.char).forEach(key => {
+            debugger
+            newState[camelToSnake(key)] = JSONValues.includes(key) ? 
+                JSON.stringify(this.state.char[key]) : 
+                this.state.char[key]
+        });
+        debugger
+        updateCharacter(newState, this.props.match.params.id);
     }
 
     updateState(key, val) {
@@ -137,7 +152,6 @@ class CharacterMain extends React.Component {
     }
 
     render() {
-        debugger
         if (!this.state.char.name) {
             return (
                 <div id="dndb-main">
@@ -155,6 +169,7 @@ class CharacterMain extends React.Component {
                     </div>
                     <div id="main-button-row">
                         <button onClick={() => this.props.setModalOut(true)}>Show Rules</button>
+                        <button onClick={this.saveCharacter}>Save Character</button>
                         <button onClick={() => this.props.setRollerOut(true)}>Roll Dice</button>
                     </div>
 

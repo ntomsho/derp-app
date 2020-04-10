@@ -21,6 +21,7 @@ class Api::CharactersController < ApplicationController
     end
 
     def update
+        debugger
         @character = Character.find(params[:id])
         if @character.update(character_params)
             render "api/characters/show"

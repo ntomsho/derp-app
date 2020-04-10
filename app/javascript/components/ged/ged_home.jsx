@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../actions/user_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions';
 import { fetchCharacters } from '../../actions/character_actions';
-import Navbar from '../navbar';
 import { Link } from 'react-router-dom';
 
 const GEDHome = () => {
@@ -120,7 +119,6 @@ const GEDHome = () => {
     } else {
         return (
             <div id="ged-background">
-                <Navbar />
                 <div>
                     {usersListDisp()}
                 </div>
