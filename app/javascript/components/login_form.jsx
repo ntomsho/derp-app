@@ -2,9 +2,9 @@ import React from 'react';
 import SessionForm from './session_form';
 import { signin } from '../actions/session_actions';
 
-const SignInForm = () => {
+const SignInForm = (props) => {
     return (
-        <SessionForm formType="Login" processForm={signin} />
+        <SessionForm formType="Login" processForm={signin} setLoggedIn={props.setLoggedIn} />
     )
 }
 

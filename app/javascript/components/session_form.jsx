@@ -12,7 +12,7 @@ const SessionForm = (props) => {
         e.preventDefault();
         const user = Object.assign({}, {email: email, username: username, password: password});
         props.processForm(user);
-        // .then(props.history.push('/'))
+        props.setLoggedIn(true);
     }
 
     const update = (stateSetter) => {

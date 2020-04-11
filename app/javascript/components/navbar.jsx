@@ -8,6 +8,7 @@ const Navbar = () => {
     
     const history = useHistory();
     const location = useLocation();
+    const [loggedIn, setLoggedIn] = useState();
     const [charsList, setCharsList] = useState();
     const [campaignList, setCampaignsList] = useState();
 
@@ -18,7 +19,7 @@ const Navbar = () => {
         history.push("/")
     }
 
-    if (window.currentUser) {
+    if (loggedIn) {
         return (
             <div id="navbar-main">
                 <div>{window.currentUser.username}</div>
@@ -28,8 +29,8 @@ const Navbar = () => {
     } else {
         return (
             <div id="navbar-main">
-                <SignInForm />
-                <SignUpForm />
+                <SignInForm setLoggedIn={setLoggedIn} />
+                <SignUpForm setLoggedIn={setLoggedIn} />
             </div>
         )
     }
