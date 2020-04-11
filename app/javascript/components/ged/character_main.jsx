@@ -55,7 +55,7 @@ class CharacterMain extends React.Component {
                 newState[snakeToCamel(key)] = JSON.parse(character[key]) : 
                 newState[snakeToCamel(key)] = character[key];
         });
-        //Temporary until polymorphic assoc is figured out
+        //Temporary until assoc is figured out
         newState.favoriteTags = [];
         this.setState({ char: newState });
     }
@@ -68,7 +68,6 @@ class CharacterMain extends React.Component {
                 JSON.stringify(this.state.char[key]) : 
                 this.state.char[key]
         });
-        debugger
         updateCharacter(newState, this.props.match.params.id);
     }
 
@@ -149,6 +148,14 @@ class CharacterMain extends React.Component {
         )
     }
 
+    saveCharacterButton() {
+        if (window.currentUser && window.currentUser.id === this.state.char.userId) {
+            return (
+                <button onClick={this.saveCharacter}>Save Character</button>
+            )
+        }
+    }
+
     render() {
         if (!this.state.char.name) {
             return (
@@ -167,7 +174,7 @@ class CharacterMain extends React.Component {
                     </div>
                     <div id="main-button-row">
                         <button onClick={() => this.props.setModalOut(true)}>Show Rules</button>
-                        <button onClick={this.saveCharacter}>Save Character</button>
+                        {this.saveCharacterButton()}
                         <button onClick={() => this.props.setRollerOut(true)}>Roll Dice</button>
                     </div>
 
