@@ -4,33 +4,25 @@ import SignUpForm from './signup_form';
 import SignInForm from './login_form';
 import { logout } from '../actions/session_actions';
 
-const Navbar = () => {
+const Navbar = (props) => {
     
     const history = useHistory();
     const location = useLocation();
-    const [loggedIn, setLoggedIn] = useState();
     const [charsList, setCharsList] = useState();
     const [campaignList, setCampaignsList] = useState();
 
-    const logoutAndReturn = () => {
-        logout();
-        location.pathname === "/" ?
-        window.location.reload() : 
-        history.push("/")
-    }
-
-    if (loggedIn) {
+    if (props.loggedInUser) {
         return (
             <div id="navbar-main">
-                <div>{window.currentUser.username}</div>
-                <button onClick={logoutAndReturn}>Logout</button>
+                <div>{props.loggedInUser.username}</div>
+                <button onClick={() => logout(props.setLoggedInUser)}>Logout</button>
             </div>
         )
     } else {
         return (
             <div id="navbar-main">
-                <SignInForm setLoggedIn={setLoggedIn} />
-                <SignUpForm setLoggedIn={setLoggedIn} />
+                <SignInForm setLoggedIn={props.setLoggedInUser} />
+                <SignUpForm setLoggedIn={props.setLoggedInUser} />
             </div>
         )
     }

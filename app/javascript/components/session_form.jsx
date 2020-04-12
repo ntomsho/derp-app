@@ -11,8 +11,7 @@ const SessionForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const user = Object.assign({}, {email: email, username: username, password: password});
-        props.processForm(user);
-        props.setLoggedIn(true);
+        props.processForm(user, props.setLoggedIn);
     }
 
     const update = (stateSetter) => {
