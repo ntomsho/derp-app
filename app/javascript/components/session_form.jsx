@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const SessionForm = (props) => {
 
+    const history = useHistory();
+    const location = useLocation();
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

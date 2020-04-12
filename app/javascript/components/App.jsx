@@ -21,6 +21,9 @@ const App = () => {
                 <Navbar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
             </header>
             <Switch>
+                {
+                    //Change these all to render methods so that they can pick up loggedInUser
+                }
                 <Route path="/ged/characters/new" component={CharGen} />
                 <Route path="/ged/characters/:id" component={CharacterMain} />
                 <Route path="/ged" component={GEDHome} />

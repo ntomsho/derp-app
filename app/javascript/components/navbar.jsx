@@ -11,11 +11,16 @@ const Navbar = (props) => {
     const [charsList, setCharsList] = useState();
     const [campaignList, setCampaignsList] = useState();
 
+    const logMeOut = () => {
+        logout(props.setLoggedInUser);
+        if (location.pathname !== "/") history.push("/");
+    }
+
     if (props.loggedInUser) {
         return (
             <div id="navbar-main">
                 <div>{props.loggedInUser.username}</div>
-                <button onClick={() => logout(props.setLoggedInUser)}>Logout</button>
+                <button onClick={logMeOut}>Logout</button>
             </div>
         )
     } else {
