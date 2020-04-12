@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Redirect } from 'react-router-dom';
 import { CLASS_COLORS } from '../../dndb-tables';
 import { createCharacter } from '../../actions/character_actions';
+import { fetchCampaigns } from '../../actions/campaign_actions'
 import { camelToSnake } from '../../case_converter';
 
 export default function CharGenConfirm(props) {
@@ -10,8 +11,20 @@ export default function CharGenConfirm(props) {
     // let { character: char } = props;
     const allSkills = character.trainedSkills;
     if (character.selectedFightingSkill) allSkills.unshift(character.seletedFightingSkill);
+    const [campaignsList, setCampaignsList] = useState([]);
     const [newCharId, setNewCharId] = useState(null);
-    const [campaignId, setCampaignId] = useState(null);
+
+    useEffect(() => {
+        fetchCampaigns(sortCampaigns);
+    }, []);
+
+    function sortCampaigns(campaigns) {
+        let myCampaigns = [];
+        campaigns.forEach(campaign => {
+            if (campaign.subs.some(sub => sub.user_id === window.currentUser.id)) myCampaigns.push(campaign);
+        })
+        setCampaignsList(myCampaigns);
+    }
 
     function handleChange(event) {
         props.updateSelection(event.target.name, event.target.value);
@@ -33,13 +46,21 @@ export default function CharGenConfirm(props) {
             Object.keys(character).forEach(key => {
                 if (key !== "inventoryStartingChoices") charCopy[camelToSnake(key)] = character[key];
             });
-            // charCopy.campaign_id = campaignId;
-            charCopy.campaign_id = 2;
+            // // charCopy.campaign_id = campaignId;
+            // charCopy.campaign_id = 2;
             charCopy.health = 7;
             charCopy.plot_points = 1;
             charCopy.current_specials = {};
             charCopy.regulation = props.rerolls > 0 ? true : false;
             createCharacter(charCopy).then((newChar) => setNewCharId(newChar.id));
+        }
+    }
+
+    function loadedCampaignOption() {
+        if (props.campaign) {
+            return (
+                <option value={props.campaign.id}>{props.campaign.title}</option>
+            )
         }
     }
 
@@ -53,6 +74,17 @@ export default function CharGenConfirm(props) {
         <div>
             <div>
                 <span>Name: </span><input onChange={handleChange} type="text" name="name" value={character.name}></input>
+            </div>
+            <div>
+                <div>Campaign</div>
+                <select name="campaignId" value={character.campaignId} onChange={handleChange}>
+                    {loadedCampaignOption()}
+                    {campaignsList.map(campaign => {
+                        return (
+                            <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
+                        )
+                    })}
+                </select>
             </div>
             <div style={{color: CLASS_COLORS[character.cClass]}}>
                 <span>Class: </span><span>{character.cClass}</span>

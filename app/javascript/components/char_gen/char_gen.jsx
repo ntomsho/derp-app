@@ -10,11 +10,14 @@ import CharGenConfirm from './char_gen_confirm';
 class CharGen extends React.Component {
     constructor(props) {
         super(props);
+        const campaignLoaded = !!this.props.location.state;
         this.state = {
             stage: 1,
             rerolls: 4,
+            campaign: campaignLoaded ? this.props.location.state : null,
             char: {
                 name: "",
+                campaign_id: campaignLoaded ? this.props.location.state.id : null,
                 cClass: "",
                 raceString: "",
                 raceTraits: null,
@@ -29,12 +32,6 @@ class CharGen extends React.Component {
             }
         }
         this.updateSelection = this.updateSelection.bind(this);
-    }
-
-    componentDidUpdate() {
-        if (this.state.stage <= 0) {
-            // this.props.setCharGen(false);
-        }
     }
 
     updateSelection(field, value, reroll) {
@@ -150,6 +147,7 @@ class CharGen extends React.Component {
             case 6:
                 return <CharGenConfirm
                     char={this.state.char}
+                    campaign={this.state.campaign}
                     updateSelection={this.updateSelection}
                     rerolls={this.state.rerolls}
                 />

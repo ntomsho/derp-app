@@ -9,9 +9,11 @@ class Campaign extends React.Component {
             title: "",
             description: "",
             director: {},
-            characters: []
+            characters: [],
+            subs: []
         }
         this.loadCampaign = this.loadCampaign.bind(this);
+        this.userSubbed = this.userSubbed.bind(this);
     }
 
     componentDidMount() {
@@ -24,12 +26,29 @@ class Campaign extends React.Component {
         this.setState(newState);
     }
 
+    userSubbed() {
+        return this.state.subs.some(sub => sub.user_id === this.props.loggedInUser.id);
+    }
+
+    joinButton() {
+        if (this.state.title === "") return;
+        if (this.props.loggedInUser.id !== this.state.director.id) {
+            const campaign = { title: this.state.title, id: this.props.match.params.id }
+            return (
+                <Link to={{ pathname: "/ged/characters/new", state: campaign }}><button>
+                    {this.userSubbed() ? "Create New Character" : "Join Campaign"}
+                </button></Link>
+            )
+        }
+    }
+
     render() {
         return (
             <div id="campaign-background">
                 <h2>{this.state.title}</h2>
                 <div>Directed by: {this.state.director.username}</div>
                 <div>{this.state.description}</div>
+                {this.joinButton()}
                 <h3>Active Roster</h3>
                 <div>
                     <ul>

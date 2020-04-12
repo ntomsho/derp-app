@@ -16,4 +16,8 @@ class Campaign < ApplicationRecord
         through: :campaign_subs,
         source: :user
 
+    def is_subbed?(user_id)
+        self.subscribing_users.any? { |user| user.id == user_id }
+    end
+
 end
