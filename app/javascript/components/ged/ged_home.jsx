@@ -54,7 +54,7 @@ const GEDHome = () => {
                         {myCampaigns.map((campaign, i) => {
                             return (
                                 <li key={i}>
-                                    <div>{campaign.title}</div>
+                                    <Link to={`/ged/campaigns/${campaign.id}`}><div>{campaign.title}</div></Link>
                                 </li>
                             )
                         })}
@@ -71,7 +71,7 @@ const GEDHome = () => {
                         {otherCampaigns.map(campaign => {
                             return (
                                 <li key={campaign.id}>
-                                    <div>{campaign.title}</div>
+                                    <Link to={`/ged/campaigns/${campaign.id}`}><div>{campaign.title}</div></Link>
                                 </li>
                             )
                         })}

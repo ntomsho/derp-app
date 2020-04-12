@@ -10,6 +10,7 @@ import Home from './Home';
 import GEDHome from './ged/ged_home';
 import CharGen from './char_gen/char_gen';
 import CharacterMain from './ged/character_main';
+import Campaign from './ged/campaign';
 
 const App = () => {
     
@@ -24,6 +25,7 @@ const App = () => {
                 {
                     //Change these all to render methods so that they can pick up loggedInUser
                 }
+                <Route path="/ged/campaigns/:id" component={Campaign} />
                 <Route path="/ged/characters/new" component={CharGen} />
                 <Route path="/ged/characters/:id" component={CharacterMain} />
                 <Route path="/ged" component={GEDHome} />
