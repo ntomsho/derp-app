@@ -2,15 +2,16 @@ sent_friend_invites = []
 sent_campaign_invites = []
 friend_invites = []
 campaign_invites = []
-debugger
+
 def process_invites(collection, direction)
     collection.each do |invite|
         directory = invite.send(direction == 'sent' ? :requested : :requester)
         invite_type = directory.class.name.demodulize
-        invite_obj = { id: directory.id, created: invite.created_at }
+        invite_obj = { id: directory.id, viewed: directory.viewed, created: invite.created_at }
 
         if invite_type == :Campaign
             invite_obj[:title] = directory.title
+            invite_obj[:director] = directory.director.username
         else
             invite_obj[:username] = directory.username
         end

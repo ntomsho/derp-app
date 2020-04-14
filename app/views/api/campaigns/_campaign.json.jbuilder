@@ -1,12 +1,12 @@
 sent_invites = []
-received_invites = []
+requested_invites = []
 
 campaign.sent_invites.each do |invite|
-    sent_invites << { id: invite.requested.id, username: invite.requested.username, created: invite.created_at }
+    sent_invites << { id: invite.requested.id, username: invite.requested.username, viewed: invite.requested.viewed, created: invite.created_at }
 end
 
-campaign.received_invites.each do |invite|
-    received_invites << { id: invite.requester.id, username: invite.requester.username, created: invite.created_at }
+campaign.requested_invites.each do |invite|
+    requested_invites << { id: invite.requester.id, username: invite.requester.username, viewed: invite.requester.viewed, created: invite.created_at }
 end
 
 director = { id: campaign.director.id, username: campaign.director.username }
@@ -24,7 +24,7 @@ end
 
 json.extract! campaign, :id, :title, :description
 json.sent_invites sent_invites
-json.received_invites received_invites
+json.requested_invites requested_invites
 json.characters characters
 json.director director
 json.subs subs
