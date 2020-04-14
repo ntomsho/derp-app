@@ -2,8 +2,7 @@ sent_friend_invites = []
 sent_campaign_invites = []
 friend_invites = []
 campaign_invites = []
-
-
+debugger
 def process_invites(collection, direction)
     collection.each do |invite|
         directory = invite.send(direction == 'sent' ? :requested : :requester)

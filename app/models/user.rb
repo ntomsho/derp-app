@@ -20,9 +20,9 @@ class User < ApplicationRecord
         through: :campaign_subs,
         source: :campaign
 
-    has_many :sent_invites, as: :requester
+    has_many :sent_invites, class_name: :Invite, as: :requester
     
-    has_many :received_invites, as: :requested
+    has_many :received_invites, class_name: :Invite, as: :requested
 
     def password=(password)
         @password = password

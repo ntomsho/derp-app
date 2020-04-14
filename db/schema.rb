@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_001300) do
+ActiveRecord::Schema.define(version: 2020_04_14_015801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,11 +68,15 @@ ActiveRecord::Schema.define(version: 2020_04_14_001300) do
   end
 
   create_table "invites", force: :cascade do |t|
-    t.integer "requester_id", null: false
-    t.integer "requested_id", null: false
     t.boolean "viewed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "requester_type"
+    t.bigint "requester_id"
+    t.string "requested_type"
+    t.bigint "requested_id"
+    t.index ["requested_type", "requested_id"], name: "index_invites_on_requested_type_and_requested_id"
+    t.index ["requester_type", "requester_id"], name: "index_invites_on_requester_type_and_requester_id"
   end
 
   create_table "users", force: :cascade do |t|
