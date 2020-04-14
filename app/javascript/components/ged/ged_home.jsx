@@ -64,7 +64,7 @@ const GEDHome = () => {
             }
             return (
                 <div>
-                    <Link to="/ged/campaign/new"><button>New Campaign</button></Link>
+                    <Link to="/ged/campaigns/new"><button>New Campaign</button></Link>
                     {userCampaigns}
                     <h2>Other Campaigns</h2>
                     <ul>

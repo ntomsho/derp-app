@@ -43,7 +43,7 @@ class Campaign extends React.Component {
 
     requestSub() {
         if (!userSubbed && !this.state.subPending) {
-            createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id });
+            createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id });
             this.setState({ subPending: true })
         }
     }

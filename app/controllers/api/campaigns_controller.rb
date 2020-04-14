@@ -12,6 +12,7 @@ class Api::CampaignsController < ApplicationController
 
     def create
         @campaign = Campaign.new(campaign_params)
+        @campaign.director_id = current_user.id
         if @campaign.save
             CampaignSub.create(user_id: current_user.id, campaign_id: @campaign.id, is_director: true)
             render "api/campaigns/show"

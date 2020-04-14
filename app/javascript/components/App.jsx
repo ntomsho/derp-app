@@ -11,6 +11,7 @@ import GEDHome from './ged/ged_home';
 import CharGen from './char_gen/char_gen';
 import CharacterMain from './ged/character_main';
 import Campaign from './ged/campaign';
+import CampaignNew from './ged/campaign_new';
 
 const App = () => {
     
@@ -25,8 +26,9 @@ const App = () => {
                 {
                     //Change these all to render methods so that they can pick up loggedInUser
                 }
+                <Route exact path="/ged/campaigns/new" render={(props) => <CampaignNew {...props} loggedInUser={loggedInUser} />} />
                 <Route path="/ged/campaigns/:id" render={(props) => <Campaign {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
-                <Route path="/ged/characters/new" render={(props) => <CharGen {...props} />} />
+                <Route exact path="/ged/characters/new" render={(props) => <CharGen {...props} />} />
                 <Route path="/ged/characters/:id" component={CharacterMain} />
                 <Route path="/ged" component={GEDHome} />
                 <Route path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />

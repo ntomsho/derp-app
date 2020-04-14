@@ -2,8 +2,8 @@ class Api::InvitesController < ApplicationController
 
     def create
         @invite = Invite.new
-        @invite.requester = params[:requester_type].constantize.find(params[:requester_id])
-        @invite.requested = params[:requested_type].constantize.find(params[:requested_id])
+        @invite.requester = params[:invite][:requester_type].constantize.find(params[:invite][:requester_id])
+        @invite.requested = params[:invite][:requested_type].constantize.find(params[:invite][:requested_id])
         if @invite.save
         else
             render json: @invite.errors.full_messages, status: 422
@@ -12,7 +12,7 @@ class Api::InvitesController < ApplicationController
 
     def update
         @invite = Invite.find(params[:id])
-        if @invite.update(viewed: params[:viewed])
+        if @invite.update(viewed: params[:invite][:viewed])
         else
             render json: @invite.errors.full_messages, status: 422
         end
@@ -21,7 +21,7 @@ class Api::InvitesController < ApplicationController
     def destroy
         @invite = Invite.find(params[:id])
         invite_id = @invite.id
-        join_campaign if params[:accepted]
+        join_campaign if params[:invite][:accepted]
         @invite.destroy
         render json: {id: invite_id}
     end
