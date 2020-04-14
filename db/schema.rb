@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_193900) do
+ActiveRecord::Schema.define(version: 2020_04_14_001300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,8 +54,25 @@ ActiveRecord::Schema.define(version: 2020_04_04_193900) do
     t.text "advancements", default: "[]"
     t.string "saved_tag"
     t.boolean "regulation"
+    t.boolean "dead"
     t.index ["campaign_id"], name: "index_characters_on_campaign_id"
     t.index ["user_id"], name: "index_characters_on_user_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "first_id", null: false
+    t.integer "second_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["first_id", "second_id"], name: "index_friendships_on_first_id_and_second_id", unique: true
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.integer "requester_id", null: false
+    t.integer "requested_id", null: false
+    t.boolean "viewed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

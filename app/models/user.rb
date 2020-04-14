@@ -20,6 +20,10 @@ class User < ApplicationRecord
         through: :campaign_subs,
         source: :campaign
 
+    has_many :sent_invites, as: :requester
+    
+    has_many :received_invites, as: :requested
+
     def password=(password)
         @password = password
         self.password_digest = BCrypt::Password.create(password)

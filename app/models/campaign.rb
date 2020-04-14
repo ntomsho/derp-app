@@ -16,6 +16,10 @@ class Campaign < ApplicationRecord
         through: :campaign_subs,
         source: :user
 
+    has_many :sent_invites, as: :requester
+
+    has_many :requested_invites, as: :requested
+
     def is_subbed?(user_id)
         self.subscribing_users.any? { |user| user.id == user_id }
     end
