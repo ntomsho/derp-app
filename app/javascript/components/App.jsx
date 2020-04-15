@@ -20,7 +20,7 @@ const App = () => {
     return (
         <HashRouter>
             <header>
-                <Navbar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />
+                {loggedInUser ? <Navbar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> : null}
             </header>
             <Switch>
                 {

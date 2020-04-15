@@ -39,7 +39,7 @@ class Campaign extends React.Component {
     }
 
     subRequested(invites) {
-        return invites.some(invite => invite.id == this.props.loggedInUser.id);
+        return invites.some(invite => invite.requester_id == this.props.loggedInUser.id);
     }
 
     requestSub() {
