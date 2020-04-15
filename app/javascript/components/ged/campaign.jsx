@@ -15,7 +15,8 @@ class Campaign extends React.Component {
                 title: "",
                 description: "",
                 director: {},
-                characters: [],
+                alive_chars: [],
+                dead_chars: [],
                 subs: [],
                 sent_invites: [],
                 requested_invites: []
@@ -95,7 +96,22 @@ class Campaign extends React.Component {
                 <h3>Active Roster</h3>
                 <div>
                     <ul>
-                        {this.state.campaign.characters.map(character => {
+                        {this.state.campaign.alive_chars.map(character => {
+                            return (
+                                <li key={character.id}>
+                                    <Link to={`/ged/characters/${character.id}`}>
+                                        <div>{character.name} Level {character.level} {character.c_class}</div>
+                                    </Link>
+                                    <div>Played by {character.player_name}</div>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+                <h3>Graveyard</h3>
+                <div>
+                    <ul>
+                        {this.state.campaign.dead_chars.map(character => {
                             return (
                                 <li key={character.id}>
                                     <Link to={`/ged/characters/${character.id}`}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import SignUpForm from './signup_form';
 import SignInForm from './login_form';
 import NotificationsList from './notifications_list';
@@ -22,6 +22,7 @@ const Navbar = (props) => {
             <div id="navbar-main">
                 <div>{props.loggedInUser.username}</div>
                 <button onClick={logMeOut}>Logout</button>
+                <Link to={"/"}><button>Home</button></Link>
                 <NotificationsList list={notifications} listSetter={setNotifications} />
                 <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
             </div>

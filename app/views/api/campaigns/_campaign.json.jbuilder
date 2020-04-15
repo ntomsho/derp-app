@@ -22,9 +22,16 @@ campaign.campaign_subs.each do |sub|
     subs << sub
 end
 
+alive_chars = []
+dead_chars = []
+campaign.characters.each do |character|
+    character.dead ? dead_chars << character : alive_chars << character
+end
+
 json.extract! campaign, :id, :title, :description
 json.sent_invites sent_invites
 json.requested_invites requested_invites
-json.characters characters
+json.alive_chars alive_chars
+json.dead_chars dead_chars
 json.director director
 json.subs subs
