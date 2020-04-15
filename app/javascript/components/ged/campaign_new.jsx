@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InviteComponent from './invite_component';
 import { Redirect } from 'react-router-dom';
 import { fetchUsers } from '../../actions/user_actions';
 import { createCampaign } from '../../actions/campaign_actions';
@@ -9,7 +10,6 @@ const CampaignNew = (props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [campaignId, setCampaignId] = useState(null);
-    const [userQuery, setUserQuery] = useState("");
     const [allUsers, setAllUsers] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [finished, setFinished] = useState(false);
@@ -31,22 +31,27 @@ const CampaignNew = (props) => {
         setFinished(true);
     }
 
+    const addUser = (user) => {
+        if (!invitedUsers.includes(user.id)) {
+            let newInvitedUsers = Object.assign([], invitedUsers);
+            newInvitedUsers.push(user);
+            setInvitedUsers(newInvitedUsers);
+        } else {
+            let newInvitedUsers = Object.assign([], invitedUsers);
+            for (let i = 0; i < newInvitedUsers.length; i++) {
+                if (newInvitedUsers[i].id === user.id) {
+                    newInvitedUsers.splice(newInvitedUsers.indexOf(user.id), 1);
+                    break;
+                }
+            }
+            setInvitedUsers(newInvitedUsers);
+        }
+    }
+
     const update = (stateSetter) => {
         return e => {
             stateSetter(e.currentTarget.value);
         };
-    }
-
-    const addUser = (user) => {
-        if (!invitedUsers.includes(user.id)) {
-            let newInvitedUsers = Object.assign([], invitedUsers);
-            newInvitedUsers.push(user.id);
-            setInvitedUsers(newInvitedUsers);
-        } else {
-            let newInvitedUsers = Object.assign([], invitedUsers);
-            newInvitedUsers.splice(newInvitedUsers.indexOf(user.id), 1);
-            setInvitedUsers(newInvitedUsers);
-        }
     }
 
     if (finished) {
@@ -55,19 +60,16 @@ const CampaignNew = (props) => {
 
     if (campaignId) {
         return (
-            <div id="campaign-new-background">
-                <div>Invite players to your new campaign</div>
-                <input type="text" value={userQuery} onChange={update(setUserQuery)} />
+            <div>
+                <InviteComponent users={allUsers} selector={addUser} />
                 <div>
                     <ul>
-                        {allUsers.map(user => {
-                            if (user.id !== window.currentUser.id && user.username.startsWith(userQuery)) {
-                                return (
-                                    <li key={user.id} type="button" onClick={() => addUser(user)}>
-                                        {user.username}
-                                    </li>
-                                )
-                            }
+                        {invitedUsers.map(user => {
+                            return (
+                                <li key={user.id} onClick={addUser(user)}>
+                                    {user.username}
+                                </li>
+                            )
                         })}
                     </ul>
                 </div>

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import InviteComponent from './invite_component';
 import { fetchCampaign } from '../../actions/campaign_actions';
-import { createInvite, deleteInvite } from '../../actions/invite_actions';
+import { fetchUsers } from '../../actions/user_actions';
+import { createInvite } from '../../actions/invite_actions';
 
 class Campaign extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             subPending: null,
+            usersList: [],
             campaign: {
                 title: "",
                 description: "",
@@ -22,16 +25,23 @@ class Campaign extends React.Component {
         this.userSubbed = this.userSubbed.bind(this);
         this.subRequested = this.subRequested.bind(this);
         this.requestSub = this.requestSub.bind(this);
+        this.inviteUser = this.inviteUser.bind(this);
     }
 
     componentDidMount() {
-        fetchCampaign(this.props.match.params.id, this.loadCampaign);
+        fetchCampaign(this.props.match.params.id, this.loadCampaign).then(() => {
+        fetchUsers((users) => this.setState({ usersList: users }))});
     }
 
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
         this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState });
+    }
+
+    inviteUser(user) {
+        if (user.id)
+            createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id });
     }
 
     userSubbed() {
@@ -67,6 +77,10 @@ class Campaign extends React.Component {
                     </button>
                 )
             }
+        } else {
+            return (
+                <InviteComponent users={this.state.usersList} selector={this.inviteUser} />
+            )
         }
     }
 
@@ -76,6 +90,7 @@ class Campaign extends React.Component {
                 <h2>{this.state.campaign.title}</h2>
                 <div>Directed by: {this.state.campaign.director.username}</div>
                 <div>{this.state.campaign.description}</div>
+                <br/>
                 {this.joinButton()}
                 <h3>Active Roster</h3>
                 <div>
