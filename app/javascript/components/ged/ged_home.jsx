@@ -85,6 +85,13 @@ const GEDHome = () => {
         }
     }
 
+    const findCampaign = (campaignId) => {
+        for (let i = 0; i < campaignsList.length; i++) {
+            if (campaignsList[i].id === campaignId) return campaignsList[i]
+        }
+        return {title: "None"}
+    }
+
     const CharactersListDisp = () => {
         return (
             <div>
@@ -96,6 +103,7 @@ const GEDHome = () => {
                             <li key={character.id}>
                                 <Link to={`/ged/characters/${character.id}`} >
                                     <div>{character.name}</div>
+                                    <div>Campaign: {findCampaign(character.campaign_id).title}</div>
                                 </Link>
                             </li>
                         )

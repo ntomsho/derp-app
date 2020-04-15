@@ -23,6 +23,7 @@ const Navbar = (props) => {
                 <div>{props.loggedInUser.username}</div>
                 <button onClick={logMeOut}>Logout</button>
                 <Link to={"/"}><button>Home</button></Link>
+                <Link to={"/ged"}><button>GED</button></Link>
                 <NotificationsList list={notifications} listSetter={setNotifications} />
                 <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
             </div>
