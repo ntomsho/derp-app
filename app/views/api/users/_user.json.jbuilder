@@ -8,7 +8,7 @@ def process_invites(collection, direction)
     collection.each do |invite|
         directory = invite.send(direction == 'sent' ? :requested : :requester)
         invite_type = directory.class.name.demodulize
-        invite_obj = { id: directory.id, viewed: invite.viewed, created: invite.created_at }
+        invite_obj = { id: invite.id, target_id: directory.id, viewed: invite.viewed, created: invite.created_at }
 
         if invite_type == "Campaign"
             invite_obj[:title] = directory.title

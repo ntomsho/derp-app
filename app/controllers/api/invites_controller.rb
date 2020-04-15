@@ -21,7 +21,8 @@ class Api::InvitesController < ApplicationController
     def destroy
         @invite = Invite.find(params[:id])
         invite_id = @invite.id
-        join_campaign if params[:invite][:accepted]
+        debugger
+        join_campaign(@invite) if params[:accepted] == "true"
         @invite.destroy
         render json: {id: invite_id}
     end
@@ -32,11 +33,12 @@ class Api::InvitesController < ApplicationController
         params.require(:invite).permit(:accepted, :viewed, :requester_type, :requester_id, :requested_type, :requested_id)
     end
 
-    def join_campaign
-        if requester.class.name == "Campaign"
-            CampaignSub.create(user_id: @invite.requested.id, campaign_id: @invite.requester.id, is_director: false)
+    def join_campaign(invite)
+        debugger
+        if invite.requester.class.name == "Campaign"
+            CampaignSub.create(user_id: invite.requested.id, campaign_id: invite.requester.id, is_director: false)
         else
-            CampaignSub.create(user_id: @invite.requester.id, campaign_id: @invite.requested.id, is_director: false)
+            CampaignSub.create(user_id: invite.requester.id, campaign_id: invite.requested.id, is_director: false)
         end
     end
 

@@ -21,6 +21,7 @@ class Campaign extends React.Component {
         this.loadCampaign = this.loadCampaign.bind(this);
         this.userSubbed = this.userSubbed.bind(this);
         this.subRequested = this.subRequested.bind(this);
+        this.requestSub = this.requestSub.bind(this);
     }
 
     componentDidMount() {
@@ -30,19 +31,19 @@ class Campaign extends React.Component {
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
-        this.setState({ subPending: this.subRequested(), campaign: newState });
+        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState });
     }
 
     userSubbed() {
         return this.state.campaign.subs.some(sub => sub.user_id === this.props.loggedInUser.id);
     }
 
-    subRequested() {
-        return this.state.campaign.requested_invites.some(invite => invite.id == this.props.loggedInUser.id);
+    subRequested(invites) {
+        return invites.some(invite => invite.id == this.props.loggedInUser.id);
     }
 
     requestSub() {
-        if (!userSubbed && !this.state.subPending) {
+        if (!this.userSubbed() && !this.state.subPending) {
             createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id });
             this.setState({ subPending: true })
         }
@@ -61,8 +62,8 @@ class Campaign extends React.Component {
             }
             else {
                 return (
-                    <button onClick={this.requestSub()}>
-                        {subPending ? "Ask to Join Campaign" : "Request Pending"}
+                    <button onClick={this.requestSub}>
+                        {this.state.subPending ? "Request Pending" : "Ask to Join Campaign"}
                     </button>
                 )
             }

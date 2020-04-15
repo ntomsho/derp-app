@@ -2,11 +2,11 @@ sent_invites = []
 requested_invites = []
 
 campaign.sent_invites.each do |invite|
-    sent_invites << { id: invite.requested.id, username: invite.requested.username, viewed: invite.viewed, created: invite.created_at }
+    sent_invites << { id: invite.id, target_id: invite.requested.id, username: invite.requested.username, viewed: invite.viewed, created: invite.created_at }
 end
 
 campaign.requested_invites.each do |invite|
-    requested_invites << { id: invite.requester.id, username: invite.requester.username, viewed: invite.viewed, created: invite.created_at }
+    requested_invites << { id: invite.id, target_id: invite.requester.id, username: invite.requester.username, viewed: invite.viewed, created: invite.created_at }
 end
 
 director = { id: campaign.director.id, username: campaign.director.username }

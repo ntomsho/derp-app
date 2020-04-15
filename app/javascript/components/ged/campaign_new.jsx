@@ -42,6 +42,10 @@ const CampaignNew = (props) => {
             let newInvitedUsers = Object.assign([], invitedUsers);
             newInvitedUsers.push(user.id);
             setInvitedUsers(newInvitedUsers);
+        } else {
+            let newInvitedUsers = Object.assign([], invitedUsers);
+            newInvitedUsers.splice(newInvitedUsers.indexOf(user.id), 1);
+            setInvitedUsers(newInvitedUsers);
         }
     }
 

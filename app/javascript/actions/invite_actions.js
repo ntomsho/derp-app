@@ -6,10 +6,10 @@ export const createInvite = (invite) => {
     })
 };
 
-export const deleteInvite = (invite_id, accepted) => {
+export const deleteInvite = (invite_id, accepted, callback) => {
     return $.ajax({
         method: "DELETE",
         url: `api/invites/${invite_id}`,
-        accepted: { accepted }
-    })
-}
+        data: { accepted }
+    }).then(deleted_id => callback(deleted_id))
+};
