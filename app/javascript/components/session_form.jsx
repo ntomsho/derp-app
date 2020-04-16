@@ -46,7 +46,7 @@ const SessionForm = (props) => {
                     <input type="password" value={password} placeholder="Password" onChange={update(setPassword)} className="session-input" />
                 </Col>
                 <Col>
-                    <input type="submit" value={props.formType} className="session-submit" />
+                    <input type="submit" value={props.formType} className="border rounded" />
                 </Col>
             {/* </Row> */}
         </form>
