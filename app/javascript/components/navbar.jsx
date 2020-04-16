@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Button from 'react-bootstrap/Button';
 import SignUpForm from './signup_form';
 import SignInForm from './login_form';
 import NotificationsList from './notifications_list';
 import { logout } from '../actions/session_actions';
+import { fetchCharacters } from '../actions/character_actions';
 
-const Navbar = (props) => {
+const NavbarComp = (props) => {
     
     const history = useHistory();
     const location = useLocation();
     const [notifications, setNotifications] = useState(props.loggedInUser.campaign_invites)
     const [joinRequests, setJoinRequests] = useState(props.loggedInUser.join_requests)
+    const [myCharacters, setMyCharacters] = useState([])
+
+    useEffect(() => {
+        fetchCharacters(props.loggedInUser.id, setMyCharacters);
+    }, [])
 
     const logMeOut = () => {
         logout(props.setLoggedInUser);
@@ -19,23 +29,43 @@ const Navbar = (props) => {
 
     if (props.loggedInUser) {
         return (
-            <div id="navbar-main">
-                <div>{props.loggedInUser.username}</div>
-                <button onClick={logMeOut}>Logout</button>
-                <Link to={"/"}><button>Home</button></Link>
-                <Link to={"/ged"}><button>GED</button></Link>
-                <NotificationsList list={notifications} listSetter={setNotifications} />
-                <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
-            </div>
+            <>
+            <Navbar expand="md" bg="dark" variant="dark">
+                <Navbar.Brand href="/">DERP</Navbar.Brand>
+                <Navbar.Collapse>
+                    <Navbar.Text>{props.loggedInUser.username}</Navbar.Text>
+                    <Nav>
+                        <Nav.Link href="/ged_home">GED</Nav.Link>
+                    </Nav>
+                    <NavDropdown title="Your Characters">
+                        {myCharacters.map((character) => {
+                            if (!character.dead) {
+                                return (
+                                    <NavDropdown.Item key={character.id} href={`/ged/characters/${character.id}`}>
+                                        {character.name} Level: {character.level} {character.c_class}
+                                    </NavDropdown.Item>
+                                )
+                            }
+                        })}
+                    </NavDropdown>
+                    <Button onClick={logMeOut}>Logout</Button>
+                    <NotificationsList list={notifications} listSetter={setNotifications} />
+                    <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
+                </Navbar.Collapse>
+                <Navbar.Toggle />
+            </Navbar>
+            </>
         )
     } else {
         return (
-            <div id="navbar-main">
+            <>
+            <Navbar bg="dark" variant="dark">
                 <SignInForm setLoggedIn={props.setLoggedInUser} />
                 <SignUpForm setLoggedIn={props.setLoggedInUser} />
-            </div>
+            </Navbar>
+            </>
         )
     }
 }
 
-export default Navbar;
+export default NavbarComp;

@@ -1,5 +1,6 @@
 @import "bootstrap/scss/bootstrap.scss";
 
+/* Selectors */
 html, body, #root {
     margin: 0;
     height: 100%;
@@ -8,6 +9,8 @@ html, body, #root {
 h1, h2, h3 {
     font-family: grenze;
 }
+
+/* Custom Bootstrap */
 
 .row-reverse-sm {
     flex-direction: row;

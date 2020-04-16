@@ -5,7 +5,7 @@ import {
     Switch,
     HashRouter
 } from 'react-router-dom';
-import Navbar from './navbar';
+import NavbarComp from './navbar';
 import Home from './Home';
 import GEDHome from './ged/ged_home';
 import CharGen from './char_gen/char_gen';
@@ -20,7 +20,7 @@ const App = () => {
     return (
         <HashRouter>
             <header>
-                {loggedInUser ? <Navbar loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> : null}
+                {loggedInUser ? <NavbarComp loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> : null}
             </header>
             <Switch>
                 {
