@@ -29,7 +29,7 @@ const Home = (props) => {
     }
 
     return (
-        <Container fluid className="full-height bg-light">
+        <Container fluid className="bg-light h-100">
             <Container className="py-5 justify-content-center align-items-center">
                 <Row className="justify-content-center">
                     <h1>The DERP</h1>
@@ -63,7 +63,7 @@ const Home = (props) => {
                             {sessionForms()}
                         </Col>
                         <Col xs={12} md={6}>
-                            <p>Welcome to the official character generator and campaign tool for the DERP System.</p>
+                            <p>Welcome to the official character generator and campaign tool for DERP System tabletop roleplaying games.</p>
                             <p>Use this app to create characters and manage campaigns in your favorite DERP System games.</p>
                             <p>Sign up today!</p>
                             <p>Or don't. I'm not your dad.</p>
