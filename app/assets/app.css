@@ -10,6 +10,19 @@ button {
   cursor: pointer;
 }
 
+#navbar-main {
+  background-color: black;
+  color: white;
+}
+
+#ged-background {
+  background-color: whitesmoke;
+}
+
+/* #home-container {
+  background-color: whitesmoke;
+} */
+
 /* Home */
 
 #home-container {
