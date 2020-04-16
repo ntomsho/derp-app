@@ -12,16 +12,19 @@ const Home = (props) => {
 
     const sessionForms = () => {
         return (
-            <>
-            <Col>
-                <h3>Returning?</h3>
-                <SignInForm setLoggedIn={props.setLoggedInUser} />
-            </Col>
-            <Col>
-                <h3>Create Account</h3>
-                <SignUpForm setLoggedIn={props.setLoggedInUser} />
-            </Col>
-            </>
+            <Row>
+                <Col>
+                    <h3>Log In</h3>
+                    <Row>
+                        <SignInForm setLoggedIn={props.setLoggedInUser} />
+                    </Row>
+                    <br/>
+                    <h3>Create Account</h3>
+                    <Row>
+                    <SignUpForm setLoggedIn={props.setLoggedInUser} />
+                    </Row>
+                </Col>
+            </Row>
         )
     }
 
@@ -32,24 +35,41 @@ const Home = (props) => {
                     <h1>The DERP</h1>
                 </Row>
                 <Row className="justify-content-center">
-                    <h3 className="m-0">(Dangerously <s>Erotic</s> Eccentric Roleplaying)</h3>
+                    <h3 className="m-0">(Dangerously Eccentric Roleplaying)</h3>
                 </Row>
                 <Row className="justify-content-center">
                     <h1>System</h1>
                 </Row>
             </Container>
-            <Container fluid>
-                <Row>
+            <Container>
                     {props.loggedInUser ? 
+                    <>
+                    <Row>
+                        <h3>Select Game</h3>
+                    </Row>
+                    <Row>
                         <Col>
                             <Link to="/ged">
                                 <button className="button" id="dnd-button">
                                     <h2>GED</h2> <br /> <h3>Guild of Expendable Dungeoneers</h3>
                                 </button>
                             </Link>
-                        </Col> :
-                        sessionForms()}
-                </Row>
+                        </Col>
+                    </Row>
+                    </> :
+                    <>
+                    <Row className="row-reverse-sm">
+                        <Col xs={12} md={6} className="mb-4 mb-md-0">
+                            {sessionForms()}
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <p>Welcome to the official character generator and campaign tool for the DERP System.</p>
+                            <p>Use this app to create characters and manage campaigns in your favorite DERP System games.</p>
+                            <p>Sign up today!</p>
+                            <p>Or don't. I'm not your dad.</p>
+                        </Col>
+                    </Row>
+                    </>}
             </Container>
         </Container>
     )

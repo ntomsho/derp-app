@@ -1,0 +1,19 @@
+@import "bootstrap/scss/bootstrap.scss";
+
+h1, h2, h3 {
+    font-family: grenze;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.row-reverse-sm {
+    flex-direction: row;
+}
+
+@include media-breakpoint-up(md) {
+    .row-reverse-sm {
+        flex-direction: row-reverse;
+    }
+}
