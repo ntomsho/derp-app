@@ -1,8 +1,10 @@
 @import "bootstrap/scss/bootstrap.scss";
 
 /* Selectors */
-html, body, #root {
-    height: 100%;
+
+
+body, #root {
+    min-height: 100%;
 }
 
 h1, h2, h3 {
@@ -24,6 +26,10 @@ h1, h2, h3 {
 }
 
 @include media-breakpoint-up(md) {
+    html, body, #root {
+        height: 100%;
+    }
+    
     .row-reverse-sm {
         flex-direction: row-reverse;
     }
