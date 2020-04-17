@@ -32,8 +32,8 @@ const NavbarComp = (props) => {
             <>
             <Navbar expand="md" bg="dark" variant="dark">
                 <Navbar.Brand href="/">DERP</Navbar.Brand>
+                <Navbar.Text>{props.loggedInUser.username}</Navbar.Text>
                 <Navbar.Collapse>
-                    <Navbar.Text>{props.loggedInUser.username}</Navbar.Text>
                     <Nav>
                         <Nav.Link href="/ged_home">GED</Nav.Link>
                     </Nav>
@@ -48,11 +48,11 @@ const NavbarComp = (props) => {
                             }
                         })}
                     </NavDropdown>
-                    <Button onClick={logMeOut}>Logout</Button>
+                    <Button onClick={logMeOut} variant="light">Logout</Button>
                     <NotificationsList list={notifications} listSetter={setNotifications} />
                     <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
                 </Navbar.Collapse>
-                <Navbar.Toggle />
+                <Navbar.Toggle className="ml-auto" />
             </Navbar>
             </>
         )
