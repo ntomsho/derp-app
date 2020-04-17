@@ -1,7 +1,7 @@
 class Api::CampaignsController < ApplicationController
 
     def index
-        @campaigns = Campaign.all()
+        @campaigns = Campaign.all().order(updated_at: :desc)
         render :index
     end
 

@@ -2,47 +2,30 @@ import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import { fetchUsers } from '../../actions/user_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions';
 import { fetchCharacters } from '../../actions/character_actions';
 import { Link } from 'react-router-dom';
+import { CLASS_COLORS } from '../../dndb-tables';
 
-const GEDHome = () => {
-    const [usersList, setUsersList] = useState([]);
+const GEDHome = (props) => {
     const [campaignsList, setCampaignsList] = useState([]);
     const [charactersList, setCharactersList] = useState([]);
 
-    const usersListDisp = () => {
-        if (usersList.length > 0) {
-            return (
-                <div>
-                    <h2>Users</h2>
-                    <ul>
-                        {usersList.map((user, i) => {
-                            if (!window.currentUser || user.id !== window.currentUser.id) {
-                                return (
-                                    <li key={i}>
-                                        <div>{user.username}</div>
-                                    </li>
-                                )
-                            }
-                        })}
-                    </ul>
-                </div>
-            )
-        } else {
-            return (
-                <div>Loading Users...</div>
-            )
-        }
-    }
+    useEffect(() => {
+        // Look into useReducer to combine these
+        fetchCampaigns(setCampaignsList);
+        if (props.loggedInUser) fetchCharacters(props.loggedInUser.id, setCharactersList)
+    }, [])
 
     const campaignsListDisp = () => {
         if (campaignsList.length > 0) {
             let myCampaigns = [];
             let otherCampaigns = [];
             campaignsList.forEach(campaign => {
-                if (window.currentUser && campaign.subs.some(sub => sub.user_id === window.currentUser.id)) {
+                if (props.loggedInUser && campaign.subs.some(sub => sub.user_id === props.loggedInUser.id)) {
                     myCampaigns.push(campaign);
                 } else {
                     otherCampaigns.push(campaign)
@@ -53,33 +36,39 @@ const GEDHome = () => {
                 userCampaigns = (
                     <>
                     <h2>Your Campaigns</h2>
-                    <ul>
+                    <Button className="mb-3" variant="light"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
+                    <ListGroup>
                         {myCampaigns.map((campaign, i) => {
                             return (
-                                <li key={i}>
-                                    <Link to={`/ged/campaigns/${campaign.id}`}>{campaign.title}</Link>
-                                </li>
+                                <Link key={i} to={`/ged/campaigns/${campaign.id}`}>
+                                    <ListGroup.Item action variant={"light"}>
+                                        <strong>{campaign.title}</strong>
+                                    </ListGroup.Item>
+                                </Link>
                             )
                         })}
-                    </ul>
+                    </ListGroup>
                     </>
                 )
             }
             return (
-                <div>
-                    <Link to="/ged/campaigns/new"><button>New Campaign</button></Link>
+                <>
                     {userCampaigns}
                     <h2>Other Campaigns</h2>
-                    <ul>
+                    <ListGroup>
                         {otherCampaigns.map(campaign => {
                             return (
-                                <li key={campaign.id}>
-                                    <Link to={`/ged/campaigns/${campaign.id}`}>{campaign.title}</Link>
-                                </li>
+                                <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`}>
+                                    <ListGroup.Item action variant={"light"}>
+                                        <strong>{campaign.title}</strong>
+                                        <div>Directed by: {campaign.director.username}</div>
+                                        <div><em>{campaign.description}</em></div>
+                                    </ListGroup.Item>
+                                </Link>
                             )
                         })}
-                    </ul>
-                </div>
+                    </ListGroup>
+                </>
             )
         } else {
             return (
@@ -97,49 +86,46 @@ const GEDHome = () => {
 
     const CharactersListDisp = () => {
         return (
-            <div>
-                <Link to="/ged/characters/new"><button>New Character</button></Link>
+            <>
                 <h2>Your Characters</h2>
-                <ul>
+                <Button className="mb-3" variant="light"><Link to="/ged/characters/new">+ New Character</Link></Button>
+                <ListGroup>
                     {charactersList.map(character => {
-                        return (
-                            <li key={character.id}>
-                                <Link to={`/ged/characters/${character.id}`} >
-                                    <div>{character.name}</div>
-                                    <div>Campaign: {findCampaign(character.campaign_id).title}</div>
+                        if (!character.dead) {
+                            return (
+                                <Link key={character.id} to={`/ged/characters/${character.id}`} >
+                                    <ListGroup.Item action variant={"light"}>
+                                        <div style={{color: CLASS_COLORS[character.c_class]}}>{character.name} Level {character.level} {character.c_class}</div>
+                                        <div>Campaign: {findCampaign(character.campaign_id).title}</div>
+                                    </ListGroup.Item>
                                 </Link>
-                            </li>
-                        )
+                            )
+                        }
                     })}
-                </ul>
-            </div>
+                </ListGroup>
+            </>
         )
     }
 
-    useEffect(() => {
-        // Look into useReducer to combine these
-        fetchUsers(setUsersList);
-        fetchCampaigns(setCampaignsList);
-        if (window.currentUser) fetchCharacters(window.currentUser.id, setCharactersList)
-    }, [])
-
-    if (!window.currentUser) {
+    if (!props.loggedInUser) {
         return (
             <div>Login to see more</div>
         )
     } else {
         return (
-            <div id="ged-background">
-                <div>
+            <Container>
+                {/* <div>
                     {usersListDisp()}
-                </div>
-                <div>
-                    {campaignsListDisp()}
-                </div>
-                <div>
-                    {CharactersListDisp()}
-                </div>
-            </div>
+                </div> */}
+                <Row>
+                    <Col>
+                        {campaignsListDisp()}
+                    </Col>
+                    <Col>
+                        {CharactersListDisp()}
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 

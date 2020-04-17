@@ -27,10 +27,10 @@ const App = () => {
                     //Change these all to render methods so that they can pick up loggedInUser
                 }
                 <Route exact path="/ged/campaigns/new" render={(props) => <CampaignNew {...props} loggedInUser={loggedInUser} />} />
-                <Route path="/ged/campaigns/:id" render={(props) => <Campaign {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
-                <Route exact path="/ged/characters/new" render={(props) => <CharGen {...props} />} />
-                <Route path="/ged/characters/:id" component={CharacterMain} />
-                <Route path="/ged" component={GEDHome} />
+                <Route path="/ged/campaigns/:id" render={(props) => <Campaign {...props} loggedInUser={loggedInUser} />} />
+                <Route exact path="/ged/characters/new" render={(props) => <CharGen {...props} loggedInUser={loggedInUser} />} />
+                <Route path="/ged/characters/:id" render={(props) => <CharacterMain {...props} loggedInUser={loggedInUser} /> } />
+                <Route path="/ged" render={(props) => <GEDHome {...props} loggedInUser={loggedInUser} />} />
                 <Route path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
             </Switch>
         </HashRouter>
