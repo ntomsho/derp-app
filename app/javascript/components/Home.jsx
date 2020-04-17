@@ -12,15 +12,16 @@ const Home = (props) => {
 
     const sessionForms = () => {
         return (
-            <Row>
+            <Row xs={1} md={2}>
                 <Col>
-                    <h3>Log In</h3>
-                    <Row>
+                    <h3 className="text-center">Log In</h3>
+                    <Row className="justify-content-center">
                         <SignInForm setLoggedIn={props.setLoggedInUser} />
                     </Row>
-                    <br/>
-                    <h3>Create Account</h3>
-                    <Row>
+                </Col>
+                <Col>
+                    <h3 className="text-center">Create Account</h3>
+                    <Row className="justify-content-center">
                     <SignUpForm setLoggedIn={props.setLoggedInUser} />
                     </Row>
                 </Col>

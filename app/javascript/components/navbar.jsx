@@ -42,7 +42,7 @@ const NavbarComp = (props) => {
                             if (!character.dead) {
                                 return (
                                     <NavDropdown.Item key={character.id} href={`/ged/characters/${character.id}`}>
-                                        {character.name} Level: {character.level} {character.c_class}
+                                        {character.name} - Level {character.level} {character.c_class}
                                     </NavDropdown.Item>
                                 )
                             }

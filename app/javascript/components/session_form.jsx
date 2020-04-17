@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const SessionForm = (props) => {
@@ -28,28 +28,24 @@ const SessionForm = (props) => {
     const usernameField = () => {
         if (props.formType === "Sign Up") {
             return (
-                <Col>
-                    <input type="text" value={username} placeholder="Username" onChange={update(setUsername)} className="session-input" />
-                </Col>
+                <Form.Group>
+                    <Form.Control type="text" value={username} placeholder="Username" onChange={update(setUsername)} className="session-input" />
+                </Form.Group>
             )
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className="session-form-box">
-            {/* <Row noGutters> */}
-                <Col>
-                <input type="text" value={email} placeholder="Email" onChange={update(setEmail)} className="session-input" />
-                </Col>
-                {usernameField()}
-                <Col>
-                    <input type="password" value={password} placeholder="Password" onChange={update(setPassword)} className="session-input" />
-                </Col>
-                <Col>
-                    <input type="submit" value={props.formType} className="border rounded" />
-                </Col>
-            {/* </Row> */}
-        </form>
+        <Form className="w-100">
+            <Form.Group>
+                <Form.Control type="email" value={email} placeholder="Email" onChange={update(setEmail)} className="session-input" />
+            </Form.Group>
+            {usernameField()}
+            <Form.Group>
+                <Form.Control type="password" value={password} placeholder="Password" onChange={update(setPassword)} className="session-input" />
+            </Form.Group>
+            <Button onClick={handleSubmit} variant="light" className="border rounded form-submit-button">{props.formType}</Button>
+        </Form>
     )
 
 }
