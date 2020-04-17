@@ -35,7 +35,7 @@ const NavbarComp = (props) => {
                 <Navbar.Text className="text-primary">{props.loggedInUser.username}</Navbar.Text>
                 <Navbar.Collapse>
                     <Nav>
-                        <Nav.Link className="text-light" href="/ged_home">GED</Nav.Link>
+                        <Nav.Link className="text-light" href="/#/ged">GED</Nav.Link>
                     </Nav>
                     <NavDropdown className="text-light" title="Your Characters">
                         {myCharacters.map((character) => {
