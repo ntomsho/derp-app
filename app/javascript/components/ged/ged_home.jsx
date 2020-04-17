@@ -13,6 +13,7 @@ import { CLASS_COLORS } from '../../dndb-tables';
 const GEDHome = (props) => {
     const [campaignsList, setCampaignsList] = useState([]);
     const [charactersList, setCharactersList] = useState([]);
+    const [numCampaigns, setNumCampaigns] = useState(5);
 
     useEffect(() => {
         // Look into useReducer to combine these
@@ -30,7 +31,7 @@ const GEDHome = (props) => {
                 } else {
                     otherCampaigns.push(campaign)
                 }
-            })
+            });
             let userCampaigns;
             if (myCampaigns.length > 0) {
                 userCampaigns = (
@@ -43,6 +44,7 @@ const GEDHome = (props) => {
                                 <Link key={i} to={`/ged/campaigns/${campaign.id}`}>
                                     <ListGroup.Item action variant={"light"}>
                                         <strong>{campaign.title}</strong>
+                                        <div>Directed by: {campaign.director.id === props.loggedInUser.id ? "You" : campaign.director.username}</div>
                                     </ListGroup.Item>
                                 </Link>
                             )
@@ -56,7 +58,7 @@ const GEDHome = (props) => {
                     {userCampaigns}
                     <h2>Other Campaigns</h2>
                     <ListGroup>
-                        {otherCampaigns.map(campaign => {
+                        {otherCampaigns.slice(0,numCampaigns).map(campaign => {
                             return (
                                 <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`}>
                                     <ListGroup.Item action variant={"light"}>
@@ -67,6 +69,8 @@ const GEDHome = (props) => {
                                 </Link>
                             )
                         })}
+                        {numCampaigns < otherCampaigns.length ?
+                            <ListGroup.Item action variant={"light"} onClick={() => setNumCampaigns(numCampaigns + 5)}>See More</ListGroup.Item> : null}
                     </ListGroup>
                 </>
             )
@@ -114,14 +118,11 @@ const GEDHome = (props) => {
     } else {
         return (
             <Container>
-                {/* <div>
-                    {usersListDisp()}
-                </div> */}
                 <Row>
-                    <Col>
+                    <Col xs={12} md={6}>
                         {campaignsListDisp()}
                     </Col>
-                    <Col>
+                    <Col xs={12} md={6}>
                         {CharactersListDisp()}
                     </Col>
                 </Row>
