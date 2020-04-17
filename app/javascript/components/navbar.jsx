@@ -31,13 +31,13 @@ const NavbarComp = (props) => {
         return (
             <>
             <Navbar expand="md" bg="dark" variant="dark">
-                <Navbar.Brand href="/">DERP</Navbar.Brand>
-                <Navbar.Text>{props.loggedInUser.username}</Navbar.Text>
+                <Navbar.Brand className="text-light" href="/">DERP</Navbar.Brand>
+                <Navbar.Text className="text-primary">{props.loggedInUser.username}</Navbar.Text>
                 <Navbar.Collapse>
                     <Nav>
-                        <Nav.Link href="/ged_home">GED</Nav.Link>
+                        <Nav.Link className="text-light" href="/ged_home">GED</Nav.Link>
                     </Nav>
-                    <NavDropdown title="Your Characters">
+                    <NavDropdown className="text-light" title="Your Characters">
                         {myCharacters.map((character) => {
                             if (!character.dead) {
                                 return (
@@ -48,9 +48,9 @@ const NavbarComp = (props) => {
                             }
                         })}
                     </NavDropdown>
-                    <Button onClick={logMeOut} variant="light">Logout</Button>
                     <NotificationsList list={notifications} listSetter={setNotifications} />
                     <NotificationsList list={joinRequests} listSetter={setJoinRequests} />
+                    <Button className="ml-md-auto" onClick={logMeOut} variant="light">Logout</Button>
                 </Navbar.Collapse>
                 <Navbar.Toggle className="ml-auto" />
             </Navbar>
