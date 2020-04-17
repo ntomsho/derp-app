@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
 import { Link } from 'react-router-dom';
 import SignUpForm from './signup_form';
 import SignInForm from './login_form';
 
 const Home = (props) => {
-    // This loggedIn setup doesn't rerender the navbar, needs to be a single solution
-    // const [loggedInUser, setLoggedInUser] = useState(window.currentUser || null);
 
     const sessionForms = () => {
         return (
@@ -45,18 +45,35 @@ const Home = (props) => {
             <Container>
                     {props.loggedInUser ? 
                     <>
-                    <Row>
-                        <h3>Select Game</h3>
+                    <Row className="justify-content-center">
+                        <h1>Select Game</h1>
                     </Row>
-                    <Row>
-                        <Col>
-                            <Link to="/ged">
-                                <button className="button" id="dnd-button">
-                                    <h2>GED</h2> <br /> <h3>Guild of Expendable Dungeoneers</h3>
-                                </button>
+                    <CardGroup>
+                        <Card className="ged-color mr-1">
+                            <Link className="ged-color text-center" to="/ged">
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 className="display-3 mb-0">GED</h1><h2>Guild of <s>Expert</s> Expendable Dungeoneers</h2>
+                                    </Card.Title>
+                                    <Card.Text>
+                                        <h3>A game of dangerous idiots on fantasy adventures</h3>
+                                    </Card.Text>
+                                </Card.Body>
                             </Link>
-                        </Col>
-                    </Row>
+                        </Card>
+                        <Card className="gps ml-1 border-left">
+                            <Link className="text-center">
+                                <Card.Body>
+                                    <Card.Title>
+                                        <h1 className="gps display-3 mb-0">GPS</h1><h2 className="gps">Galactic Parcel Service</h2>
+                                    </Card.Title>
+                                    <Card.Text>
+                                        <h3 className="gps">Coming soon(ish)</h3>
+                                    </Card.Text>
+                                </Card.Body>
+                            </Link>
+                        </Card>
+                    </CardGroup>
                     </> :
                     <>
                     <Row className="row-reverse-sm">

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { fetchUsers } from '../../actions/user_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions';
 import { fetchCharacters } from '../../actions/character_actions';
