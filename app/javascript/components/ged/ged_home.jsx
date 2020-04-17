@@ -37,7 +37,7 @@ const GEDHome = (props) => {
                 userCampaigns = (
                     <>
                     <h2>Your Campaigns</h2>
-                    <Button className="mb-3" variant="light"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
+                    <Button className="mb-3"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
                     <ListGroup>
                         {myCampaigns.map((campaign, i) => {
                             return (
@@ -92,7 +92,7 @@ const GEDHome = (props) => {
         return (
             <>
                 <h2>Your Characters</h2>
-                <Button className="mb-3" variant="light"><Link to="/ged/characters/new">+ New Character</Link></Button>
+                <Button className="mb-3"><Link to="/ged/characters/new">+ New Character</Link></Button>
                 <ListGroup>
                     {charactersList.map(character => {
                         if (!character.dead) {
@@ -117,7 +117,7 @@ const GEDHome = (props) => {
         )
     } else {
         return (
-            <Container>
+            <Container className="bg-light">
                 <Row>
                     <Col xs={12} md={6}>
                         {campaignsListDisp()}
