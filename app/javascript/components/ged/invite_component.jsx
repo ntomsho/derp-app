@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
+
+// Selector is still messed up, fix later
 
 const InviteComponent = (props) => {
     const [query, setQuery] = useState("");
     let searchNum = 5;
-debugger
+
     return (
         <Form className="w-xs-100 w-md-50 mb-4">
             <Row>
@@ -17,7 +18,6 @@ debugger
             <Row>
                 <ListGroup>
                     {props.users.slice(0,searchNum).map(user => {
-                        debugger
                         if (query.length > 0 && user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
                             return (
                                 <ListGroup.Item key={user.id} type="button" onClick={() => props.selector(user)}>

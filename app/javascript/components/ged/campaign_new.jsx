@@ -28,7 +28,6 @@ const CampaignNew = (props) => {
     }
 
     const processInvites = () => {
-        debugger
         invitedUsers.forEach(user => {
             createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user });
         });
@@ -36,7 +35,6 @@ const CampaignNew = (props) => {
     }
 
     const addUser = (user) => {
-        debugger
         if (!invitedUsers.includes(user.id)) {
             let newInvitedUsers = Object.assign([], invitedUsers);
             newInvitedUsers.push(user);
