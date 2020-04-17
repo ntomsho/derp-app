@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import InviteComponent from './invite_component';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
 import { fetchUsers } from '../../actions/user_actions';
 import { createCampaign } from '../../actions/campaign_actions';
@@ -18,13 +22,13 @@ const CampaignNew = (props) => {
         fetchUsers(setAllUsers);
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         const campaign = Object.assign({}, { title: title, description: description });
         createCampaign(campaign).then(newCampaign => setCampaignId(newCampaign.id));
     }
 
     const processInvites = () => {
+        debugger
         invitedUsers.forEach(user => {
             createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user });
         });
@@ -32,6 +36,7 @@ const CampaignNew = (props) => {
     }
 
     const addUser = (user) => {
+        debugger
         if (!invitedUsers.includes(user.id)) {
             let newInvitedUsers = Object.assign([], invitedUsers);
             newInvitedUsers.push(user);
@@ -48,10 +53,8 @@ const CampaignNew = (props) => {
         }
     }
 
-    const update = (stateSetter) => {
-        return e => {
-            stateSetter(e.currentTarget.value);
-        };
+    const update = (stateSetter, e) => {
+        stateSetter(e.currentTarget.value);
     }
 
     if (finished) {
@@ -60,33 +63,32 @@ const CampaignNew = (props) => {
 
     if (campaignId) {
         return (
-            <div>
-                <InviteComponent users={allUsers} selector={addUser} />
-                <div>
-                    <ul>
+            <Container className="bg-light pl-5">
+                <h1 className="display-4">Create a New Campaign</h1>
+                <InviteComponent users={allUsers} selector={addUser} loggedInUser={props.loggedInUser} />
+                    <ListGroup>
                         {invitedUsers.map(user => {
                             return (
-                                <li key={user.id} onClick={addUser(user)}>
+                                <ListGroup.Item key={user.id} onClick={addUser(user)}>
                                     {user.username}
-                                </li>
+                                </ListGroup.Item>
                             )
                         })}
-                    </ul>
-                </div>
-                <button onClick={processInvites} className="session-submit">Done</button>
-            </div>
+                    </ListGroup>
+                <Button onClick={processInvites} className="session-submit">Done</Button>
+            </Container>
         )
     }
 
     return (
-        <div id="campaign-new-background">
-            <h1>Create a New Campaign</h1>
-            <form onSubmit={handleSubmit} className="session-form-box">
-                <input type="text" placeholder="Title" value={title} onChange={update(setTitle)} className="session-input" />
-                <input type="text" placeholder="Description" value={description} onChange={update(setDescription)} className="session-input" />
-                <input type="submit" value="Submit" className="session-submit" />
-            </form>
-        </div>
+        <Container className="bg-light pl-5">
+            <Form>
+                <h1 className="display-4">Create a New Campaign</h1>
+                <Form.Control type="text" placeholder="Title" value={title} onChange={(e) => update(setTitle, e)} className="session-input" />
+                <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => update(setDescription, e)} className="session-input" />
+                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+            </Form>
+        </Container>
     )
 }
 

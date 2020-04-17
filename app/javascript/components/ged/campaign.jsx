@@ -9,6 +9,7 @@ import InviteComponent from './invite_component';
 import { fetchCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
 import { createInvite } from '../../actions/invite_actions';
+import { CLASS_COLORS } from '../../dndb-tables';
 
 class Campaign extends React.Component {
     constructor(props) {
@@ -65,6 +66,12 @@ class Campaign extends React.Component {
         }
     }
 
+    findPlayer(userId) {
+        for (let i = 0; i < this.state.usersList.length; i++) {
+            if (this.state.usersList[i].id === userId) return this.state.usersList[i].username;
+        }
+    }
+
     joinButton() {
         if (this.state.campaign.title === "") return;
         if (this.props.loggedInUser.id !== this.state.campaign.director.id) {
@@ -85,7 +92,7 @@ class Campaign extends React.Component {
             }
         } else {
             return (
-                <InviteComponent users={this.state.usersList} selector={this.inviteUser} />
+                <InviteComponent users={this.state.usersList} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
             )
         }
     }
@@ -97,7 +104,7 @@ class Campaign extends React.Component {
                 <Row>
                     <h1 className="display-3">{this.state.campaign.title}</h1>
                 </Row>
-                <Row>
+                <Row className="mb-3">
                     <div>Directed by: {director.id === this.props.loggedInUser.id ? "You" : director.username}</div>
                 </Row>
                 <Row>
@@ -107,38 +114,44 @@ class Campaign extends React.Component {
                     {this.joinButton()}
                 </Row>
                 <Row>
-                    <h3>Active Roster</h3>
-                    <div>
-                        <ul>
-                            {this.state.campaign.alive_chars.map(character => {
-                                return (
-                                    <li key={character.id}>
-                                        <Link to={`/ged/characters/${character.id}`}>
-                                            <div>{character.name} Level {character.level} {character.c_class}</div>
+                    <Col xs={12} md={6}>
+                        <Row>
+                            <h3>Active Roster</h3>
+                        </Row>
+                        <Row>
+                            <ListGroup>
+                                {this.state.campaign.alive_chars.map(character => {
+                                    return (
+                                        <Link key={character.id} to={`/ged/characters/${character.id}`}>
+                                            <ListGroup.Item>
+                                                <div style={{color: CLASS_COLORS[character.c_class]}}>{character.name} Level {character.level} {character.c_class}</div>
+                                                <div>Played by {this.findPlayer(character.user_id)}</div>
+                                            </ListGroup.Item>
                                         </Link>
-                                        <div>Played by {character.player_name}</div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                </Row>
-                <Row>
-                    <h3>Graveyard</h3>
-                    <div>
-                        <ul>
-                            {this.state.campaign.dead_chars.map(character => {
-                                return (
-                                    <li key={character.id}>
-                                        <Link to={`/ged/characters/${character.id}`}>
-                                            <div>{character.name} Level {character.level} {character.c_class}</div>
+                                    )
+                                })}
+                            </ListGroup>
+                        </Row>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Row>
+                            <h3>Graveyard</h3>
+                        </Row>
+                        <Row>
+                            <ListGroup>
+                                {this.state.campaign.dead_chars.map(character => {
+                                    return (
+                                        <Link key={character.id} to={`/ged/characters/${character.id}`}>
+                                            <ListGroup.Item>
+                                                <div style={{ color: CLASS_COLORS[character.c_class] }}>{character.name} Level {character.level} {character.c_class}</div>
+                                                <div>Played by {this.findPlayer(character.user_id)}</div>
+                                            </ListGroup.Item>
                                         </Link>
-                                        <div>Played by {character.player_name}</div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
+                                    )
+                                })}
+                            </ListGroup>
+                        </Row>
+                    </Col>
                 </Row>
             </Container>
         )

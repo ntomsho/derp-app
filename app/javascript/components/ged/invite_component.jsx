@@ -7,7 +7,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const InviteComponent = (props) => {
     const [query, setQuery] = useState("");
     let searchNum = 5;
-
+debugger
     return (
         <Form className="w-xs-100 w-md-50 mb-4">
             <Row>
@@ -17,9 +17,10 @@ const InviteComponent = (props) => {
             <Row>
                 <ListGroup>
                     {props.users.slice(0,searchNum).map(user => {
-                        if (query.length > 0 && user.id !== window.currentUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
+                        debugger
+                        if (query.length > 0 && user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
                             return (
-                                <ListGroup.Item key={user.id} type="button" onClick={() => selector(user)}>
+                                <ListGroup.Item key={user.id} type="button" onClick={() => props.selector(user)}>
                                     {user.username}
                                 </ListGroup.Item>
                             )
