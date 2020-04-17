@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import InviteComponent from './invite_component';
 import { fetchCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
@@ -66,9 +71,9 @@ class Campaign extends React.Component {
             const campaign = { title: this.state.campaign.title, id: this.props.match.params.id }
             if (this.userSubbed()) {
                 return (
-                    <Link to={{ pathname: "/ged/characters/new", state: campaign }}><button>
-                        Create New Character
-                    </button></Link>
+                    <Link to={{ pathname: "/ged/characters/new", state: campaign }}><Button>
+                        + Create New Character
+                    </Button></Link>
                 )
             }
             else {
@@ -86,44 +91,56 @@ class Campaign extends React.Component {
     }
 
     render() {
+        const { director } = this.state.campaign;
         return (
-            <div id="campaign-background">
-                <h2>{this.state.campaign.title}</h2>
-                <div>Directed by: {this.state.campaign.director.username}</div>
-                <div>{this.state.campaign.description}</div>
-                <br/>
-                {this.joinButton()}
-                <h3>Active Roster</h3>
-                <div>
-                    <ul>
-                        {this.state.campaign.alive_chars.map(character => {
-                            return (
-                                <li key={character.id}>
-                                    <Link to={`/ged/characters/${character.id}`}>
-                                        <div>{character.name} Level {character.level} {character.c_class}</div>
-                                    </Link>
-                                    <div>Played by {character.player_name}</div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-                <h3>Graveyard</h3>
-                <div>
-                    <ul>
-                        {this.state.campaign.dead_chars.map(character => {
-                            return (
-                                <li key={character.id}>
-                                    <Link to={`/ged/characters/${character.id}`}>
-                                        <div>{character.name} Level {character.level} {character.c_class}</div>
-                                    </Link>
-                                    <div>Played by {character.player_name}</div>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            </div>
+            <Container className="bg-light pl-5">
+                <Row>
+                    <h1 className="display-3">{this.state.campaign.title}</h1>
+                </Row>
+                <Row>
+                    <div>Directed by: {director.id === this.props.loggedInUser.id ? "You" : director.username}</div>
+                </Row>
+                <Row>
+                    <p><em>{this.state.campaign.description}</em></p>
+                </Row>
+                <Row>
+                    {this.joinButton()}
+                </Row>
+                <Row>
+                    <h3>Active Roster</h3>
+                    <div>
+                        <ul>
+                            {this.state.campaign.alive_chars.map(character => {
+                                return (
+                                    <li key={character.id}>
+                                        <Link to={`/ged/characters/${character.id}`}>
+                                            <div>{character.name} Level {character.level} {character.c_class}</div>
+                                        </Link>
+                                        <div>Played by {character.player_name}</div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </Row>
+                <Row>
+                    <h3>Graveyard</h3>
+                    <div>
+                        <ul>
+                            {this.state.campaign.dead_chars.map(character => {
+                                return (
+                                    <li key={character.id}>
+                                        <Link to={`/ged/characters/${character.id}`}>
+                                            <div>{character.name} Level {character.level} {character.c_class}</div>
+                                        </Link>
+                                        <div>Played by {character.player_name}</div>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </Row>
+            </Container>
         )
     }
 
