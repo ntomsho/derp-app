@@ -16,7 +16,6 @@ export default function CharGenSkills(props) {
     }, [])
 
     useEffect(() => {
-        debugger
         if (fightingSkills) return;
         for (let i = 0; i < props.trainedSkills.length; i++) {
             if (CLASS_SKILLS[props.cClass].includes(props.trainedSkills[i]) || props.trainedSkills[i] === props.selectedFightingSkill) {
@@ -36,7 +35,6 @@ export default function CharGenSkills(props) {
     
     function selectSkill(skill, reroll) {
         setLastSelected(skill);
-        debugger
         let newSkills = props.trainedSkills;
         if (newSkills.includes(skill)) {
             newSkills.splice(newSkills.indexOf(skill), 1);

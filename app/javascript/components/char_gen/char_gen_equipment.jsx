@@ -1,15 +1,18 @@
 import React, {useState} from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { EQUIPMENT, WEAPONS, STARTING_ITEMS, random, randomMagicItem, randomResourceItem } from '../../dndb-tables';
 
 export default function CharGenEquipment(props) {
     const itemPackage = STARTING_ITEMS[props.cClass];
-    //Need to move startingChoices, startingChoicesMade up in state so it doesn't go away when navigating out
-    // const [startingChoices, setStartingChoices] = useState(new Array())
     const [startingChoicesMade, setStartingChoicesMade] = useState(JSON.stringify(props.inventory) !== JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""]));
     
     const randomRequired = ["Melee Weapon", "Ranged Weapon", "Weapon Oil", "Animal Totem", "Scroll of Power", "Command Scroll", "Songbook", "Holy Symbol", "Alchemical Ingredient", "Magic Item"];
 
     function createStartingInv() {
+        if (props.inventoryStartingChoices.length !== itemPackage.length) return;
+        debugger
         let newInv = props.inventoryStartingChoices;
         let standardItems = [];
         for (let i = 0; i < 8 - itemPackage.length; i++) {
@@ -27,23 +30,20 @@ export default function CharGenEquipment(props) {
         if (props.cClass && JSON.stringify(props.inventory) === JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""])) {
             return (
                 <>
-                    <h3>Choose one item from each row</h3>
-                    <ul>
-                        {itemPackage.map((choices, i) => {
-                            return (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    {choiceField(choices, i)}
-                                </div>
-                            )
-                        })}
-                        <button
-                            className="accept-button"
-                            // disabled={startingChoices.length === itemPackage.length}
-                            onClick={createStartingInv}
-                            >
-                            Accept
-                        </button>
-                    </ul>
+                    <h2>Choose one item from each row</h2>
+                    {itemPackage.map((choices, i) => {
+                        return (
+                            <Row key={i} className="justify-content-center">
+                                {choiceField(choices, i)}
+                            </Row>
+                        )
+                    })}
+                    <Button
+                        variant="primary"
+                        onClick={createStartingInv}
+                    >
+                        Generate Starting Inventory
+                    </Button>
                 </>
             )
         }
@@ -54,11 +54,15 @@ export default function CharGenEquipment(props) {
             <>
                 {choices.map((choice, i) => {
                     return (
-                        <div key={i}
-                            onClick={() => startingChoice(choice, ind)}
-                            className={`starting-items-choice${props.inventoryStartingChoices[ind] === choice ? ' selected' : ''}`}>
-                            {choice}
-                        </div>
+                        <Col key={i} xs={6}>
+                            <Button
+                                active={props.inventoryStartingChoices[ind] === choice}
+                                onClick={() => startingChoice(choice, ind)}
+                                variant="secondary"
+                            >
+                                {choice}
+                            </Button>
+                        </Col>
                     )
                 })}
             </>
