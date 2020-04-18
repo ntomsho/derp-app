@@ -11,6 +11,8 @@ import { fetchUsers } from '../../actions/user_actions';
 import { createInvite } from '../../actions/invite_actions';
 import { CLASS_COLORS } from '../../dndb-tables';
 
+//Add delete campaign button
+
 class Campaign extends React.Component {
     constructor(props) {
         super(props);

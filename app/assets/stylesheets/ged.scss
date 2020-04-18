@@ -11,6 +11,20 @@ h1, h2, h3 {
     font-family: grenze;
 }
 
+/* App-specific */
+
+.class-button {
+    height: 92px;
+}
+
+.form-submit-button {
+    width: 100%;
+}
+
+.session-form-box {
+    width: 100%;
+}
+
 /* Custom Bootstrap */
 
 a {
@@ -23,20 +37,16 @@ a:hover {
     text-decoration: none;
 }
 
+.btn:disabled {
+    visibility: hidden;
+}
+
 .card:hover {
     border: 1px solid !important;
 }
 
-.form-submit-button {
-    width: 100%;
-}
-
 .row-reverse-sm {
     flex-direction: row;
-}
-
-.session-form-box {
-    width: 100%;
 }
 
 @include media-breakpoint-up(md) {

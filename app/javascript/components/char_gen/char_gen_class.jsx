@@ -1,4 +1,8 @@
 import React, {useState} from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import { random, CLASSES, CLASS_COLORS, CLASS_DESCRIPTIONS } from '../../dndb-tables';
 
 export default function CharGenClass(props) {
@@ -9,11 +13,12 @@ export default function CharGenClass(props) {
     let classHeadline;
     if (props.cClass) {
         classHeadline = (
-            <div className={bannerAnim ? "class-headline extend" : "class-headline"}
+            <div /*className={bannerAnim ? "class-headline extend" : "class-headline"}*/
+                className="w-100 text-white"
                 style={{ backgroundColor: CLASS_COLORS[props.cClass] }}
                 onAnimationEnd={() => setBannerAnim(false)}
             >
-                <h2 className={bannerAnim ? "class-headline-text fade" : "class-headline-text"}>{props.cClass}</h2>
+                <h2 className={"class-headline-text"}>{props.cClass}</h2>
             </div>
         )
     }
@@ -21,35 +26,45 @@ export default function CharGenClass(props) {
     function rollClass() {
         if (firstRoll || props.rerolls > 0) {
             setBannerAnim(true);
-            props.updateSelection('cClass', random(CLASSES), !firstRoll)
+            let rolledClass = random(CLASSES);
+            while (rolledClass === props.cClass) {
+                rolledClass = random(CLASSES)
+            }
+            props.updateSelection('cClass', rolledClass, !firstRoll)
             if (firstRoll) setFirstRoll(false);
         }
     }
 
     return (
         <>
-        <button onClick={rollClass}>
-            {firstRoll ? "Roll Class" : "Reroll Class"}
-        </button>
-        <div className="class-selections">
+        <Row className="mt-4">
+            {classHeadline}
+        </Row>
+        <Row className="mb-4">
+            <em>{CLASS_DESCRIPTIONS[props.cClass]}</em>
+        </Row>
+        <Row className="justify-content-center mb-4">
+            <Button block size="lg" onClick={rollClass} variant="dark">
+                {firstRoll ? "Roll Class" : "Reroll Class"}
+            </Button>
+        </Row>
+        <Row>
             {CLASSES.map((c, i) => {
                 return (
-                    <button key={i}
-                        className={`class-button${props.cClass === c ? " selected" : ""}`}
-                        onClick={() => {
-                            setBannerAnim(true);
-                            props.updateSelection('cClass', c);
-                        }}
-                        style={{ backgroundColor: CLASS_COLORS[c] }}>
-                        {c}
-                    </button>
+                    <Col xs={6} sm={5} md={4} lg={3} key={i}>
+                        <Button size="lg" block
+                            className={`class-button${props.cClass === c ? " selected" : ""}`}
+                            onClick={() => {
+                                setBannerAnim(true);
+                                props.updateSelection('cClass', c);
+                            }}
+                            style={{ color: "white", backgroundColor: CLASS_COLORS[c] }}>
+                            <h3>{c}</h3>
+                        </Button>
+                    </Col>
                 )
             })}
-        </div>
-        <div className="selected-class-info">
-            {classHeadline}
-            <div>{CLASS_DESCRIPTIONS[props.cClass]}</div>
-        </div>
+        </Row>
         </>
     )
 }

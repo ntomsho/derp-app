@@ -1,5 +1,10 @@
 import React from 'react';
 import { random, BACKGROUNDS, APPEARANCES, DERPS, CLASS_FIGHTING_SKILLS } from '../../dndb-tables';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import CharGenClass from './char_gen_class';
 import CharGenRace from './char_gen_race';
 import CharGenSkills from './char_gen_skills';
@@ -70,18 +75,6 @@ class CharGen extends React.Component {
                 return (!!this.state.char.background && !!this.state.char.appearance && !!this.state.char.derp);
             default:
                 return false
-        }
-    }
-
-    progress() {
-        switch (this.state.stage) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            default:
-                return;
         }
     }
 
@@ -158,24 +151,30 @@ class CharGen extends React.Component {
 
     render() {
         return (
-            <div id="char-gen-main">
-                <div className="rerolls-container">
-                    <h3>{this.state.rerolls}</h3>
-                    <h3>Rerolls Remaining</h3>
-                </div>
-                <button onClick={() => this.setState({stage: 0})}>X</button>
-                <div id="char-gen-progress">
-                    {this.progress()}
-                </div>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <button onClick={() => this.setState({stage: this.state.stage - 1})}>{this.state.stage != 1 ? "<<" : ""}</button>
-                    <h1>{this.stageText()}</h1>
-                    <button disabled={!this.canProceed()} onClick={() => this.setState({stage: this.state.stage + 1})}>{">>"}</button>
-                </div>
-                <div id="char-gen-selection-area">
+            <Container className="bg-light pl-5">
+                <Row className="justify-content-between">
+                    <Col>
+                        <h1 className="d-inline">{this.state.rerolls} </h1><h3 className="d-inline">Rerolls Remaining</h3>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center mb-3">
+                    <ProgressBar className="w-75" variant="info" label={`${Math.floor(this.state.stage / 6 * 100)}%`} now={Math.floor(this.state.stage / 6 * 100)} />
+                </Row>
+                <Row>
+                    <Col>
+                        <Button className="w-100 h-100" disabled={this.state.stage === 1} variant="dark" onClick={() => this.setState({stage: this.state.stage - 1})}> {`<<`}</Button>
+                    </Col>
+                    <Col>
+                        <h1 className="text-center">{this.stageText()}</h1>
+                    </Col>
+                    <Col>
+                        <Button className="w-100 h-100" disabled={!this.canProceed()} variant="dark" onClick={() => this.setState({stage: this.state.stage + 1})}>{">>"}</Button>
+                    </Col>
+                </Row>
+                <Container>
                     {this.selectionArea()}
-                </div>
-            </div>
+                </Container>
+            </Container>
         )
     }
 }
