@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import { EQUIPMENT, WEAPONS, STARTING_ITEMS, random, randomMagicItem, randomResourceItem } from '../../dndb-tables';
 
 export default function CharGenEquipment(props) {
@@ -12,7 +15,6 @@ export default function CharGenEquipment(props) {
 
     function createStartingInv() {
         if (props.inventoryStartingChoices.length !== itemPackage.length) return;
-        debugger
         let newInv = props.inventoryStartingChoices;
         let standardItems = [];
         for (let i = 0; i < 8 - itemPackage.length; i++) {
@@ -33,17 +35,19 @@ export default function CharGenEquipment(props) {
                     <h2>Choose one item from each row</h2>
                     {itemPackage.map((choices, i) => {
                         return (
-                            <Row key={i} className="justify-content-center">
+                            <Row key={i} className="my-2 justify-content-center">
                                 {choiceField(choices, i)}
                             </Row>
                         )
                     })}
-                    <Button
-                        variant="primary"
-                        onClick={createStartingInv}
-                    >
-                        Generate Starting Inventory
-                    </Button>
+                    <Row className="justify-content-center">
+                        <Button
+                            variant="primary"
+                            onClick={createStartingInv}
+                        >
+                            Generate Starting Inventory
+                        </Button>
+                    </Row>
                 </>
             )
         }
@@ -54,7 +58,7 @@ export default function CharGenEquipment(props) {
             <>
                 {choices.map((choice, i) => {
                     return (
-                        <Col key={i} xs={6}>
+                        <Col key={i} xs={6} className={choices.length === 1 ? 'text-center' : i === 0 ? 'text-right' : 'text-left'}>
                             <Button
                                 active={props.inventoryStartingChoices[ind] === choice}
                                 onClick={() => startingChoice(choice, ind)}
@@ -111,24 +115,28 @@ export default function CharGenEquipment(props) {
 
     function rerollButton(i) {
         if (randomRequired.includes(props.inventoryStartingChoices[i])) {
-            return <button onClick={() => randomizeSpace(i, true)}>Reroll {props.inventoryStartingChoices[i]}</button>
+            return <Button variant="outline-dark" onClick={() => randomizeSpace(i, true)}>Reroll {props.inventoryStartingChoices[i]}</Button>
         } else if (i >= itemPackage.length) {
-            return <button onClick={() => randomizeSpace(i, true)}>Reroll Equipment</button>
+            return <Button variant="outline-dark" onClick={() => randomizeSpace(i, true)}>Reroll Equipment</Button>
         }
     }
 
     function finalEquipmentDisp() {
         return (
-            <div>
+            <Container>
                 {props.inventory.slice(0,8).map((inv, i) => {
                     return (
-                        <div key={i}>
-                            <input onChange={typeSpace} name={i} type="text" value={props.inventory[i]}></input>
-                            {rerollButton(i)}
-                        </div>
+                        <Row key={i} className="my-1">
+                            <InputGroup>
+                                <Form.Control onChange={typeSpace} name={i} type="text" value={props.inventory[i]}></Form.Control>
+                                <InputGroup.Append>
+                                    {rerollButton(i)}
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Row>
                     )
                 })}
-            </div>
+            </Container>
         )
     }
 
