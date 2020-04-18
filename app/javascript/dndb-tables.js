@@ -46,7 +46,7 @@ export const CLASS_COLORS = {
     "Mixologist": "lightcoral",
     "Ne'erdowell": "slategray",
     "Ragesmasher": "darkred",
-    "Runegoon": "cadetblue",
+    "Runegoon": "steelblue",
     "Verbpriest": "darkgoldenrod",
     "Wizcaster": "darkmagenta",
     "Zoomaster": "darkgreen"

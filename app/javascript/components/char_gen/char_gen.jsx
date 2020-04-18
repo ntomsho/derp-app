@@ -158,7 +158,7 @@ class CharGen extends React.Component {
                     </Col>
                 </Row>
                 <Row className="justify-content-center mb-3">
-                    <ProgressBar className="w-75" variant="info" label={`${Math.floor(this.state.stage / 6 * 100)}%`} now={Math.floor(this.state.stage / 6 * 100)} />
+                    <ProgressBar className="w-75" variant="info" now={Math.floor(this.state.stage / 6 * 100)} />
                 </Row>
                 <Row>
                     <Col>

@@ -16,6 +16,7 @@ export default function CharGenSkills(props) {
     }, [])
 
     useEffect(() => {
+        debugger
         if (fightingSkills) return;
         for (let i = 0; i < props.trainedSkills.length; i++) {
             if (CLASS_SKILLS[props.cClass].includes(props.trainedSkills[i]) || props.trainedSkills[i] === props.selectedFightingSkill) {
@@ -26,7 +27,7 @@ export default function CharGenSkills(props) {
         setClassSkillChosen(false);
     }, [JSON.stringify(props.trainedSkills)])
 
-    function selectFightingSkill(skill) {
+    const selectFightingSkill = (skill) => {
         if (fightingSkills.includes(skill)) {
             setLastSelected(skill);
             props.updateSelection('selectedFightingSkill', skill);
@@ -35,11 +36,12 @@ export default function CharGenSkills(props) {
     
     function selectSkill(skill, reroll) {
         setLastSelected(skill);
-        if (!classSkillChosen && !CLASS_SKILLS[props.cClass].includes(skill)) return;
+        debugger
         let newSkills = props.trainedSkills;
         if (newSkills.includes(skill)) {
             newSkills.splice(newSkills.indexOf(skill), 1);
         } else {
+            if (props.trainedSkills.length >= maxSkills || (!classSkillChosen && !CLASS_SKILLS[props.cClass].includes(skill))) return;
             newSkills.push(skill);
         }
         props.updateSelection('trainedSkills', newSkills, reroll);
@@ -55,44 +57,39 @@ export default function CharGenSkills(props) {
         selectSkill(skill, reroll);
     }
 
-    function descDisplay() {
-        if (lastSelected) {
-            return (
-                <div style={{ width: '25%' }}>
-                    <h3 className="skill-desc-headline">{lastSelected}</h3>
-                    <div className="skill-desc-content">{SKILL_USES[lastSelected]}</div>
-                </div>
-            )
-        }
-    }
-
     function fightingSkillsDisplay() {
         let remainingSkills;
         if (fightingSkills) {
-            remainingSkills = fightingSkills.length === 2 ? <div>Choose one</div> : <div>Your class gives you training in {fightingSkills[0]}</div>;
+            remainingSkills = fightingSkills.length === 2 ? <div>Choose {fightingSkills.join(" or ")}</div> : <div>Your class gives you training in {fightingSkills[0]}</div>;
         }
 
         return (
-            <div className="class-column">
-                <h3>Fightin' Skills</h3>
-                {remainingSkills}
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    {FIGHTING_SKILLS.map((skill, i) => {
-                        const classSkill = fightingSkills === undefined ? false : fightingSkills.includes(skill);
-                        return (
-                            <button key={i}
-                                style={classSkill ? { borderColor: CLASS_COLORS[props.cClass] } : {}}
-                                className={`skill-button ${classSkill ? " class-skill" : ""} ${props.selectedFightingSkill === skill ? " selected" : ""}`}
-                                onClick={() => selectFightingSkill(skill)}
-                            >
-                                {skill}
-                            </button>
-                        )
-                    })}
-                </div>
-                {descDisplay()}
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+                {FIGHTING_SKILLS.map((skill, i) => {
+                    const classSkill = fightingSkills === undefined ? false : fightingSkills.includes(skill);
+                    return (
+                        <Button key={i}
+                            style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
+                            active={props.selectedFightingSkill === skill}
+                            variant="warning"
+                            className={`skill-button ${classSkill ? " class-skill" : ""} ${props.selectedFightingSkill === skill ? " selected" : ""}`}
+                            onClick={() => selectFightingSkill(skill)}
+                        >
+                            <h3>{skill}</h3>
+                            <small>{SKILL_USES[skill]}</small>
+                        </Button>
+                    )
+                })}
             </div>
         )
+    }
+
+    function fightingChoicesRemaining() {
+        if (fightingSkills) {
+            return fightingSkills.length === 2 ? <div>Choose {fightingSkills.join(" or ")}</div> : <div>Your class gives you training in {fightingSkills[0]}</div>;
+        } else {
+            return <div>Your class doesn't get training in any Fightin' Skills.</div>
+        }
     }
 
     function skillChoicesRemaining() {
@@ -103,14 +100,18 @@ export default function CharGenSkills(props) {
         }
         if (!fightingSkills && !classSkillChosen) {
             return (
-                <div>Select one of your Class Skills</div>
+                <div>Select one of your <span style={{ color: CLASS_COLORS[props.cClass] }}>Class Skills</span></div>
             )
         }
         if (props.raceTraits === "Human" && classSkillChosen) {
             return (
                 <>
-                    <div>Select your second Class Skill or roll a random Civilized Skill</div>
-                    <Button block size="lg" variant="dark" onClick={selectRandomSkill}>{skillFirstRoll ? "Roll Skill" : "Reroll Skill"}</Button>
+                    <Row>
+                        <div>Select your second <span style={{ color: CLASS_COLORS[props.cClass] }}>Class Skill</span> or roll a random Civilized Skill</div>
+                    </Row>
+                    <Row className="mb-3 justify-content-center">
+                        <Button size="lg" variant="dark" onClick={selectRandomSkill}>{skillFirstRoll ? "Roll Skill" : "Reroll Skill"}</Button>
+                    </Row>
                 </>
             )
         }
@@ -118,22 +119,22 @@ export default function CharGenSkills(props) {
 
     function civilizedSkillsDisplay() {
         return (
-            <div className="class-column">
-                <h3>Civilized Skills</h3>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    {CIVILIZED_SKILLS.map((skill, i) => {
-                        const classSkill = CLASS_SKILLS[props.cClass].includes(skill);
-                        return (
-                            <button key={i}
-                                style={classSkill ? { borderColor: CLASS_COLORS[props.cClass] } : {}}
-                                className={`skill-button ${classSkill ? " class-skill" : ""} ${props.trainedSkills.includes(skill) ? " selected" : ""}`}
-                                onClick={() => selectSkill(skill, false)}
-                            >
-                                {skill}
-                            </button>
-                        )
-                    })}
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {CIVILIZED_SKILLS.map((skill, i) => {
+                    const classSkill = CLASS_SKILLS[props.cClass].includes(skill);
+                    return (
+                        <Button key={i}
+                            style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
+                            active={props.trainedSkills.includes(skill)}
+                            variant="info"
+                            className={`skill-button ${classSkill ? " class-skill" : ""} ${props.trainedSkills.includes(skill) ? " selected" : ""}`}
+                            onClick={() => selectSkill(skill, false)}
+                        >
+                            <h3>{skill}</h3>
+                            <small>{SKILL_USES[skill]}</small>
+                        </Button>
+                    )
+                })}
             </div>
         )
     }
@@ -141,7 +142,20 @@ export default function CharGenSkills(props) {
     return (
         <>
         <Row>
-            {skillChoicesRemaining()}
+            <Col xs={6}>
+                <h2 className="text-center">Fightin' Skills</h2>
+            </Col>
+            <Col xs={6}>
+                <h2 className="text-center">Civilized Skills</h2>
+            </Col>
+        </Row>
+        <Row className="remaining-skills-row">
+            <Col xs={6}>
+                {fightingChoicesRemaining()}
+            </Col>
+            <Col xs={6}>
+                {skillChoicesRemaining()}
+            </Col>
         </Row>
         <Row>
             <Col xs={6}>

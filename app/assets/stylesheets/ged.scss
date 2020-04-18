@@ -21,6 +21,10 @@ h1, h2, h3 {
     width: 100%;
 }
 
+.remaining-skills-row {
+    height: 136px;
+}
+
 .session-form-box {
     width: 100%;
 }
@@ -56,6 +60,10 @@ a:hover {
 
     html, body, #root {
         height: 100%;
+    }
+
+    .remaining-skills-row {
+        height: 112px;
     }
     
     .row-reverse-sm {
