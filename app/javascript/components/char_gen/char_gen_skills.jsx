@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { random, CLASS_SKILLS, SKILL_USES, CLASS_COLORS, FIGHTING_SKILLS, CIVILIZED_SKILLS, CLASS_FIGHTING_SKILLS } from '../../dndb-tables';
 
 export default function CharGenSkills(props) {
@@ -107,7 +110,7 @@ export default function CharGenSkills(props) {
             return (
                 <>
                     <div>Select your second Class Skill or roll a random Civilized Skill</div>
-                    <button onClick={selectRandomSkill}>{skillFirstRoll ? "Roll Skill" : "Reroll Skill"}</button>
+                    <Button block size="lg" variant="dark" onClick={selectRandomSkill}>{skillFirstRoll ? "Roll Skill" : "Reroll Skill"}</Button>
                 </>
             )
         }
@@ -117,7 +120,6 @@ export default function CharGenSkills(props) {
         return (
             <div className="class-column">
                 <h3>Civilized Skills</h3>
-                {skillChoicesRemaining()}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {CIVILIZED_SKILLS.map((skill, i) => {
                         const classSkill = CLASS_SKILLS[props.cClass].includes(skill);
@@ -137,9 +139,18 @@ export default function CharGenSkills(props) {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'space-around'}}>
+        <>
+        <Row>
+            {skillChoicesRemaining()}
+        </Row>
+        <Row>
+            <Col xs={6}>
             {fightingSkillsDisplay()}
+            </Col>
+            <Col xs={6}>
             {civilizedSkillsDisplay()}
-        </div>
+            </Col>
+        </Row>
+        </>
     )
 }
