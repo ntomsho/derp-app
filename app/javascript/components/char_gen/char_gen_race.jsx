@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { random, RACE_TRAITS, randomRace } from '../../dndb-tables';
 
 export default function CharGenRace(props) {
@@ -30,10 +34,12 @@ export default function CharGenRace(props) {
     function raceStringDisplay() {
         if (props.raceTraits) {
             const stringBox = props.raceTraits === "Human" ?
-                <span>Human</span> :
-                <><span>a er... something else. Name your race: </span><input type="text" value={props.raceString} onChange={(event) => props.updateSelection('raceString', event.target.value)}></input></>
+                <span><strong>Human</strong></span> :
+                <>
+                    <span>a er... something else. Name your race: </span><Form.Control type="text" value={props.raceString} onChange={(event) => props.updateSelection('raceString', event.target.value)}></Form.Control>
+                </>
             return (
-                <div>You are {stringBox}</div>
+                <div className="mb-3">You are {stringBox}</div>
             )
         }
     }
@@ -46,13 +52,21 @@ export default function CharGenRace(props) {
                 )
             } else {
                 return (
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <>
+                    <Row>
                         <div>You have the following traits that give you Magic Advantage when relevant:</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            <div>{props.raceTraits[0]}<button onClick={() => randomizeTrait(0)}>Reroll</button></div>
-                            <div>{props.raceTraits[1]}<button onClick={() => randomizeTrait(1)}>Reroll</button></div>
-                        </div>
-                    </div>
+                    </Row>
+                    <Row className="w-100">
+                        <Col className="text-center">
+                            <div><strong>{props.raceTraits[0]}</strong></div>
+                            <Button onClick={() => randomizeTrait(0)}>Reroll</Button>
+                        </Col>
+                        <Col className="text-center">
+                            <div><strong>{props.raceTraits[1]}</strong></div>
+                            <Button onClick={() => randomizeTrait(1)}>Reroll</Button>
+                        </Col>
+                    </Row>
+                    </>
                 )
             }
         }
@@ -60,15 +74,20 @@ export default function CharGenRace(props) {
 
     return (
         <>
-            <h3>(but not in like a racist way)</h3>
-            <button onClick={rollRace}>
-                {raceFirstRoll ? "Roll Race" : "Reroll Race (oh, you think you're better than them?)"}
-            </button>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Row className="mt-4">
+                <h3>(but not in like a racist way)</h3>
+            </Row>
+            <Row className="justify-content-center mb-4">
+                <Button block size="lg" variant="dark" onClick={rollRace}>
+                    {raceFirstRoll ? <p>Roll Race</p> : <p>Reroll Race<br/><small>(oh, you think you're better than them?)</small></p>}
+                </Button>
+            </Row>
+            <Row>
                 {raceStringDisplay()}
-                <br/>
+            </Row>
+            <Row>
                 {raceTraitsDisplay()}
-            </div>
+            </Row>
         </>
     )
 }
