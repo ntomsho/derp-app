@@ -201,85 +201,95 @@ class CharacterMain extends React.Component {
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
             <Container className="bg-light">
                 <Row className="justify-content-center">
-                    <h1 className="ged-color mb-0">GED:</h1>
+                    <h1 className="text-center ged-color mb-0">GED:</h1>
                 </Row>
                 <Row className="justify-content-center">
-                    <h1 className="ged-color">Guild of Expendable Dungeoneers</h1>
+                    <h1 className="text-center ged-color">Guild of Expendable Dungeoneers</h1>
                 </Row>
-                <div id="main-section">
-                    <div className="sheet-row">
-                        <div className="field-container">
-                            <div className="field-header">Name: </div>
-                            <input type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name}></input>
-                        </div>
-                        <div className="field-container">
-                            <div className="field-header">Class: </div>
-                            <div className="sub-field">
-                                <select name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
+                <Form>
+                    <Row id="main-section">
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Name</Form.Label>
+                            <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name} />
+                        </Col>
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Class</Form.Label>
+                            <InputGroup>
+                                <Form.Control as="select" name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
                                     <option value="" disabled>Select Class</option>
                                     {CLASSES.map((c, i) => {
                                         return (
                                             <option key={i} value={c}>{c}</option>
                                         )
                                     })}
-                                </select>
-                                <button className="randomize-button" onClick={() => this.props.updateState('cClass', random(CLASSES))}>🎲</button>
-                            </div>
-                        </div>
-                        <div className="field-container">
-                            <div className="field-header">Race <span style={{fontSize: '9px'}}>(but not in like a racist way)</span>:</div>
-                            <div className="sub-field">
-                                <input type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></input>
-                                <button className="randomize-button" onClick={() => this.updateState('raceString', randomRace() === "Human" ? "Human" : "")}>🎲</button>
-                            </div>
-                        </div>
+                                </Form.Control>
+                                <InputGroup.Append>
+                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.props.updateState('cClass', random(CLASSES))}>🎲</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
+                            <InputGroup>
+                                <Form.Control type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
+                                <InputGroup.Append>
+                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('raceString', randomRace() === "Human" ? "Human" : "")}>🎲</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Background</Form.Label>
+                            <InputGroup>
+                                <Form.Control type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></Form.Control>
+                                <InputGroup.Append>
+                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('background', random(BACKGROUNDS))}>🎲</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Appearance</Form.Label>
+                            <InputGroup>
+                                <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></Form.Control>
+                                <InputGroup.Append>
+                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('appearance', random(APPEARANCES))}>🎲</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={6} md={4}>
+                            <Form.Label className="grenze">Derp</Form.Label>
+                            <InputGroup>
+                                <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></Form.Control>
+                                <InputGroup.Append>
+                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('derp', random(DERPS))}>🎲</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </Col>
+                    </Row>
+                </Form>
+
+                <Row>
+                    <div className="health-tracker">
+                        <div className="field-header">Health</div>
+                        {this.healthTrackerDisp()}
                     </div>
-                    <div className="sheet-row">
-                        <div className="field-container">
-                            <div className="field-header">Background: </div>
-                            <div className="sub-field">
-                                <input type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></input>
-                                <button className="randomize-button" onClick={() => this.updateState('background', random(BACKGROUNDS))}>🎲</button>
-                            </div>
-                        </div>
-                        <div className="field-container">
-                            <div className="field-header">Appearance: </div>
-                            <div className="sub-field">
-                                <input type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></input>
-                                <button className="randomize-button" onClick={() => this.updateState('appearance', random(APPEARANCES))}>🎲</button>
-                            </div>
-                        </div>
-                        <div className="field-container">
-                            <div className="field-header">Derp: </div>
-                            <div className="sub-field">
-                                <input type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></input>
-                                <button className="randomize-button" onClick={() => this.updateState('derp', random(DERPS))}>🎲</button>
-                            </div>
-                        </div>
+                    <div className="plot-points-tracker">
+                        <div className="field-header">Plot Points</div>
+                        {this.plotPointsTrackerDisp()}
                     </div>
-                    <div className="sheet-row">
-                        <div className="health-tracker">
-                            <div className="field-header">Health</div>
-                            {this.healthTrackerDisp()}
-                        </div>
-                        <div className="plot-points-tracker">
-                            <div className="field-header">Plot Points</div>
-                            {this.plotPointsTrackerDisp()}
-                        </div>
-                    </div>
-                </div>
-                <div id="class-section">
+                </Row>
+
+                <Row id="class-section">
                     <ClassMain {...this.state.char} updateState={this.updateState} />
-                </div>
-                <div id="skills-section">
+                </Row>
+                <Row id="skills-section">
                     <Skills {...this.state.char} updateState={this.updateState} />
-                </div>
-                <div id="inventory-section">
+                </Row>
+                <Row id="inventory-section">
                     <Inventory {...this.state.char} updateState={this.updateState} />
-                </div>
-                <div id="advancement-section">
+                </Row>
+                <Row id="advancement-section">
                     <Advancement {...this.state.char} updateState={this.updateState} />
-                </div>
+                </Row>
             </Container>
             </>
         )
