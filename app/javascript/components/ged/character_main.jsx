@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
@@ -161,7 +162,7 @@ class CharacterMain extends React.Component {
     saveCharacterButton() {
         if (window.currentUser && window.currentUser.id === this.state.char.userId) {
             return (
-                <Button variant="dark" onClick={this.saveCharacter}>Save Character</Button>
+                <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={this.saveCharacter}>Save Character</NavDropdown.Item>
             )
         }
     }
@@ -176,13 +177,24 @@ class CharacterMain extends React.Component {
         }
         return (
             <>
-            <Navbar bg="light" fixed="top">
-                <Nav>
-                    <Nav.Link href="#main-section">Main</Nav.Link>
-                    <Nav.Link href="#class-section">Class</Nav.Link>
-                    <Nav.Link to="#skills-section">Skills</Nav.Link>
-                    <Nav.Link to="#inventory-section">Inventory</Nav.Link>
-                    <Nav.Link to="#advancement-section">Advancement</Nav.Link>
+            <Navbar sticky="top" bg="light">
+                <Nav className="flex-row justify-content-between">
+                    <Nav.Link className="grenze" href="#main-section">Main</Nav.Link>
+                    <Nav.Link className="grenze" href="#class-section">Class</Nav.Link>
+                    <Nav.Link className="grenze" href="#skills-section">Skills</Nav.Link>
+                    <Nav.Link className="grenze" href="#inventory-section">Inventory</Nav.Link>
+                    <Nav.Link className="grenze" href="#advancement-section">Advancement</Nav.Link>
+                    <NavDropdown className="grenze" title="Options">
+                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
+                            Show Rules
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.props.setRollerOut(true)}>
+                            Roll Dice
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        {this.saveCharacterButton()}
+                    </NavDropdown>
+                    <Navbar.Toggle className="ml-auto" />
                 </Nav>
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
@@ -193,17 +205,6 @@ class CharacterMain extends React.Component {
                 </Row>
                 <Row className="justify-content-center">
                     <h1 className="ged-color">Guild of Expendable Dungeoneers</h1>
-                </Row>
-                <Row>
-                    <Col>
-                        <Button variant="dark" onClick={() => this.setState({rulesModal: true})}>Show Rules</Button>
-                    </Col>
-                    <Col>
-                        {this.saveCharacterButton()}
-                    </Col>
-                    <Col>
-                        <Button variant="dark" onClick={() => this.props.setRollerOut(true)}>Roll Dice</Button>
-                    </Col>
                 </Row>
                 <div id="main-section">
                     <div className="sheet-row">
