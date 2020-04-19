@@ -9,7 +9,6 @@ export default function CharGenSkills(props) {
     const maxSkills = (fightingSkills ? 0 : 1) + (props.raceTraits === "Human" ? 1 : 0);
     const [classSkillChosen, setClassSkillChosen] = useState(!!fightingSkills);
     const [skillFirstRoll, setSkillFirstRoll] = useState(true);
-    const [lastSelected, setLastSelected] = useState(null);
 
     useEffect(() => {
         if (fightingSkills && fightingSkills.length === 1) props.updateSelection('selectedFightingSkill', fightingSkills[0]);
@@ -27,14 +26,14 @@ export default function CharGenSkills(props) {
     }, [JSON.stringify(props.trainedSkills)])
 
     const selectFightingSkill = (skill) => {
+        debugger
         if (fightingSkills.includes(skill)) {
-            setLastSelected(skill);
             props.updateSelection('selectedFightingSkill', skill);
         }
     }
     
     function selectSkill(skill, reroll) {
-        setLastSelected(skill);
+        debugger
         let newSkills = props.trainedSkills;
         if (newSkills.includes(skill)) {
             newSkills.splice(newSkills.indexOf(skill), 1);
@@ -68,7 +67,7 @@ export default function CharGenSkills(props) {
                     return (
                         <Button key={i}
                             style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
-                            active={props.selectedFightingSkill === skill}
+                            // active={props.selectedFightingSkill === skill}
                             variant="warning"
                             className={`skill-button ${classSkill ? " class-skill" : ""} ${props.selectedFightingSkill === skill ? " selected" : ""}`}
                             onClick={() => selectFightingSkill(skill)}
@@ -123,7 +122,7 @@ export default function CharGenSkills(props) {
                     return (
                         <Button key={i}
                             style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
-                            active={props.trainedSkills.includes(skill)}
+                            // active={props.trainedSkills.includes(skill)}
                             variant="info"
                             className={`skill-button ${classSkill ? " class-skill" : ""} ${props.trainedSkills.includes(skill) ? " selected" : ""}`}
                             onClick={() => selectSkill(skill, false)}

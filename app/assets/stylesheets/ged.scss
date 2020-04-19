@@ -45,6 +45,10 @@ a:hover {
     visibility: hidden;
 }
 
+.btn.selected {
+    background-color: gold !important;
+}
+
 .card:hover {
     border: 1px solid !important;
 }
