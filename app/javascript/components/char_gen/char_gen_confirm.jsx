@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { Redirect } from 'react-router-dom';
-import { CLASS_COLORS } from '../../dndb-tables';
+import { CLASS_COLORS, FIGHTING_SKILLS } from '../../dndb-tables';
 import { createCharacter } from '../../actions/character_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions'
 import { camelToSnake } from '../../case_converter';
@@ -9,8 +16,8 @@ export default function CharGenConfirm(props) {
     let character = props.char;
     // Why won't this destructuring work?
     // let { character: char } = props;
-    const allSkills = character.trainedSkills;
-    if (character.selectedFightingSkill) allSkills.unshift(character.seletedFightingSkill);
+    // const allSkills = character.trainedSkills;
+    // if (character.selectedFightingSkill) allSkills.unshift(character.seletedFightingSkill);
     const [campaignsList, setCampaignsList] = useState([]);
     const [newCharId, setNewCharId] = useState(null);
 
@@ -30,12 +37,22 @@ export default function CharGenConfirm(props) {
         props.updateSelection(event.target.name, event.target.value);
     }
 
+    function allTrainedSkills() {
+        let allSkills = Object.assign([], character.trainedSkills);
+        if (character.selectedFightingSkill) allSkills.unshift(character.selectedFightingSkill);
+        return allSkills;
+    }
+
     function raceTraits() {
         if (character.raceTraits !== "Human") {
             return (
-                <div>
-                    <span>{character.raceTraits[0]} </span><span> {character.raceTraits[1]}</span>
-                </div>
+                <ListGroup.Item>
+                    <h3>Race Traits</h3>
+                    <ListGroup horizontal className="d-flex flex-wrap">
+                        <ListGroup.Item><div className="grenze">{character.raceTraits[0]}</div></ListGroup.Item>
+                        <ListGroup.Item><div className="grenze">{character.raceTraits[1]}</div></ListGroup.Item>
+                    </ListGroup>
+                </ListGroup.Item>
             )
         }
     }
@@ -71,52 +88,85 @@ export default function CharGenConfirm(props) {
     }
 
     return (
-        <div>
-            <div>
-                <span>Name: </span><input onChange={handleChange} type="text" name="name" value={character.name}></input>
-            </div>
-            <div>
-                <div>Campaign</div>
-                <select name="campaignId" value={character.campaignId} onChange={handleChange}>
-                    {loadedCampaignOption()}
-                    {campaignsList.map(campaign => {
-                        return (
-                            <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
-                        )
-                    })}
-                </select>
-            </div>
-            <div style={{color: CLASS_COLORS[character.cClass]}}>
-                <span>Class: </span><span>{character.cClass}</span>
-            </div>
-            <div>
-                <span>Race (but not in like a racist way): </span><span>{character.raceString}</span>
+        <Container>
+            <Row className="mt-3 mb-1 justify-content-center">
+                <Button size="lg" variant="primary" disabled={character.name === ""} onClick={confirm}>Create Character</Button>
+            </Row>
+            <Row>
+                <Col>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Name: </InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control onChange={handleChange} type="text" name="name" value={character.name}></Form.Control>
+                        </InputGroup>
+                    </Form>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Campaign</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control as="select" name="campaignId" value={character.campaignId} onChange={handleChange}>
+                                {loadedCampaignOption()}
+                                {campaignsList.map(campaign => {
+                                    return (
+                                        <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </InputGroup>
+                    </Form>
+                </Col>
+            </Row>
+            <ListGroup className="mt-3">
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={4} md={3}><h3>Class: </h3></Col><Col xs={6} style={{ color: CLASS_COLORS[character.cClass] }}><h3>{character.cClass}</h3></Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={4} md={3}><h3>Race: </h3></Col><Col xs={6}><h3>{character.raceString}</h3></Col>
+                    </Row>
+                </ListGroup.Item>
                 {raceTraits()}
-            </div>
-            <div>
-                {allSkills.map((skill, i) => {
-                    return (
-                        <span key={i}> {skill} </span>
-                    )
-                })}
-            </div>
-            <div>
-                <span>Background: </span><span>{character.background}</span>
-            </div>
-            <div>
-                <span>Appearance: </span><span>{character.appearance}</span>
-            </div>
-            <div>
-                <span>Derp: </span><span>{character.derp}</span>
-            </div>
-            <div>
-                {character.inventory.map((item, i) => {
-                    return (
-                        <span key={i}> {item} </span>
-                    )
-                })}
-            </div>
-            <button disabled={character.name === ""} onClick={confirm}>Confirm Character</button>
-        </div>
+                <ListGroup.Item>
+                    <h3>Trained Skills</h3>
+                    <ListGroup horizontal>
+                        {allTrainedSkills().map((skill, i) => {
+                            return (
+                                <ListGroup.Item variant={FIGHTING_SKILLS.includes(skill) ? "warning" : "info"} key={i}> <div className="grenze">{ skill }</div> </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6} sm={5} md={3}><h3>Background: </h3></Col><Col xs={6}><h3>{character.background}</h3></Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6} sm={5} md={3}><h3>Appearance: </h3></Col><Col xs={6}><h3>{character.appearance}</h3></Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <Row>
+                        <Col xs={6} sm={5} md={3}><h3>Derp: </h3></Col><Col xs={6}><h3>{character.derp}</h3></Col>
+                    </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                    <h3>Starting Inventory</h3>
+                    <ListGroup horizontal className="d-flex flex-wrap">
+                        {character.inventory.map((item, i) => {
+                            return (
+                                <ListGroup.Item key={i}> <div className="grenze">{item}</div> </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                </ListGroup.Item>
+            </ListGroup>
+        </Container>
     )
 }

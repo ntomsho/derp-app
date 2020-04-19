@@ -26,14 +26,12 @@ export default function CharGenSkills(props) {
     }, [JSON.stringify(props.trainedSkills)])
 
     const selectFightingSkill = (skill) => {
-        debugger
         if (fightingSkills.includes(skill)) {
             props.updateSelection('selectedFightingSkill', skill);
         }
     }
     
     function selectSkill(skill, reroll) {
-        debugger
         let newSkills = props.trainedSkills;
         if (newSkills.includes(skill)) {
             newSkills.splice(newSkills.indexOf(skill), 1);
