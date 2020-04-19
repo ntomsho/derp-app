@@ -1,15 +1,17 @@
 import React from 'react';
+import Modal from 'react-bootstrap/Modal';
 
 export default function RulesModal(props) {
     return (
+        <Modal show={props.show} onHide={props.onHide}>
         <div className={`rules-modal-container ${props.extended ? '' : ' hidden'}`}>
             <div className="rules-modal-main">
                 
-                <button onClick={() => props.setModalOut(false)}
+                {/* <button onClick={() => props.setModalOut(false)}
                     style={{position: 'absolute', height: '5vh', width: '4vw', right: '0', top: '0'}}
                 >
                     X
-                </button>
+                </button> */}
                 <h1 className="rules-modal-header" style={{color: 'orangered'}}>Dungeons & Douchebags</h1>
                 <h2 className="rules-modal-header" style={{textDecoration: 'underline'}}>THE RULES</h2>
                 
@@ -122,5 +124,6 @@ export default function RulesModal(props) {
 
             </div>
         </div>
+        </Modal>
     )
 }

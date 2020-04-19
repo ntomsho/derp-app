@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Modal from 'react-bootstrap/Modal';
 
 export default function DiceRoller(props) {
     //Selection variables
@@ -192,6 +193,7 @@ export default function DiceRoller(props) {
     }
 
     return (
+        <Modal show={props.show} onHide={props.onHide}>
         <div className={`dice-roller-container${props.extended ? '' : ' hidden'}`}>
             <div className="dice-roller-main">
                 <button onClick={() => props.setRollerOut(false)}
@@ -231,5 +233,6 @@ export default function DiceRoller(props) {
                 </div>
             </div>
         </div>
+        </Modal>
     )
 }

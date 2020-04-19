@@ -1,5 +1,13 @@
 import React from 'react';
 import { CLASSES, random, randomRace, BACKGROUNDS, APPEARANCES, DERPS } from '../../dndb-tables';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
 import RulesModal from './rules_modal';
 import DiceRoller from './dice_roller';
 import Skills from './skills';
@@ -13,6 +21,8 @@ class CharacterMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            rulesModal: false,
+            diceRoller: false,
             char: {
                 name: "",
                 cClass: "",
@@ -151,7 +161,7 @@ class CharacterMain extends React.Component {
     saveCharacterButton() {
         if (window.currentUser && window.currentUser.id === this.state.char.userId) {
             return (
-                <button onClick={this.saveCharacter}>Save Character</button>
+                <Button variant="dark" onClick={this.saveCharacter}>Save Character</Button>
             )
         }
     }
@@ -159,101 +169,118 @@ class CharacterMain extends React.Component {
     render() {
         if (!this.state.char.name) {
             return (
-                <div id="dndb-main">
+                <Container className="bg-light">
                     Loading Character...
-                </div>
+                </Container>
             )
         }
         return (
-            <div id="dndb-main">
-                <RulesModal setModalOut={this.props.setModalOut} extended={this.props.modalOut} />
-                <DiceRoller setRollerOut={this.props.setRollerOut} extended={this.props.rollerOut} />
-                <div id="dndb-sheet-container">
-                    <div id="sheet-header">
-                        <h1 className="color-header">GED:<br/>Guild of Expendable Dungeoneers</h1>
-                    </div>
-                    <div id="main-button-row">
-                        <button onClick={() => this.props.setModalOut(true)}>Show Rules</button>
+            <>
+            <Navbar bg="light" fixed="top">
+                <Nav>
+                    <Nav.Link href="#main-section">Main</Nav.Link>
+                    <Nav.Link href="#class-section">Class</Nav.Link>
+                    <Nav.Link to="#skills-section">Skills</Nav.Link>
+                    <Nav.Link to="#inventory-section">Inventory</Nav.Link>
+                    <Nav.Link to="#advancement-section">Advancement</Nav.Link>
+                </Nav>
+            </Navbar>
+            <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
+            <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
+            <Container className="bg-light">
+                <Row className="justify-content-center">
+                    <h1 className="ged-color mb-0">GED:</h1>
+                </Row>
+                <Row className="justify-content-center">
+                    <h1 className="ged-color">Guild of Expendable Dungeoneers</h1>
+                </Row>
+                <Row>
+                    <Col>
+                        <Button variant="dark" onClick={() => this.setState({rulesModal: true})}>Show Rules</Button>
+                    </Col>
+                    <Col>
                         {this.saveCharacterButton()}
-                        <button onClick={() => this.props.setRollerOut(true)}>Roll Dice</button>
-                    </div>
-
-                    <div id="main-section">
-                        <div className="sheet-row">
-                            <div className="field-container">
-                                <div className="field-header">Name: </div>
-                                <input type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name}></input>
-                            </div>
-                            <div className="field-container">
-                                <div className="field-header">Class: </div>
-                                <div className="sub-field">
-                                    <select name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
-                                        <option value="" disabled>Select Class</option>
-                                        {CLASSES.map((c, i) => {
-                                            return (
-                                                <option key={i} value={c}>{c}</option>
-                                            )
-                                        })}
-                                    </select>
-                                    <button className="randomize-button" onClick={() => this.props.updateState('cClass', random(CLASSES))}>🎲</button>
-                                </div>
-                            </div>
-                            <div className="field-container">
-                                <div className="field-header">Race <span style={{fontSize: '9px'}}>(but not in like a racist way)</span>:</div>
-                                <div className="sub-field">
-                                    <input type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></input>
-                                    <button className="randomize-button" onClick={() => this.updateState('raceString', randomRace() === "Human" ? "Human" : "")}>🎲</button>
-                                </div>
+                    </Col>
+                    <Col>
+                        <Button variant="dark" onClick={() => this.props.setRollerOut(true)}>Roll Dice</Button>
+                    </Col>
+                </Row>
+                <div id="main-section">
+                    <div className="sheet-row">
+                        <div className="field-container">
+                            <div className="field-header">Name: </div>
+                            <input type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name}></input>
+                        </div>
+                        <div className="field-container">
+                            <div className="field-header">Class: </div>
+                            <div className="sub-field">
+                                <select name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
+                                    <option value="" disabled>Select Class</option>
+                                    {CLASSES.map((c, i) => {
+                                        return (
+                                            <option key={i} value={c}>{c}</option>
+                                        )
+                                    })}
+                                </select>
+                                <button className="randomize-button" onClick={() => this.props.updateState('cClass', random(CLASSES))}>🎲</button>
                             </div>
                         </div>
-                        <div className="sheet-row">
-                            <div className="field-container">
-                                <div className="field-header">Background: </div>
-                                <div className="sub-field">
-                                    <input type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></input>
-                                    <button className="randomize-button" onClick={() => this.updateState('background', random(BACKGROUNDS))}>🎲</button>
-                                </div>
-                            </div>
-                            <div className="field-container">
-                                <div className="field-header">Appearance: </div>
-                                <div className="sub-field">
-                                    <input type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></input>
-                                    <button className="randomize-button" onClick={() => this.updateState('appearance', random(APPEARANCES))}>🎲</button>
-                                </div>
-                            </div>
-                            <div className="field-container">
-                                <div className="field-header">Derp: </div>
-                                <div className="sub-field">
-                                    <input type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></input>
-                                    <button className="randomize-button" onClick={() => this.updateState('derp', random(DERPS))}>🎲</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="sheet-row">
-                            <div className="health-tracker">
-                                <div className="field-header">Health</div>
-                                {this.healthTrackerDisp()}
-                            </div>
-                            <div className="plot-points-tracker">
-                                <div className="field-header">Plot Points</div>
-                                {this.plotPointsTrackerDisp()}
+                        <div className="field-container">
+                            <div className="field-header">Race <span style={{fontSize: '9px'}}>(but not in like a racist way)</span>:</div>
+                            <div className="sub-field">
+                                <input type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></input>
+                                <button className="randomize-button" onClick={() => this.updateState('raceString', randomRace() === "Human" ? "Human" : "")}>🎲</button>
                             </div>
                         </div>
                     </div>
-                    <div id="class-section">
-                        <ClassMain {...this.state.char} updateState={this.updateState} />
+                    <div className="sheet-row">
+                        <div className="field-container">
+                            <div className="field-header">Background: </div>
+                            <div className="sub-field">
+                                <input type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></input>
+                                <button className="randomize-button" onClick={() => this.updateState('background', random(BACKGROUNDS))}>🎲</button>
+                            </div>
+                        </div>
+                        <div className="field-container">
+                            <div className="field-header">Appearance: </div>
+                            <div className="sub-field">
+                                <input type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></input>
+                                <button className="randomize-button" onClick={() => this.updateState('appearance', random(APPEARANCES))}>🎲</button>
+                            </div>
+                        </div>
+                        <div className="field-container">
+                            <div className="field-header">Derp: </div>
+                            <div className="sub-field">
+                                <input type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></input>
+                                <button className="randomize-button" onClick={() => this.updateState('derp', random(DERPS))}>🎲</button>
+                            </div>
+                        </div>
                     </div>
-                    <div id="skills-section">
-                        <Skills {...this.state.char} updateState={this.updateState} />
-                    </div>
-                    <div id="inventory-section">
-                        <Inventory {...this.state.char} updateState={this.updateState} />
-                    </div>
-                    <div id="advancement-section">
-                        <Advancement {...this.state.char} updateState={this.updateState} />
+                    <div className="sheet-row">
+                        <div className="health-tracker">
+                            <div className="field-header">Health</div>
+                            {this.healthTrackerDisp()}
+                        </div>
+                        <div className="plot-points-tracker">
+                            <div className="field-header">Plot Points</div>
+                            {this.plotPointsTrackerDisp()}
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div id="class-section">
+                    <ClassMain {...this.state.char} updateState={this.updateState} />
+                </div>
+                <div id="skills-section">
+                    <Skills {...this.state.char} updateState={this.updateState} />
+                </div>
+                <div id="inventory-section">
+                    <Inventory {...this.state.char} updateState={this.updateState} />
+                </div>
+                <div id="advancement-section">
+                    <Advancement {...this.state.char} updateState={this.updateState} />
+                </div>
+            </Container>
+            </>
         )
     }
 }

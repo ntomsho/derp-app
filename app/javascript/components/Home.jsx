@@ -62,7 +62,7 @@ const Home = (props) => {
                             </Link>
                         </Card>
                         <Card className="gps ml-1 border-left">
-                            <Link className="text-center">
+                            <Link disabled to="#" className="text-center">
                                 <Card.Body>
                                     <Card.Title>
                                         <h1 className="gps display-3 mb-0">GPS</h1><h2 className="gps">Galactic Parcel Service</h2>
