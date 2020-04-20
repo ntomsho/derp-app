@@ -58,6 +58,7 @@ export default function Bowslinger(props) {
     }
 
     function addCustomAmmo(randomize) {
+        //Regex to remove "ammo" from end of input if present?
         if (randomize) {
             let newAmmo = currentSpecials.ammo;
             newAmmo.push(randomAmmo());

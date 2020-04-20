@@ -93,16 +93,16 @@ export default function Battlebro(props) {
             return (
                 <>
                 <div className="grenze">Weapon Forms</div>
-                    {currentSpecials.weapons.map((weapon, i) => {
-                        return (
-                            <InputGroup key={i} className="my-1">
-                                <InputGroup.Text className="w-75"><strong>{weaponString(weapon)}</strong></InputGroup.Text>
-                                <InputGroup.Append>
-                                    <Button variant="outline-secondary" onClick={() => transformWeapon(i)}>Use</Button>
-                                </InputGroup.Append>
-                            </InputGroup>
-                        )
-                    })}
+                {currentSpecials.weapons.map((weapon, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-75"><strong>{weaponString(weapon)}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => transformWeapon(i)}>Use</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
                 </>
             )
         }
