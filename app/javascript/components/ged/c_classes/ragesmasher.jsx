@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { randomAnimal } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Ragesmasher(props) {
     const { currentSpecials } = props;
     const [currentActive, setCurrentActive] = useState(null);
     const input = React.createRef();
 
-    if (!currentSpecials.totems) {
-        props.updateState('currentSpecials', { 'totems': [] })
-    }
+    useEffect(() => {
+        if (!currentSpecials.totems) {
+            props.updateState('currentSpecials', { 'totems': [] })
+        }
+    })
 
     function createTotems() {
         let totems = [];
@@ -36,18 +44,18 @@ export default function Ragesmasher(props) {
         if (currentSpecials.totems && currentSpecials.totems.length > 0) {
             return (
                 <>
-                <h3>Totem Spirits</h3>
-                <ul className="resource-list">
-                    {currentSpecials.totems.map((totem, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{totem}</strong> Totem</div>
-                                <button onClick={() => activateTotem(i, false)}>Use</button>
-                                <button onClick={() => activateTotem(i, true)}>Rage!</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <div className="grenze">Totem Spirits</div>
+                {currentSpecials.totems.map((totem, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-50"><div><strong>{totem}</strong> Totem</div></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => activateTotem(i, false)}>Use</Button>
+                                <Button variant="danger" onClick={() => activateTotem(i, true)}>Rage!</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
                 </>
             )
         }
@@ -57,29 +65,38 @@ export default function Ragesmasher(props) {
         if (currentActive === "rage") {
             return (
                 <>
-                    <div><strong>RAGING!</strong></div>
-                    <div style={{fontWeight: 'normal', fontFamily: 'auto', fontSize: '2.5vw'}}>Gain Magic Advantage on all rolls to fight, smash, punch, or break stuff<br/>Take +1 Difficulty on anything else</div>
-                    <button onClick={() => setCurrentActive(null)}>End Scene</button>
+                    <Col xs={10}>
+                        <h3 style={{ color: 'darkred' }} className="text-center">RAGING!</h3>
+                    </Col>
+                    <Col xs={10}>
+                        <small className="w-75">Gain Magic Advantage on all rolls to fight, smash, punch, or break stuff<br/>Take +1 Difficulty on anything else</small>
+                    </Col>
+                    <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentActive(null)}>End Scene</Button>
                 </>
             )
         } else if (currentActive) {
             return (
                 <>
-                    <div>Channeling the Spirit of the:</div>
-                    <div><strong>{currentActive}</strong></div>
-                    <button onClick={() => setCurrentActive(null)}>End Scene</button>
+                    <Col xs={10}>
+                        <h3 className="text-center">Channeling the Spirit of the:</h3>
+                    </Col>
+                    <Col xs={10}>
+                        <h3 className="text-center">{currentActive}</h3>
+                    </Col>
+                    <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentActive(null)}>End Scene</Button>
                 </>
             )
         }
     }
 
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A primal barbarian warrior who channels animal spirits when they aren’t flipping out.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A primal barbarian warrior who channels animal spirits when they aren’t flipping out.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Totem Spirits and Barbaric Rage</strong></div>
                         <div>Whenever you rest, you gain a set of three Totem Spirits. You can spend one of these totems to channel that animal spirit or rage out for the duration of the scene.</div>
                         <div>When channeling a spirit, you can do things that that animal can do and gain Magic Advantage on actions it would be associated with.</div>
@@ -87,32 +104,31 @@ export default function Ragesmasher(props) {
                         <br/>
                         <div>Resource Item:<br/><strong>Animal Totems</strong></div>
                         <div>Spend an Animal Totem to gain a Totem Spirit of its animal type.</div>
-                        <br />
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="ability-main">
-                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={7} className="mt-3">
+                    <Row className="justify-content-center">
+                        <div className="grenze">Current Totem Spirit</div>
+                    </Row>
+                    <Row className="align-items-center">
                         {currentDisp()}
-                    </div>
-                </div>
-                <div className="resource-lists-container">
+                    </Row>
                     {totemsDisp()}
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div>Add Totem Spirit: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input}></input>
-                            <button onClick={() => addCustomTotem(false)}>+</button>
-                            <button onClick={() => addCustomTotem(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createTotems}>Generate Random Totems<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Totem Animal</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomTotem(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomTotem(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createTotems}>Generate Random Totems<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
