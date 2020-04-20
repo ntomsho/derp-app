@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { random, RUNES, VERBS, ELEMENTS } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Runegoon(props) {
     const { currentSpecials } = props;
@@ -8,9 +14,11 @@ export default function Runegoon(props) {
     const [engravedRune, setEngravedRune] = useState(null);
     const input = React.createRef();
 
-    if (!currentSpecials.runes) {
-        props.updateState('currentSpecials', { 'runes': [] });
-    }
+    useEffect(() => {
+        if (!currentSpecials.runes) {
+            props.updateState('currentSpecials', { 'runes': [] });
+        }
+    });
 
     function randomRune() {
         return {'rune': random(RUNES), 'word': random(random([VERBS, ELEMENTS]))};
@@ -51,17 +59,20 @@ export default function Runegoon(props) {
     function runesDisp() {
         if (currentSpecials.runes) {
             return (
-                <ul className="resource-list">
-                    {currentSpecials.runes.map((r, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{r.word}</strong></div>
-                                <button onClick={() => activateRune(i, false)}><strong>{r.rune}</strong></button>
-                                <button onClick={() => activateRune(i, true)}><strong>🔨</strong></button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <>
+                <div className="grenze">Prepared Runes</div>
+                {currentSpecials.runes.map((r, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-50"><strong>{r.word}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-info" onClick={() => activateRune(i, false)}><strong>{r.rune}</strong></Button>
+                                <Button variant="info" onClick={() => activateRune(i, true)}><strong>🔨</strong></Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
+                </>
             )
         }
     }
@@ -70,17 +81,16 @@ export default function Runegoon(props) {
         if (activeRunes.length > 0) {
             return (
                 <>
-                <h3>Active Runes</h3>
-                <ul className="resource-list">
-                    {activeRunes.map((r, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div>{r.rune} <strong>{r.word}</strong> on <input className="rune-on-input" type='text' /></div>
-                            </li>
-                        )
-                    })}
-                </ul>
-                <button onClick={() => setActiveRunes([])}>End Scene</button>
+                <div className="grenze">Active Runes</div>
+                {activeRunes.map((r, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Prepend><InputGroup.Text>{r.rune}</InputGroup.Text></InputGroup.Prepend>
+                            <InputGroup.Text><div><strong>{r.word}</strong> on </div><Form.Control /></InputGroup.Text>
+                        </InputGroup>
+                    )
+                })}
+                <Button size="sm" variant="secondary" onClick={() => setActiveRunes([])}>End Scene</Button>
                 </>
             )
         }
@@ -90,54 +100,56 @@ export default function Runegoon(props) {
         if (engravedRune) {
             return (
                 <>
-                <h3>Engraved Rune</h3>
-                <div>{engravedRune.rune} <strong>{engravedRune.word}</strong> on <input className="rune-on-input" type="text" /></div>
+                <Row className="justify-content-center">
+                    <div className="grenze">Engraved Rune</div>
+                </Row>
+                <Row className="justify-content-center align-items-center">
+                    <InputGroup>
+                        <InputGroup.Prepend><InputGroup.Text>{engravedRune.rune}</InputGroup.Text></InputGroup.Prepend>
+                        <InputGroup.Text><div><strong>{engravedRune.word}</strong> on </div><Form.Control /></InputGroup.Text>
+                    </InputGroup>
+                </Row>
                 </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A crafter of magical runes that invoke an ancient arcane language.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A crafter of magical runes that invoke an ancient arcane language.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Arcane Runes</strong></div>
-                        <div>Whenever you rest, you gain access to a set of four ancient runes. You can activate any of them by writing, painting, or inscribing the associated rune onto something.</div>
+                        <div>Whenever you rest, you gain access to a set of five ancient runes. You can activate any of them by writing, painting, or inscribing the associated rune onto something.</div>
                         <div>Whatever (or whoever) you draw the rune on is infused with the property of the runic word for the rest of the scene.</div>
                         <div>You can have one rune at a time engraved, imbuing the target with its property until the next time you rest. You spend a rune to engrave it, cancelling out any current engraving you might have.</div>
                         <br/>
                         <div>Resource Item:<br/><strong>Scrolls of Power</strong></div>
                         <div>Spend a Scroll of Power to gain a rune for its word.</div>
-                        <br />
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="resource-lists-container">
-                    <div id="active-runes">
-                        {activeRunesDisp()}
-                        {engravedRuneDisp()}
-                    </div>
-                    <div id="current-runes">
-                        {runesDisp()}
-                    </div>
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div>Add Rune: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input}></input>
-                            <button onClick={() => addCustomRune(false)}>+</button>
-                            <button onClick={() => addCustomRune(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createRunes}>Generate Random Runes<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={7} className="mt-3">
+                    {engravedRuneDisp()}
+                    {activeRunesDisp()}
+                    {runesDisp()}
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Rune</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomRune(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomRune(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createRunes}>Generate Random Runes<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
