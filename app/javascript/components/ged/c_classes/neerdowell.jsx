@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { randomMagicItem } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Neerdowell(props) {
     const { currentSpecials } = props;
     const input = React.createRef();
 
-    if (!currentSpecials.items) {
-        props.updateState('currentSpecials', { 'items': [] })
-    }
+    useEffect(() => {
+        if (!currentSpecials.items) {
+            props.updateState('currentSpecials', { 'items': [] })
+        }
+    })
 
     function createItems() {
         let items = [];
@@ -33,28 +41,31 @@ export default function Neerdowell(props) {
     function itemsDisp() {
         if (currentSpecials.items) {
             return (
-                <ul className="resource-list">
-                    {currentSpecials.items.map((item, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{item}</strong></div>
-                                <button onClick={() => consumeItem(i)}>Use</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <>
+                <div className="grenze">Legitimately Acquired Items</div>
+                {currentSpecials.items.map((item, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-75"><strong>{item}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => consumeItem(i)}>Use</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
+                </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A roguish thief with a vast collection of stolen trinkets and devices.</div>
-                <br />
-                {/* Add stealing system for adding to bag of tricks*/}
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A roguish thief with a vast collection of stolen trinkets and devices.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Bag of Tricks</strong></div>
                         <div>The Ne'erdowell never leaves home without a seemingly bottomless bag of single-use magic items of dubious provenance.</div>
                         <div>Whenever you rest, a new set of four magic items is available for use from the bag.</div>
@@ -62,27 +73,25 @@ export default function Neerdowell(props) {
                             <li>Activate its magical property for one action</li>
                             <li>Change its weapon type or its magical property</li>
                         </ul>
-                        <br/>
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="resource-lists-container" id="item-list">
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={5} className="mt-3">
                     {itemsDisp()}
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div>Add Item: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input}></input>
-                            <button onClick={() => addCustomItem(false)}>+</button>
-                            <button onClick={() => addCustomItem(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createItems}>Generate Random Items<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Item</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomItem(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomItem(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createItems}>Generate Random Items<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
