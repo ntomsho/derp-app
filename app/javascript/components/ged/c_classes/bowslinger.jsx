@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ELEMENTS, GERUNDS, random } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Bowslinger(props) {
     const { currentSpecials } = props;
     const [savableAmmo, setSavableAmmo] = useState([])
     const input = React.createRef();
 
-    if (!currentSpecials.ammo) {
-        props.updateState('currentSpecials', { 'ammo': [] })
-    }
+    useEffect(() => {
+        if (!currentSpecials.ammo) {
+            props.updateState('currentSpecials', { 'ammo': [] })
+        }
+    })
 
     function randomAmmo() {
         let wordCat = random([ELEMENTS, GERUNDS]);
@@ -54,28 +62,29 @@ export default function Bowslinger(props) {
             let newAmmo = currentSpecials.ammo;
             newAmmo.push(randomAmmo());
             props.updateState('currentSpecials', { 'ammo': newAmmo })
-        } else {
-            if (input.current.value) {
-                let newAmmo = currentSpecials.ammo;
-                newAmmo.push(input.current.value);
-                props.updateState('currentSpecials', { 'ammo': newAmmo })
-            }
+        } else if (input.current.value) {
+            let newAmmo = currentSpecials.ammo;
+            newAmmo.push(input.current.value);
+            props.updateState('currentSpecials', { 'ammo': newAmmo });
         }
     }
 
     function ammoDisp() {
         if (currentSpecials.ammo) {
             return (
-                <ul className="resource-list">
-                    {currentSpecials.ammo.map((shot, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{shot}</strong> Ammo</div>
-                                <button onClick={() => consumeAmmo(i)}>Use</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <>
+                <div className="grenze">Special Ammo</div>
+                {currentSpecials.ammo.map((shot, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text><strong>{shot + " Ammo"}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => consumeAmmo(i)}>Use</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
+                </>
             )
         }
     }
@@ -84,30 +93,31 @@ export default function Bowslinger(props) {
         if (savableAmmo.length > 0) {
             return (
                 <>
-                <h3>Fired Ammo</h3>
-                <ul className="resource-list">
-                    {savableAmmo.map((shot, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{shot}</strong> Ammo</div>
-                                <button onClick={() => recoverAmmo(shot, i)}>+</button>
-                                <button onClick={() => loseAmmo(i)}>-</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <div className="grenze">Recoverable Ammo</div>
+                {savableAmmo.map((shot, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text><strong>{shot + " Ammo"}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="success" onClick={() => recoverAmmo(shot, i)}>+</Button>
+                                <Button variant="danger" onClick={() => loseAmmo(i)}>-</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
                 </>
             )
         }
     }
 
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A sharpshooting bounty hunter who constructs special ammunition for their ranged weapon.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A sharpshooting bounty hunter who constructs special ammunition for their ranged weapon.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Magic Ammo</strong></div>
                         <div>You are skilled in adding magical properties to arrows, bullets, and throwing weapons. Whenever you rest, you construct three shots of magic ammo, each with a magical property that activates when fired.</div>
                         <div>After firing a piece of ammo, there is a 50% chance it remains intact and can be recovered, but any unused ammo becomes inert when you rest.</div>
@@ -115,33 +125,26 @@ export default function Bowslinger(props) {
                         <div>Resource Item:<br/><strong>Weapon Oil</strong></div>
                         <div>Spend a Weapon Oil to create ammo with the oil's property.</div>
                         <br/>
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="resource-lists-container">
-                    <div id="bowslinger-ammo">
-                        {ammoDisp()}
-                    </div>
-                    <div id="savable-ammo">
-                        {savableAmmoDisp()}
-                    </div>
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div className="custom-add-row">
-                            <div>Add Ammo: </div>
-                            <div className="custom-add-field">
-                                <input type="text" ref={input}></input>
-                                <button onClick={() => addCustomAmmo(false)}>+</button>
-                                <button onClick={() => addCustomAmmo(true)}>🎲</button>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createAmmo}>Create Ammo<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={7} className="mt-3">
+                    {ammoDisp()}
+                    {savableAmmoDisp()}
+                <Form>
+                    <InputGroup>
+                        <InputGroup.Prepend><InputGroup.Text>Add Ammo</InputGroup.Text></InputGroup.Prepend>
+                        <Form.Control ref={input} />
+                    </InputGroup>
+                    <Form.Group className="d-flex justify-content-around">
+                        <Button size="lg" variant="dark" onClick={() => addCustomAmmo(false)}>+</Button>
+                        <Button size="lg" variant="dark" onClick={() => addCustomAmmo(true)}>🎲</Button>
+                    </Form.Group>
+                    <Form.Group className="d-flex justify-content-center">
+                        <Button variant="dark" className="ability-randomize-button" onClick={createAmmo}>Create Ammo<br/>(On rest)</Button>
+                    </Form.Group>
+                </Form>
+            </Col>
+        </Row>
+    </Container>
     )
 }

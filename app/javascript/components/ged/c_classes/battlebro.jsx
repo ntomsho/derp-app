@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { random, WEAPONS, GERUNDS, ELEMENTS_OF } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
 import FavoriteTags from '../favorite_tags';
 import ClassDescription from '../class_description';
 import Container from 'react-bootstrap/Container';
@@ -94,7 +93,6 @@ export default function Battlebro(props) {
             return (
                 <>
                 <div className="grenze">Weapon Forms</div>
-                {/* <ButtonGroup> */}
                     {currentSpecials.weapons.map((weapon, i) => {
                         return (
                             <InputGroup key={i} className="my-1">
@@ -105,7 +103,6 @@ export default function Battlebro(props) {
                             </InputGroup>
                         )
                     })}
-                {/* </ButtonGroup> */}
                 </>
             )
         }
