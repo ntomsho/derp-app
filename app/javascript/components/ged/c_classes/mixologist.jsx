@@ -245,7 +245,7 @@ export default function Mixologist(props) {
                                 <option value="Verb">Verb</option>
                             </Form.Control>
                         </InputGroup>
-                        <Form.Group>
+                        <Form.Group className="d-flex justify-content-around">
                             <Button size="lg" variant="dark" onClick={() => addCustomComponent(false, 'catalyst')}>+</Button>
                             <Button size="lg" variant="dark" onClick={() => addCustomComponent(true, 'catalyst')}>🎲</Button>
                         </Form.Group>
