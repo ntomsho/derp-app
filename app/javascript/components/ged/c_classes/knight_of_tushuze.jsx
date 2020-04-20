@@ -86,9 +86,11 @@ export default function KnightOfTushuze(props) {
                     return (
                         <InputGroup key={i} className="my-1">
                             <InputGroup.Text className="w-75"><span>Blessing of <strong>{` ${blessing}`}</strong></span></InputGroup.Text>
-                            <DropdownButton variant="secondary" title="Uses">
-                                {blessingVirtues(blessing, i)}
-                            </DropdownButton>
+                            <InputGroup.Append>
+                                <DropdownButton variant="secondary" title="Uses">
+                                    {blessingVirtues(blessing, i)}
+                                </DropdownButton>
+                            </InputGroup.Append>
                         </InputGroup>
                     )
                 })}
