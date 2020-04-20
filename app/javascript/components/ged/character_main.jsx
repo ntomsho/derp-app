@@ -101,7 +101,7 @@ class CharacterMain extends React.Component {
     }
 
     updateHealth(num) {
-        this.setState({ health: this.state.char.health === num ? num - 1 : num });
+        this.updateState('health', this.state.char.health === num ? num - 1 : num);
     }
 
     openDeadModal() {
@@ -145,7 +145,7 @@ class CharacterMain extends React.Component {
     }
 
     updatePlotPoints(num) {
-        this.setState({ plotPoints: this.state.char.plotPoints === num ? num - 1 : num });
+        this.updateState('plotPoints', this.state.char.plotPoints === num ? num - 1 : num);
     }
 
     plotPointsTrackerDisp() {

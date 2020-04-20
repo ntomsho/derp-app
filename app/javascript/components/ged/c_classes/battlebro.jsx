@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { random, WEAPONS, GERUNDS, ELEMENTS_OF } from '../../../dndb-tables';
 import RaceTraits from '../race_traits';
 import FavoriteTags from '../favorite_tags';
+import ClassDescription from '../class_description';
 
 export default function Battlebro(props) {
     let { currentSpecials } = props;
@@ -100,20 +101,18 @@ export default function Battlebro(props) {
     return (
         <div className="class-ability-container">
             <div className="class-info">
-                <div className="class-desc">A graduate of Fighter College; a skilled combatant with a transforming magical weapon.</div>
+                <em>A graduate of Fighter College; a skilled combatant with a transforming magical weapon.</em>
                 <br/>
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
-                        <div>Magic Ability:<br/><strong>Graduate Weapon</strong></div>
-                        <div>Your capstone project from Fighter College is a shapechanging weapon. Whenever you rest, it changes shape and generates a set of three weapon types, each with a magical property.</div>
-                        <div>You can expend one of the other forms to transform the weapon into that shape and it takes on that magic property for the rest of the scene.</div>
-                        <div>At the end of the scene, it remains in the last weapon form you gave it. Activating another form before the end of the scene overwrites the current form and magic property.</div>
-                        <br/>
-                        <div>Resource Item:<br/><strong>Weapon Oil</strong></div>
-                        <div>Use a Weapon Oil to charge your weapon with the oil's property. You can also randomize its form.</div> 
-                        <br/>
-                    </div>
-                </div>
+                <ClassDescription>
+                    <div>Magic Ability:<br/><strong>Graduate Weapon</strong></div>
+                    <div>Your capstone project from Fighter College is a shapechanging weapon. Whenever you rest, it changes shape and generates a set of three weapon types, each with a magical property.</div>
+                    <div>You can expend one of the other forms to transform the weapon into that shape and it takes on that magic property for the rest of the scene.</div>
+                    <div>At the end of the scene, it remains in the last weapon form you gave it. Activating another form before the end of the scene overwrites the current form and magic property.</div>
+                    <br/>
+                    <div>Resource Item:<br/><strong>Weapon Oil</strong></div>
+                    <div>Use a Weapon Oil to charge your weapon with the oil's property. You can also randomize its form.</div> 
+                    <br/>
+                </ClassDescription>
                 <FavoriteTags updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} resourceName="Weapon Forms" />
                 <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
             </div>
