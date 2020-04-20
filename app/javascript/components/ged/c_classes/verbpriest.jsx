@@ -1,15 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import { random, COMMANDS } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Verbpriest(props) {
     const { currentSpecials } = props;
     const [faith, setFaith] = useState(3);
     const input = React.createRef();
 
-    if (!currentSpecials.words) {
-        props.updateState('currentSpecials', { 'words': [] });
-    }
+    useEffect(() => {
+        if (!currentSpecials.words) {
+            props.updateState('currentSpecials', { 'words': [] });
+        }
+    })
 
     function randomWord() {
         return random(COMMANDS);
@@ -50,46 +58,52 @@ export default function Verbpriest(props) {
         let buttons = [];
         for (let i = 0; i < 3; i++) {
             buttons.push(
-                <button key={i}
+                <Col key={i}>
+                    <h1 key={i}
                     id={`faith-${i + 1}`}
                     className="faith-container"
                     onClick={() => updateFaith(i + 1)}
-                >
-                    {faith >= i + 1 ? "⦿" : "⦾"}
-                </button>
+                    >
+                        {faith >= i + 1 ? "⦿" : "⦾"}
+                    </h1>
+                </Col>
             )
         }
         return (
-            <div className="class-radio-container">
+            <Row className="border border-secondary">
                 {buttons}
-            </div>
+            </Row>
         )
     }
 
     function wordsDisp() {
         if (currentSpecials.words) {
             return (
-                <ul className="resource-list">
-                    {currentSpecials.words.map((w, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{w}</strong></div>
-                                <button onClick={() => consumeCommand(i)}>X</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <>
+                <div className="grenze">Command Words</div>
+                {currentSpecials.words.map((w, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-75"><strong>{w}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => consumeCommand(i)}>X</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
+                </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
+        <Container>
+            <Row>
                 <div className="class-desc">A speaker of sacred words that command both living and inanimate things.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Sacred Words</strong></div>
                         <div>Whenever you rest, you recall 4 Words of Power in the ancient language of the gods and your Faith is refreshed to 3.</div>
                         <div>When you speak one of the Words at a creature or object (with a target if required), spend 1 Faith and it is compelled to attempt to perform the action until completed or at least attempt to do so for a few minutes.</div>
@@ -104,29 +118,31 @@ export default function Verbpriest(props) {
                         <br/>
                         <div>Resource Item:<br/><strong>Command Scrolls</strong></div>
                         <div>Spend a Command Scroll to gain a Command with that word.</div>
-                        <br />
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <h2>Faith</h2>
-                {faithDisp()}
-                <div className="resource-lists-container" id="word-list">
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={5} className="mt-3">
+                    <Row className="justify-content-center">
+                        <h2>Faith</h2>
+                    </Row>
+                    <Row className="justify-content-center align-items-center">
+                        {faithDisp()}
+                    </Row>
                     {wordsDisp()}
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div>Add Word: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input}></input>
-                            <button onClick={() => addCustomWord(false)}>+</button>
-                            <button onClick={() => addCustomWord(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createWords}>Generate Random Words<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Word</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input}></Form.Control>
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomWord(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomWord(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createWords}>Generate Random Words<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
