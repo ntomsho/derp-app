@@ -9,6 +9,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 import RulesModal from './rules_modal';
 import DiceRoller from './dice_roller';
 import Skills from './skills';
@@ -103,27 +104,43 @@ class CharacterMain extends React.Component {
         this.setState({ health: this.state.char.health === num ? num - 1 : num });
     }
 
+    openDeadModal() {
+        return;
+    }
+
     healthTrackerDisp() {
-        const hearts = [];
-        for (let i = 0; i < this.props.maxHealth; i++) {
-            hearts.push(
-                <div key={i}>
-                <img key={i}
-                    id={`heart-${i + 1}`}
-                    alt="Health"
+        const hearts = [
+            <Col md={2} xs={3} key={0}>
+                <Image
+                    id="heart-0"
                     className="heart-container"
-                    onClick={() => this.updateHealth(i + 1)}
-                    src={this.state.char.health >= i + 1 ?
-                        "http://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
-                        "http://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
+                    alt="0 Health"
+                    fluid
+                    onClick={this.openDeadModal}
+                    src={"http://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
                 />
-                </div>
+            </Col>
+        ];
+        for (let i = 0; i < this.state.char.maxHealth; i++) {
+            hearts.push(
+                <Col md={2} xs={3} key={i + 1}>
+                    <Image 
+                        id={`heart-${i + 1}`}
+                        className="heart-container"
+                        alt={`${i + 1} Health`}
+                        fluid
+                        onClick={() => this.updateHealth(i + 1)}
+                        src={this.state.char.health >= i + 1 ?
+                            "http://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
+                            "http://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
+                    />
+                </Col>
             )
         }
         return (
-            <div style={{display: 'flex'}}>
+            <Row className="border border-secondary">
                 {hearts}
-            </div>
+            </Row>
         )
     }
 
@@ -135,19 +152,21 @@ class CharacterMain extends React.Component {
         const pp = [];
         for (let i = 0; i < 3; i++) {
             pp.push(
-                <span key={i}
-                    id={`pp-${i + 1}`}
-                    className="pp-container"
-                    onClick={() => this.updatePlotPoints(i + 1)}
-                >
-                    {this.state.char.plotPoints >= i + 1 ? "⦿" : "⦾"}
-                </span>
+                <Col md={1} xs={2} key={i}>
+                    <h1 key={i}
+                        id={`pp-${i + 1}`}
+                        className="plot-point"
+                        onClick={() => this.updatePlotPoints(i + 1)}
+                    >
+                        {this.state.char.plotPoints >= i + 1 ? "⦿" : "⦾"}
+                    </h1>
+                </Col>
             )
         }
         return (
-            <div style={{ display: 'flex' }}>
+            <Row className="border border-secondary">
                 {pp}
-            </div>
+            </Row>
         )
     }
 
@@ -207,13 +226,13 @@ class CharacterMain extends React.Component {
                     <h1 className="text-center ged-color">Guild of Expendable Dungeoneers</h1>
                 </Row>
                 <Form>
-                    <Row id="main-section">
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Name</Form.Label>
+                    <Row id="main-section" className="mb-3">
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Name</Form.Label>
                             <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name} />
                         </Col>
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Class</Form.Label>
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Class</Form.Label>
                             <InputGroup>
                                 <Form.Control as="select" name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
                                     <option value="" disabled>Select Class</option>
@@ -228,8 +247,8 @@ class CharacterMain extends React.Component {
                                 </InputGroup.Append>
                             </InputGroup>
                         </Col>
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
                                 <InputGroup.Append>
@@ -237,8 +256,8 @@ class CharacterMain extends React.Component {
                                 </InputGroup.Append>
                             </InputGroup>
                         </Col>
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Background</Form.Label>
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Background</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></Form.Control>
                                 <InputGroup.Append>
@@ -246,8 +265,8 @@ class CharacterMain extends React.Component {
                                 </InputGroup.Append>
                             </InputGroup>
                         </Col>
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Appearance</Form.Label>
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Appearance</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></Form.Control>
                                 <InputGroup.Append>
@@ -255,8 +274,8 @@ class CharacterMain extends React.Component {
                                 </InputGroup.Append>
                             </InputGroup>
                         </Col>
-                        <Col xs={6} md={4}>
-                            <Form.Label className="grenze">Derp</Form.Label>
+                        <Col xs={6} md={4} className="my-1">
+                            <Form.Label className="grenze mb-0">Derp</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></Form.Control>
                                 <InputGroup.Append>
@@ -267,15 +286,19 @@ class CharacterMain extends React.Component {
                     </Row>
                 </Form>
 
-                <Row>
-                    <div className="health-tracker">
-                        <div className="field-header">Health</div>
+                <Row className="mb-5">
+                    <Col xs={8}>
+                        <Row>
+                            <div className="grenze">Health</div>
+                        </Row>
                         {this.healthTrackerDisp()}
-                    </div>
-                    <div className="plot-points-tracker">
-                        <div className="field-header">Plot Points</div>
+                    </Col>
+                    <Col xs={4}>
+                        <Row>
+                            <div className="grenze">Derp Points</div>
+                        </Row>
                         {this.plotPointsTrackerDisp()}
-                    </div>
+                    </Col>
                 </Row>
 
                 <Row id="class-section">
