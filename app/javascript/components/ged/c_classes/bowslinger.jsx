@@ -78,7 +78,7 @@ export default function Bowslinger(props) {
                 {currentSpecials.ammo.map((shot, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <InputGroup.Text><strong>{shot + " Ammo"}</strong></InputGroup.Text>
+                            <InputGroup.Text className="w-75"><strong>{shot + " Ammo"}</strong></InputGroup.Text>
                             <InputGroup.Append>
                                 <Button variant="outline-secondary" onClick={() => consumeAmmo(i)}>Use</Button>
                             </InputGroup.Append>
@@ -98,7 +98,7 @@ export default function Bowslinger(props) {
                 {savableAmmo.map((shot, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <InputGroup.Text><strong>{shot + " Ammo"}</strong></InputGroup.Text>
+                            <InputGroup.Text className="w-50"><strong>{shot + " Ammo"}</strong></InputGroup.Text>
                             <InputGroup.Append>
                                 <Button variant="success" onClick={() => recoverAmmo(shot, i)}>+</Button>
                                 <Button variant="danger" onClick={() => loseAmmo(i)}>-</Button>
@@ -130,21 +130,21 @@ export default function Bowslinger(props) {
                 <Col xs={12} md={7} className="mt-3">
                     {ammoDisp()}
                     {savableAmmoDisp()}
-                <Form>
-                    <InputGroup>
-                        <InputGroup.Prepend><InputGroup.Text>Add Ammo</InputGroup.Text></InputGroup.Prepend>
-                        <Form.Control ref={input} />
-                    </InputGroup>
-                    <Form.Group className="d-flex justify-content-around">
-                        <Button size="lg" variant="dark" onClick={() => addCustomAmmo(false)}>+</Button>
-                        <Button size="lg" variant="dark" onClick={() => addCustomAmmo(true)}>🎲</Button>
-                    </Form.Group>
-                    <Form.Group className="d-flex justify-content-center">
-                        <Button variant="dark" className="ability-randomize-button" onClick={createAmmo}>Create Ammo<br/>(On rest)</Button>
-                    </Form.Group>
-                </Form>
-            </Col>
-        </Row>
-    </Container>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Ammo</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomAmmo(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomAmmo(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createAmmo}>Create Ammo<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
