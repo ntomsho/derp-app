@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { randomAnimal, MUTATIONS, random } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Hippy(props) {
     const { currentSpecials } = props;
@@ -10,9 +16,11 @@ export default function Hippy(props) {
     const input1 = React.createRef();
     const input2 = React.createRef();
 
-    if (!currentSpecials.forms) {
-        props.updateState('currentSpecials', { 'forms': [], 'gifts': [] })
-    }
+    useEffect(() => {
+        if (!currentSpecials.forms) {
+            props.updateState('currentSpecials', { 'forms': [], 'gifts': [] })
+        }
+    })
 
     function createFormsAndGifts() {
         let forms = [];
@@ -40,10 +48,15 @@ export default function Hippy(props) {
         if (currentMutation) {
             return(
                 <>
-                <div>
-                    Mutation: {currentMutation}
-                </div>
-                <button onClick={() => setCurrentMutation(null)}>End Scene</button>
+                <Row className="justify-content-center">
+                    <div className="grenze">Current Available Mutation</div>
+                </Row>
+                <Row className="justify-content-center align-items-center">
+                    <h3>
+                        Mutation: {currentMutation}
+                    </h3>
+                    <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentMutation(null)}>End Scene</Button>
+                </Row>
                 </>
             )
         }
@@ -77,31 +90,41 @@ export default function Hippy(props) {
         if (currentSpecials.forms && currentSpecials.forms.length > 0) {
             return (
                 <>
-                <h3>Animal Forms</h3>
-                <ul className="resource-list">
-                    {currentSpecials.forms.map((form, i) => {
-                        return (
-                                <li key={i} className="resource-list-entry">
-                                    <div onClick={() => setCurrentForm(form)} className={`form${currentForm === form ? ' selected' : ''}`}><span><strong>{form}</strong> Form</span></div>
-                                    <button onClick={() => sacrificeForm(i)}>X</button>
-                                </li>
-                        )
-                    })}
-                    <div>
-                        <li className="resource-list-entry">
-                            <div onClick={() => setCurrentForm(null)} className={`form${currentForm === null ? ' selected' : ''}`}><strong>Human</strong> Form</div>
-                        </li>
-                    </div>
-                </ul>
+                <div className="grenze">Animal Forms</div>
+                {currentSpecials.forms.map((form, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <Button variant="success" onClick={() => setCurrentForm(form)} className={`w-75 form${currentForm === form ? ' selected' : ''}`}><div><strong>{form}</strong> Form</div></Button>
+                            <Button variant="danger" onClick={() => sacrificeForm(i)}>X</Button>
+                        </InputGroup>
+                    )
+                })}
+                <InputGroup className="my-1">
+                    <Button variant="success" onClick={() => setCurrentForm(null)} className={`form${currentForm === null ? ' selected' : ''}`}><div><strong>Human</strong> Form</div></Button>
+                </InputGroup>
                 </>
             )
         }
     }
 
+    function eatGoodberry() {
+        if (props.health >= props.maxHealth) return;
+        setGoodberries(goodberries - 1)
+        props.updateState('health', props.health + 1);
+    }
+
     function goodberriesDisp() {
         if (goodberries) {
             return (
-                <div>Goodberries: {goodberries} <button onClick={() => setGoodberries(goodberries - 1)}>Nom</button></div>
+                <InputGroup>
+                    <InputGroup.Text>
+                        Goodberries: {goodberries}
+                    </InputGroup.Text>
+                    <InputGroup.Append>
+                        <Button variant="success" onClick={eatGoodberry}>Nom</Button>
+                        <Button variant="warning" onClick={() => setGoodberries(goodberries - 1)}>Give</Button>
+                    </InputGroup.Append>
+                </InputGroup>
             )
         }
     }
@@ -110,34 +133,35 @@ export default function Hippy(props) {
         if (currentSpecials.gifts && currentSpecials.gifts.length > 0) {
             return (
                 <>
-                <h3>Nature's Gifts</h3>
-                <ul className="resource-list">
-                    {currentSpecials.gifts.map((gift, i) => {
-                        return (
-                            <li key={i} className="resource-list-entry">
-                                <div><strong>{gift}</strong></div>
-                                <button onClick={() => activateGift(i)}>Use</button>
-                                <button onClick={() => consumeGift(i, true)}>🍏</button>
-                                <button onClick={() => consumeGift(i, false)}>X</button>
-                            </li>
-                        )
-                    })}
-                </ul>
+                <div className="grenze">Nature's Gifts</div>
+                {currentSpecials.gifts.map((gift, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-50"><strong>{gift}</strong></InputGroup.Text>
+                            <InputGroup.Append>
+                                <Button variant="outline-secondary" onClick={() => activateGift(i)}>Use</Button>
+                                <Button variant="success" onClick={() => consumeGift(i, true)}>🍏</Button>
+                                <Button variant="danger" onClick={() => consumeGift(i, false)}>X</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    )
+                })}
                 </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A totally chill master of nature who can shapeshift into animals.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A totally chill master of nature who can shapeshift into animals.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Nature's Gifts & Animal Forms</strong></div>
-                        <div>Whenever you rest, you are given a set of three animal forms that you can shift between at will and three Gifts associated with a mutation.</div>
-                        <div>When in an animal form, you gain Magic Advantage on any actions the form is well suited for. You cna give up one of your animal forms to gain a new random Gift.</div>
+                        <div>Whenever you rest, you are given a set of three animal forms that you can shift between at will and three Gifts, each of which is associated with a mutation.</div>
+                        <div>When in an animal form, you gain Magic Advantage on any actions the form is well suited for. You can give up one of your animal forms to gain a new random Gift.</div>
                         <div>You can spend a Gift to: </div>
                         <ul>
                             <li>Apply that mutation to any of your forms for the duration of the scene.</li>
@@ -147,44 +171,42 @@ export default function Hippy(props) {
                         <br/>
                         <div>Resource Item:<br/><strong>Animal Totems</strong></div>
                         <div>Spend an Animal Totem to gain a form that is the totem's animal.</div>
-                        <br />
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="ability-main">
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={7} className="mt-3">
                     {mutationDisp()}
-                </div>
-                <div className="resource-lists-container" id="form-list">
-                    <div id="gifts-display">
-                        {goodberriesDisp()}
-                        {giftsDisp()}
-                    </div>
-                    <div id="forms-display">
-                        {formsDisp()}
-                    </div>
-                </div>
-                <div className="ability-management-container">
-                    <div className="custom-add-row">
-                        <div>Add Animal Form: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input1}></input>
-                            <button onClick={() => addCustomForm(false)}>+</button>
-                            <button onClick={() => addCustomForm(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <div className="custom-add-row">
-                        <div>Add Gift: </div>
-                        <div className="custom-add-field">
-                            <input type="text" ref={input2}></input>
-                            <button onClick={() => addCustomGift(false)}>+</button>
-                            <button onClick={() => addCustomGift(true)}>🎲</button>
-                        </div>
-                    </div>
-                    <button className="ability-randomize-button" onClick={createFormsAndGifts}>Generate Gifts and Forms<br/>(On rest)</button>
-                </div>
-            </div>
-        </div>
+                    <Row>
+                        <Col>
+                            {formsDisp()}
+                            {giftsDisp()}
+                            {goodberriesDisp()}
+                        </Col>
+                    </Row>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Animal Form</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input1}></Form.Control>
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomForm(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomForm(true)}>🎲</Button>
+                        </Form.Group>
+                    </Form>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Gift</InputGroup.Text></InputGroup.Prepend>
+                                <Form.Control ref={input2}></Form.Control>
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomGift(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomGift(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createFormsAndGifts}>Generate Gifts and Forms<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }

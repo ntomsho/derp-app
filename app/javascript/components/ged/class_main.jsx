@@ -26,7 +26,8 @@ export default function ClassMain(props) {
                 classComp = <Bowslinger currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
                 break;
             case "Hippy":
-                classComp = <Hippy currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
+                //Standardize health prop passing?
+                classComp = <Hippy health={props.health} maxHealth={props.maxHealth} currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
                 break;
             case "Knight of Tushuze":
                 classComp = <KnightOfTushuze currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
