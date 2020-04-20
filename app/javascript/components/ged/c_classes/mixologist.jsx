@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { random, BASES, GERUNDS, ELEMENTS, ELEMENTS_OF } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
+//Consider changing keep button to a function and preventing it from showing on the last of either category
 export default function Mixologist(props) {
     let { currentSpecials } = props;
     let { bases, catalysts } = currentSpecials;
@@ -17,9 +25,11 @@ export default function Mixologist(props) {
     const input2 = React.createRef();
     const input3 = React.createRef();
 
-    if (!currentSpecials.bases && !currentSpecials.catalysts) {
-        props.updateState('currentSpecials', { 'bases': [], 'catalysts': [] });
-    }
+    useEffect(() => {
+        if (!currentSpecials.bases && !currentSpecials.catalysts) {
+            props.updateState('currentSpecials', { 'bases': [], 'catalysts': [] });
+        }
+    })
 
     function randomBase() {
         return random(BASES);
@@ -90,7 +100,7 @@ export default function Mixologist(props) {
     function consumeButton() {
         if (selectedBase !== null && selectedCatalyst !== null && keepComp !== null) {
             return (
-                <button className="ability-main-button" onClick={consumeCurrentConcoction}>Create Concoction</button>
+                <Button size="lg" variant="secondary" onClick={consumeCurrentConcoction}>Create</Button>
             )
         }
     }
@@ -98,11 +108,11 @@ export default function Mixologist(props) {
     function currentConcoctionDisp() {
         if (selectedBase !== null && selectedCatalyst === null) {
             return (
-                <>{bases[selectedBase]}</>
+                <h3>{bases[selectedBase]}</h3>
             );
         } else if (selectedBase === null && selectedCatalyst !== null) {
             return (
-                <>{catalysts[selectedCatalyst].comp}</>
+                <h3>{catalysts[selectedCatalyst].comp}</h3>
             );
         } else if (selectedBase !== null && selectedCatalyst !== null) {
             const base = bases[selectedBase]
@@ -111,41 +121,41 @@ export default function Mixologist(props) {
             if (catalystCat === 'verb') {
                 return (
                     <>
-                        <div className="wizcaster-spell-word" style={{display: 'flex', flexDirection: 'column'}}>
-                            <div className="wizcaster-spell-word">{catalyst} </div>
-                            <button className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</button>
-                        </div>
-                        <div className="wizcaster-spell-word" style={{display: 'flex', flexDirection: 'column'}}>
-                            <div className="wizcaster-spell-word">{base} </div>
-                            <button className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</button>
-                        </div>
+                        <Col className="text-right">
+                            <h2>{catalyst} </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</Button>
+                        </Col>
+                        <Col>
+                            <h2>{base} </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</Button>
+                        </Col>
                     </>
                 );
             } else {
                 return lastClicked === "Base" ?
                     <>
-                        <div className="wizcaster-spell-word" style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div className="wizcaster-spell-word">{catalyst} </div>
-                            <button className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</button>
-                        </div>
-                        <div className="wizcaster-spell-word" style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div className="wizcaster-spell-word">{base} </div>
-                            <button className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</button>
-                        </div>
+                        <Col className="text-right">
+                            <h2>{catalyst} </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</Button>
+                        </Col>
+                        <Col>
+                            <h2>{base} </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</Button>
+                        </Col>
                     </>
                     :
                     <>
-                        <div className="wizcaster-spell-word" style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div className="wizcaster-spell-word">{base} </div>
-                            <button className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</button>
-                        </div>
-                        <div className="wizcaster-spell-word">
-                            <div className="wizcaster-spell-word"> of </div>
-                        </div>
-                        <div className="wizcaster-spell-word" style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div className="wizcaster-spell-word">{ELEMENTS.includes(catalyst) ? ELEMENTS_OF[ELEMENTS.indexOf(catalyst)] : catalyst } </div>
-                            <button className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</button>
-                        </div>
+                        <Col xs={5} className="text-right">
+                            <h2>{base} </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Base" ? ' selected' : ''}`} onClick={() => setKeepComp("Base")}>Keep?</Button>
+                        </Col>
+                        <Col xs={2} className="text-center">
+                            <h2> of </h2>
+                        </Col>
+                        <Col xs={5}>
+                            <h2>{ELEMENTS.includes(catalyst) ? ELEMENTS_OF[ELEMENTS.indexOf(catalyst)] : catalyst } </h2>
+                            <Button variant="outline-secondary" className={`keepword${keepComp === "Catalyst" ? ' selected' : ''}`} onClick={() => setKeepComp("Catalyst")}>Keep?</Button>
+                        </Col>
                     </>
             }
         }
@@ -158,98 +168,93 @@ export default function Mixologist(props) {
         if ((bases && bases.length > 0) || (catalysts && catalysts.length > 0)) {
             return (
                 <>
-                <div>
-                    <h3>Bases</h3>
-                    <ul className="resource-list">
+                <Col className="text-center" xs={6}>
+                    <div className="grenze">Bases</div>
+                    <ButtonGroup vertical>
                         {bases.map((b, i) => {
                             return (
-                                <li key={i} className="resource-list-entry">
-                                    <div className={`comp${selectedBase === i ? ' selected' : ''}`} onClick={() => selectComponent("Base", i)}>{b}</div>
-                                </li>
+                                <Button block variant="info" key={i} className={`my-1 comp${selectedBase === i ? ' selected' : ''}`} onClick={() => selectComponent("Base", i)}>{b}</Button>
                             )
                         })}
-                    </ul>
-                </div>
-                <div>
-                    <h3>Catalysts</h3>
-                    <ul className="resource-list">
+                    </ButtonGroup>
+                </Col>
+                <Col className="text-center" xs={6}>
+                    <div className="grenze">Catalysts</div>
+                    <ButtonGroup vertical>
                         {catalysts.map((c, i) => {
                             return (
-                                <li key={i} className="resource-list-entry">
-                                    <div className={`comp${selectedCatalyst === i ? ' selected' : ''}`} onClick={() => selectComponent("Catalyst", i)}>{c.comp}</div>
-                                </li>
+                                <Button block variant="warning" key={i} className={`my-1 comp${selectedCatalyst === i ? ' selected' : ''}`} onClick={() => selectComponent("Catalyst", i)}>{c.comp}</Button>
                             )
                         })}
-                    </ul>
-                </div>
+                    </ButtonGroup>
+                </Col>
                 </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">An alchemist and apothecary who can craft a variety of useful concoctions.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>An alchemist and apothecary who can craft a variety of useful concoctions.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Alchemical Concoctions</strong></div>
                         <div>You carry with you a supply of 5 alchemical Bases and 5 Catalysts with you that inexplicably replenishes itself when you rest.</div>
                         <div>Combine a Base and a Catalyst to create a Concoction you can use immediately. Select one of those components to keep, the other is expended.</div>
                         <br/>
                         <div>Resource Item:<br/><strong>Alchemical Ingredients</strong></div>
                         <div>Spend an alchemical ingredient to add it your current lists of Bases or Catalysts.</div>
-                        <br />
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="ability-main">
-                    <div style={{display: 'flex', flexDirection: 'column'}}>
-                        <div style={{display: 'flex'}}>
-                            {currentConcoctionDisp()}
-                        </div>
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={5} className="mt-3">
+                    <Row className="justify-content-center">
+                        <div className="grenze">Current Concoction</div>
+                    </Row>
+                    <Row className="justify-content-center">
+                        {currentConcoctionDisp()}
+                    </Row>
+                    <Row className="justify-content-center">
                         {consumeButton()}
-                    </div>
-                </div>
-                <div className="resource-lists-container">
-                    {componentsList()}
-                </div>
-                <div>
-                    <div className="ability-management-container">
-                        <div className="custom-add-row">
-                            <div>Add Base: </div>
-                            <div className="custom-add-field">
-                                <select ref={input1}>
-                                    {BASES.map((base, i) => {
-                                        return (
-                                            <option key={i} value={base}>{base}</option>
-                                            )
-                                        })}
-                                </select>
-                                <button onClick={() => addCustomComponent(false, 'base')}>+</button>
-                                <button onClick={() => addCustomComponent(true, 'base')}>🎲</button>
-                            </div>
-                        </div>
-                        <br/>
-                        <div className="custom-add-row">
-                            <div>Add Catalyst: </div>
-                            <div className="custom-add-field">
-                                <input style={{width: '30vw'}} type="text" ref={input2}></input>
-                                <select ref={input3}>
-                                    <option value="Element">Element</option>
-                                    <option value="Verb">Verb</option>
-                                </select>
-                                <button onClick={() => addCustomComponent(false, 'catalyst')}>+</button>
-                                <button onClick={() => addCustomComponent(true, 'catalyst')}>🎲</button>
-                            </div>
-                        </div>
-                        <button className="ability-randomize-button" onClick={() => createComponents()}>Generate New Components<br/>(On rest)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </Row>
+                    <Row className="justify-content-center">
+                        {componentsList()}
+                    </Row>
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Base</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control as="select" ref={input1}>
+                                {BASES.map((base, i) => {
+                                    return (
+                                        <option key={i} value={base}>{base}</option>
+                                    )
+                                })}
+                            </Form.Control>
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomComponent(false, 'base')}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomComponent(true, 'base')}>🎲</Button>
+                        </Form.Group>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Catalyst</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input2} />
+                            <Form.Control as="select" ref={input3}>
+                                <option value="Element">Element</option>
+                                <option value="Verb">Verb</option>
+                            </Form.Control>
+                        </InputGroup>
+                        <Form.Group>
+                            <Button size="lg" variant="dark" onClick={() => addCustomComponent(false, 'catalyst')}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomComponent(true, 'catalyst')}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={() => createComponents()}>Generate New Components<br/>(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
