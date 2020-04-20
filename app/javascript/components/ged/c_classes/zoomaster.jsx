@@ -1,6 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { randomAnimal, random, MUTATIONS, ADJECTIVE_MUTATIONS } from '../../../dndb-tables';
-import RaceTraits from '../race_traits';
+import ClassDescription from '../class_description';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export default function Zoomaster(props) {
     const { currentSpecials } = props;
@@ -8,9 +14,11 @@ export default function Zoomaster(props) {
     const input1 = React.createRef();
     const input2 = React.createRef();
 
-    if (!currentSpecials.beasts) {
-        props.updateState('currentSpecials', { 'beasts': [] })
-    }
+    useEffect(() => {
+        if (!currentSpecials.beasts) {
+            props.updateState('currentSpecials', { 'beasts': [] })
+        }
+    });
 
     function randomBeast() {
         return {'beast': beastString(randomAnimal(), random(MUTATIONS)), 'name': ""};
@@ -38,7 +46,7 @@ export default function Zoomaster(props) {
     }
 
     function releaseBeast(beastIndex) {
-        let newBeasts = currentSpecials.beasts;
+        let newBeasts = Object.assign([], currentSpecials.beasts);
         setCurrentBeast(currentSpecials.beasts[beastIndex]);
         newBeasts.splice(beastIndex, 1);
         props.updateState('currentSpecials', {'beasts': newBeasts});
@@ -48,10 +56,13 @@ export default function Zoomaster(props) {
         if (currentBeast) {    
             return (
                 <>
-                <div>
-                    Current Beast: <><div>{currentBeast.name}</div><strong>{currentBeast.beast}</strong></>
-                </div>
-                <button onClick={() => setCurrentBeast(null)}>End Scene</button>
+                <Row className="justify-content-center">
+                    <h3>{currentBeast.name}</h3>
+                    <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentBeast(null)}>End Scene</Button>
+                </Row>
+                <Row className="justify-content-center">
+                    <h2>{currentBeast.beast}</h2>
+                </Row>
                 </>
             )
         }
@@ -67,35 +78,36 @@ export default function Zoomaster(props) {
         if (currentSpecials.beasts && currentSpecials.beasts.length > 0) {
             return (
                 <>
-                    <h3>Beasts</h3>
-                    <ul className="resource-list">
-                        {currentSpecials.beasts.map((beast, i) => {
-                            return (
-                                <li key={i} className="resource-list-entry">
-                                    <div>
-                                        <strong>{beast.beast}</strong>
-                                        <br/>
-                                        <span style={{color: 'darkgreen'}}>Name</span>
-                                        <br/>
-                                        <input type="text" onChange={changeBeastName} name={i} value={beast.name}></input>
-                                    </div>
-                                    <button onClick={() => releaseBeast(i)}>Go!</button>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                <div className="grenze">Beast Collection</div>
+                {currentSpecials.beasts.map((beast, i) => {
+                    return (
+                        <InputGroup key={i} className="my-1">
+                            <InputGroup.Text className="w-100"><strong>{beast.beast}</strong></InputGroup.Text>
+                            <InputGroup>
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text>Name</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control onChange={changeBeastName} name={i} value={beast.name}></Form.Control>
+                                <InputGroup.Append>
+                                    <Button disabled={!currentSpecials.beasts[i].name} variant="success" onClick={() => releaseBeast(i)}>Go!</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        </InputGroup>
+                    )
+                })}
                 </>
             )
         }
     }
     
     return (
-        <div className="class-ability-container">
-            <div className="class-info">
-                <div className="class-desc">A tamer of beasts with a collection of chimeric animal companions.</div>
-                <br />
-                <div className="ability-desc">
-                    <div className="ability-desc-scrollbox">
+        <Container>
+            <Row>
+                <em>A tamer of beasts with a collection of chimeric animal companions.</em>
+            </Row>
+            <Row>
+                <Col xs={12} md={5} className="mt-3">
+                    <ClassDescription>
                         <div>Magic Ability:<br /><strong>Chimeric Beasts</strong></div>
                         <div>You carry a menagerie of exotic creatures frozen in tiny crystal globes. Whenever you rest, you randomly select three of them for your team for the day.</div>
                         <div>You can release each beast for one scene. It obeys your commands and you gain Magic Advantage for any roll that the beast makes or assists you with that it is particularly well suited for.</div>
@@ -103,38 +115,38 @@ export default function Zoomaster(props) {
                         <br />
                         <div>Resource Item:<br/><strong></strong></div>
                         <div>Spend an Animal Totem to add a new beast with its animal type and mutation to your current team.</div>
-                    </div>
-                </div>
-                <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
-            </div>
-            <div className="class-ability-display">
-                <div className="ability-main">
-                    {currentBeastDisp()}
-                </div>
-                <div className="resource-lists-container" id="form-list">
-                    <div id="beasts-display">
-                        {beastsDisp()}
-                    </div>
-                </div>
-                <div>
-                    <div className="ability-management-container">
-                        <div className="custom-add-row">
-                            <div>Add Beast: </div>
-                            <div>Base Animal</div>
-                            <div className="custom-add-field">
-                                <input type="text" ref={input1}></input>
-                            </div>
-                            <div>Mutation</div>
-                            <div className="custom-add-field">
-                                <input type="text" ref={input2}></input>
-                                <button onClick={() => addCustomBeast(false, false)}>+</button>
-                                <button onClick={() => addCustomBeast(true, false)}>🎲</button>
-                            </div>
-                        </div>
-                        <button className="ability-randomize-button" onClick={createBeasts}>Generate New Beasts<br />(On rest)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </ClassDescription>
+                </Col>
+                <Col xs={12} md={7} className="mt-3">
+                    <Row className="justify-content-center">
+                        <div className="grenze">Current Beast</div>
+                    </Row>
+                    <Row>
+                        <Col className="justify-content-center">
+                        {currentBeastDisp()}
+                        </Col>
+                    </Row>
+                    {beastsDisp()}
+                    <Form>
+                        <Form.Label>Add Beast</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Base Animal</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input1} />
+                        </InputGroup>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Mutation</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input2} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomBeast(false, false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomBeast(true, false)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createBeasts}>Generate New Beasts<br />(On rest)</Button>
+                        </Form.Group>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
