@@ -6,6 +6,7 @@ import ClassDescription from '../class_description';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -33,12 +34,14 @@ export default function Battlebro(props) {
     }
 
     function addCustomWeapon(randomize) {
-        let newWeapons = currentSpecials.weapons;
+        if (!randomize && (!input1.current.value || !input2.current.value || !input3.current.value)) return;
+        let newWeapons = Object.assign([], currentSpecials.weapons);
         if (randomize) {
             newWeapons.push(randomWeapon());
         } else {
             newWeapons.push({ 'category': input1.current.value, 'special': input2.current.value, 'type': input3.current.value });
         }
+        props.updateState('currentSpecials', { 'weapons': newWeapons });
     }
 
     function weaponString(weapon) {
@@ -80,7 +83,7 @@ export default function Battlebro(props) {
 
         return (
             <>
-            <h2>{weaponString(currentWeapon)}</h2>
+            <h1>{weaponString(currentWeapon)}</h1>
             {endSceneButton}
             </>
         )
@@ -90,17 +93,19 @@ export default function Battlebro(props) {
         if (currentSpecials.weapons) {
             return (
                 <>
-                    <h3>Weapon Forms</h3>
-                    <ul className="resource-list">
-                        {currentSpecials.weapons.map((weapon, i) => {
-                            return (
-                                <li key={i} className="resource-list-entry">
-                                    <div><strong>{weaponString(weapon)}</strong></div>
-                                    <button onClick={() => transformWeapon(i)}>Use</button>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                <div className="grenze">Weapon Forms</div>
+                {/* <ButtonGroup> */}
+                    {currentSpecials.weapons.map((weapon, i) => {
+                        return (
+                            <InputGroup key={i} className="my-1">
+                                <InputGroup.Text className="w-75"><strong>{weaponString(weapon)}</strong></InputGroup.Text>
+                                <InputGroup.Append>
+                                    <Button variant="outline-secondary" onClick={() => transformWeapon(i)}>Use</Button>
+                                </InputGroup.Append>
+                            </InputGroup>
+                        )
+                    })}
+                {/* </ButtonGroup> */}
                 </>
             )
         }
@@ -131,33 +136,31 @@ export default function Battlebro(props) {
                     <Row className="justify-content-center align-items-center">
                         {currentWeaponDisp()}
                     </Row>
-                    <div className="resource-lists-container" id="weapon-list">
-                        <div id="types-display">
-                            {weaponsDisp()}
-                        </div>
-                    </div>
-                    <div className="ability-management-container">
-                        <div className="custom-add-row">
-                            <div>Add Weapon Form: </div>
-                            <div className="custom-add-field">
-                                <select ref={input1}>
-                                    <option value="Verb">Verb</option>
-                                    <option value="Element">Element</option>
-                                </select>
-                            </div>
-                            <div className="custom-add-field">
-                                <div>Magic Property</div>
-                                <input style={{ width: '30vw' }} type="text" ref={input2}></input>
-                            </div>
-                            <div className="custom-add-field">
-                                <div>Weapon Type</div>
-                                <input style={{ width: '30vw' }} type="text" ref={input3}></input>
-                                <button onClick={() => addCustomWeapon(false)}>+</button>
-                                <button onClick={() => addCustomWeapon(true)}>🎲</button>
-                            </div>
-                        </div>
-                        <button className="ability-randomize-button" onClick={createWeaponForms}>Generate Weapon Forms<br />(On rest)</button>
-                    </div>
+                    {weaponsDisp()}
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Add Weapon Form</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control as="select" ref={input1}>
+                                <option value="Verb">Verb</option>
+                                <option value="Element">Element</option>
+                            </Form.Control>
+                        </InputGroup>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Magic Property</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input2} />
+                        </InputGroup>
+                        <InputGroup>
+                            <InputGroup.Prepend><InputGroup.Text>Weapon Type</InputGroup.Text></InputGroup.Prepend>
+                            <Form.Control ref={input3} />
+                        </InputGroup>
+                        <Form.Group className="d-flex justify-content-around">
+                            <Button size="lg" variant="dark" onClick={() => addCustomWeapon(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomWeapon(true)}>🎲</Button>
+                        </Form.Group>
+                        <Form.Group className="d-flex justify-content-center">
+                            <Button variant="dark" className="ability-randomize-button" onClick={createWeaponForms}>Generate Weapon Forms<br />(On rest)</Button>
+                        </Form.Group>
+                    </Form>
                 </Col>
             </Row>
         </Container>
