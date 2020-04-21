@@ -1,13 +1,18 @@
 import React from 'react';
+import { FIGHTING_SKILLS } from '../../dndb-tables';
+import Button from 'react-bootstrap/Button';
 
-export default function SkillButton(props) {
-    const { skill } = props;
+const SkillButton = (props) => {
     return (
-        <button className={`skill-button ${props.classSkill ? " class-skill" : ""} ${props.selected ? " selected" : ""}`}
-            onClick={() => props.setHighlightedSkill(skill)}
+        <Button className={`h-100 skill-button ${props.classSkill ? " class-skill" : ""} ${props.selected ? " selected" : ""}`}
+        variant={FIGHTING_SKILLS.includes(props.children) ? "warning" : "info"}
+        block
+        onClick={() => props.setHighlightedSkill(props.children)}
             style={props.classSkill ? { borderColor: props.classColor }: {}}
         >
-            {props.skill}
-        </button>
+            <h3>{props.children}</h3>
+        </Button>
     )
 }
+
+export default SkillButton;

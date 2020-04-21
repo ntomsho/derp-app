@@ -80,6 +80,7 @@ a:hover {
 }
 
 @include media-breakpoint-up(md) {
+
     .form-submit-button {
         width: auto;
     }
@@ -94,5 +95,9 @@ a:hover {
     
     .row-reverse-sm {
         flex-direction: row-reverse;
+    }
+
+    .vert-to-hor {
+        flex-direction: column;
     }
 }
