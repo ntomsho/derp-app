@@ -30,7 +30,7 @@ const Home = (props) => {
     }
 
     return (
-        <Container fluid className="bg-light h-100">
+        <Container fluid className="bg-light">
             <Container className="py-5 justify-content-center align-items-center">
                 <Row className="justify-content-center">
                     <h1>The DERP</h1>

@@ -2,8 +2,8 @@
 
 /* Selectors */
 
-body, #root {
-    min-height: 100%;
+html, body, #root {
+    height: 100% !important;
     background-color: darkgray;
 }
 
@@ -73,6 +73,10 @@ a:hover {
 
 .card:hover {
     border: 1px solid !important;
+}
+
+.container {
+    height: 100%;
 }
 
 .row-reverse-sm {

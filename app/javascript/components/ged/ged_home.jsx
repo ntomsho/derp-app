@@ -9,7 +9,7 @@ import { fetchCampaigns } from '../../actions/campaign_actions';
 import { fetchCharacters } from '../../actions/character_actions';
 import { Link } from 'react-router-dom';
 import { CLASS_COLORS } from '../../dndb-tables';
-
+//Still need a more optimal solution for responsive display here
 const GEDHome = (props) => {
     const [campaignsList, setCampaignsList] = useState([]);
     const [charactersList, setCharactersList] = useState([]);
@@ -35,29 +35,31 @@ const GEDHome = (props) => {
             let userCampaigns;
             if (myCampaigns.length > 0) {
                 userCampaigns = (
-                    <>
-                    <h2>Your Campaigns</h2>
-                    <Button className="mb-3"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
-                    <ListGroup>
-                        {myCampaigns.map((campaign, i) => {
-                            return (
-                                <Link key={i} to={`/ged/campaigns/${campaign.id}`}>
-                                    <ListGroup.Item action variant={"light"}>
-                                        <strong>{campaign.title}</strong>
-                                        <div>Directed by: {campaign.director.id === props.loggedInUser.id ? "You" : campaign.director.username}</div>
-                                    </ListGroup.Item>
-                                </Link>
-                            )
-                        })}
-                    </ListGroup>
-                    </>
+                    <div className="h-50">
+                        <h2>Your Campaigns</h2>
+                        <Button className="mb-3"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
+                        <ListGroup className="overflow-auto h-50">
+                            {myCampaigns.map((campaign, i) => {
+                                return (
+                                    <Link key={i} to={`/ged/campaigns/${campaign.id}`}>
+                                        <ListGroup.Item action variant={"light"}>
+                                            <strong>{campaign.title}</strong>
+                                            <div>Directed by: {campaign.director.id === props.loggedInUser.id ? "You" : campaign.director.username}</div>
+                                        </ListGroup.Item>
+                                    </Link>
+                                )
+                            })}
+                        </ListGroup>
+                    </div>
                 )
             }
             return (
                 <>
-                    {userCampaigns}
+                <div className="h-100">
+                {userCampaigns}
+                <div className="h-50">
                     <h2>Other Campaigns</h2>
-                    <ListGroup>
+                    <ListGroup className="overflow-auto h-50">
                         {otherCampaigns.slice(0,numCampaigns).map(campaign => {
                             return (
                                 <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`}>
@@ -72,6 +74,8 @@ const GEDHome = (props) => {
                         {numCampaigns < otherCampaigns.length ?
                             <ListGroup.Item action variant={"light"} onClick={() => setNumCampaigns(numCampaigns + 5)}>See More</ListGroup.Item> : null}
                     </ListGroup>
+                </div>
+                </div>
                 </>
             )
         } else {
@@ -90,10 +94,10 @@ const GEDHome = (props) => {
 
     const CharactersListDisp = () => {
         return (
-            <>
+            <div className="h-100">
                 <h2>Your Characters</h2>
                 <Button className="mb-3"><Link to="/ged/characters/new">+ New Character</Link></Button>
-                <ListGroup>
+                <ListGroup className="overflow-auto h-75">
                     {charactersList.map(character => {
                         if (!character.dead) {
                             return (
@@ -107,7 +111,7 @@ const GEDHome = (props) => {
                         }
                     })}
                 </ListGroup>
-            </>
+            </div>
         )
     }
 
@@ -117,12 +121,12 @@ const GEDHome = (props) => {
         )
     } else {
         return (
-            <Container className="bg-light">
-                <Row>
-                    <Col xs={12} md={6}>
+            <Container style={{ height: '92vh' }} className="bg-light overflow-auto">
+                <Row className="">
+                    <Col style={{height: '92vh'}} className="d-flex" md={6}>
                         {campaignsListDisp()}
                     </Col>
-                    <Col xs={12} md={6}>
+                    <Col style={{height: '92vh'}} className="d-flex" md={6}>
                         {CharactersListDisp()}
                     </Col>
                 </Row>

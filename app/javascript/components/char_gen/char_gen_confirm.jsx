@@ -28,7 +28,7 @@ export default function CharGenConfirm(props) {
     function sortCampaigns(campaigns) {
         let myCampaigns = [];
         campaigns.forEach(campaign => {
-            if (campaign.subs.some(sub => sub.user_id === window.currentUser.id)) myCampaigns.push(campaign);
+            if (campaign.subs.some(sub => (sub.user_id === window.currentUser.id && sub.director.id !== window.currentUser.id))) myCampaigns.push(campaign);
         })
         setCampaignsList(myCampaigns);
     }
