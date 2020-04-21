@@ -55,9 +55,7 @@ const Home = (props) => {
                                     <Card.Title>
                                         <h1 className="display-3 mb-0">GED</h1><h2>Guild of <s>Expert</s> Expendable Dungeoneers</h2>
                                     </Card.Title>
-                                    <Card.Text>
-                                        <h3>A game of dangerous idiots on fantasy adventures</h3>
-                                    </Card.Text>
+                                    <h3>A game of dangerous idiots on fantasy adventures</h3>
                                 </Card.Body>
                             </Link>
                         </Card>
@@ -67,9 +65,7 @@ const Home = (props) => {
                                     <Card.Title>
                                         <h1 className="gps display-3 mb-0">GPS</h1><h2 className="gps">Galactic Parcel Service</h2>
                                     </Card.Title>
-                                    <Card.Text>
-                                        <h3 className="gps">Coming soon(ish)</h3>
-                                    </Card.Text>
+                                    <h3 className="gps">Coming soon(ish)</h3>
                                 </Card.Body>
                             </Link>
                         </Card>
