@@ -1,7 +1,7 @@
 export const fetchCharacters = (user_id, callback) => {
     return $.ajax({
         method: "GET",
-        url: "api/characters",
+        url: "/api/characters",
         data: { user_id }
     }).then(characters => callback(Object.assign([], Object.values(characters))));
 };
@@ -9,7 +9,7 @@ export const fetchCharacters = (user_id, callback) => {
 export const fetchCharacter = (id, callback) => {
     return $.ajax({
         method: "GET",
-        url: `api/characters/${id}`
+        url: `/api/characters/${id}`
     }).then(character => callback(Object.assign({}, character)));
 };
 
@@ -28,7 +28,7 @@ export const createCharacter = (character) => {
 export const updateCharacter = (character, character_id) => {
     return $.ajax({
         method: "PATCH",
-        url: `api/characters/${character_id}`,
+        url: `/api/characters/${character_id}`,
         data: { character }
     });
 }

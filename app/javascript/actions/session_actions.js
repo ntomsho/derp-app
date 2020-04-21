@@ -1,7 +1,7 @@
 export const signup = (user, callback) => {
     return $.ajax({
         method: "POST",
-        url: "api/users",
+        url: "/api/users",
         data: { user }
     }).then(user => callback(user));
 };
@@ -9,7 +9,7 @@ export const signup = (user, callback) => {
 export const signin = (user, callback) => {
     return $.ajax({
         method: "POST",
-        url: "api/session",
+        url: "/api/session",
         data: { user }
     }).then(user => callback(user));
 };
@@ -17,6 +17,6 @@ export const signin = (user, callback) => {
 export const logout = (callback) => {
     return $.ajax({
         method: "DELETE",
-        url: "api/session"
+        url: "/api/session"
     }).then(() => callback(null));
 };
