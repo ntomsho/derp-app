@@ -3,7 +3,7 @@ import {
     Route,
     Redirect,
     Switch,
-    HashRouter
+    BrowserRouter
 } from 'react-router-dom';
 import NavbarComp from './navbar';
 import Home from './Home';
@@ -18,7 +18,7 @@ const App = () => {
     const [loggedInUser, setLoggedInUser] = useState(window.currentUser || null)
 
     return (
-        <HashRouter>
+        <BrowserRouter>
             <header>
                 {loggedInUser ? <NavbarComp loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> : null}
             </header>
@@ -33,7 +33,7 @@ const App = () => {
                 <Route path="/ged" render={(props) => <GEDHome {...props} loggedInUser={loggedInUser} />} />
                 <Route path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
             </Switch>
-        </HashRouter>
+        </BrowserRouter>
     )
 }
 

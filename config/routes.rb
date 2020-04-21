@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
   
   root "static_pages#root"
+  match "*path" => "static_pages#root", via: :all
 end
 # Try making another namespace for :ged with a controller that only renders an 
 # index and nesting all the resources underneath it
