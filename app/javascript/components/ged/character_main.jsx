@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import RulesModal from './rules_modal';
 import DiceRoller from './dice_roller';
+import CampaignModal from './campaign_modal';
 import DeathModal from './death_modal';
 import DeleteModal from './delete_modal';
 import Skills from './skills';
@@ -20,13 +21,16 @@ import Inventory from './inventory';
 import Advancement from './advancement';
 import { snakeToCamel, camelToSnake } from '../../case_converter';
 import { fetchCharacter, updateCharacter } from '../../actions/character_actions';
+import { fetchCampaign } from '../../actions/campaign_actions';
 
 class CharacterMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            campaignTitle: "",
             rulesModal: false,
             diceRoller: false,
+            campaignModal: false,
             deathModal: false,
             deleteModal: false,
             char: {
@@ -56,6 +60,7 @@ class CharacterMain extends React.Component {
             }
         }
         this.updateState = this.updateState.bind(this);
+        this.updateCampaign = this.updateCampaign.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
         this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -76,7 +81,11 @@ class CharacterMain extends React.Component {
         });
         //Temporary until assoc is figured out
         newState.favoriteTags = [];
-        this.setState({ char: newState });
+        if (newState.campaignId) {
+            fetchCampaign(newState.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title, char: newState }));
+        } else {
+            this.setState({ char: newState });
+        }
     }
 
     saveCharacter() {
@@ -104,6 +113,19 @@ class CharacterMain extends React.Component {
             this.setState({ char: newState });
         } else {
             this.updateState(event.target.name, event.target.value)
+        }
+    }
+
+    updateCampaign(campaignId) {
+        let newState = Object.assign({}, this.state.char);
+        if (campaignId === null) {
+            newState['campaignId'] = null;
+            this.setState({ campaignTitle: "", char: newState });
+        } else {
+            fetchCampaign(campaignId, (campaign) => {
+                newState['campaignId'] = campaign.id;
+                this.setState({ campaignTitle: campaign.title, char: newState });
+            });
         }
     }
 
@@ -210,6 +232,7 @@ class CharacterMain extends React.Component {
                 </Container>
             )
         }
+
         return (
             <>
             <Navbar sticky="top" bg="light">
@@ -222,6 +245,9 @@ class CharacterMain extends React.Component {
                     <NavDropdown className="grenze" title="Options">
                         {this.saveCharacterButton()}
                         <NavDropdown.Divider />
+                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ campaignModal: true })}>
+                            {this.state.campaignTitle || "No Campaign"}
+                        </NavDropdown.Item>
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
                             Show Rules
                         </NavDropdown.Item>
@@ -238,6 +264,7 @@ class CharacterMain extends React.Component {
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
+            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} update={this.updateCampaign} />
             <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
             <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.props.match.params.id} charName={this.state.char.name} campaignId={this.state.char.campaignId} />
             <Container className="bg-light">
