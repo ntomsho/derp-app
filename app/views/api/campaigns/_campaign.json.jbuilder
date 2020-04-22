@@ -25,6 +25,7 @@ end
 alive_chars = []
 dead_chars = []
 campaign.characters.each do |character|
+    char_obj = {id: character.id, name: character.name, level: character.level, c_class: character.c_class}
     character.dead ? dead_chars << character : alive_chars << character
 end
 

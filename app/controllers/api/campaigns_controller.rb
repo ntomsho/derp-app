@@ -1,7 +1,12 @@
 class Api::CampaignsController < ApplicationController
 
     def index
-        @campaigns = Campaign.all().order(updated_at: :desc)
+        unless params[:search_params]
+            @campaigns = Campaign.all().order(updated_at: :desc)
+        else
+            parameter = params[:search_params].keys.first
+            @campaigns = Campaign.where("? LIKE ?", parameter, params[:search_params][parameter]).order(updated_at: :desc)
+        end
         render :index
     end
 
