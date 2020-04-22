@@ -6,13 +6,10 @@ export default function RulesModal(props) {
         <Modal show={props.show} onHide={props.onHide}>
         <div className={`rules-modal-container ${props.extended ? '' : ' hidden'}`}>
             <div className="rules-modal-main">
-                
-                {/* <button onClick={() => props.setModalOut(false)}
-                    style={{position: 'absolute', height: '5vh', width: '4vw', right: '0', top: '0'}}
-                >
-                    X
-                </button> */}
-                <h1 className="rules-modal-header" style={{color: 'orangered'}}>Dungeons & Douchebags</h1>
+                <Modal.Header closeButton>
+                    <h1 className="rules-modal-header text-center" style={{color: 'orangered'}}>GED<br/>Guild of Expendable Dungeoneers</h1>
+                </Modal.Header>
+                <Modal.Body>
                 <h2 className="rules-modal-header" style={{textDecoration: 'underline'}}>THE RULES</h2>
                 
                 <h2 className="rules-modal-header">TAKING AN ACTION</h2>
@@ -121,7 +118,7 @@ export default function RulesModal(props) {
                         <div>Take an Advance when Experience is full</div>
                     </div>
                 </div>
-
+                </Modal.Body>
             </div>
         </div>
         </Modal>

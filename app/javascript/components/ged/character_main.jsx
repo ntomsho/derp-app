@@ -12,6 +12,8 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import RulesModal from './rules_modal';
 import DiceRoller from './dice_roller';
+import DeathModal from './death_modal';
+import DeleteModal from './delete_modal';
 import Skills from './skills';
 import ClassMain from './class_main';
 import Inventory from './inventory';
@@ -25,8 +27,11 @@ class CharacterMain extends React.Component {
         this.state = {
             rulesModal: false,
             diceRoller: false,
+            deathModal: false,
+            deleteModal: false,
             char: {
                 name: "",
+                campaignId: null,
                 cClass: "",
                 raceString: "Human",
                 raceTraits: [],
@@ -46,13 +51,15 @@ class CharacterMain extends React.Component {
                 savedTag: "",
                 favoriteTags: [],
                 rerolls: 0,
-                regulation: true
+                regulation: true,
+                dead: false
             }
         }
         this.updateState = this.updateState.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
         this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleDeath = this.handleDeath.bind(this);
     }
 
     componentDidMount() {
@@ -100,12 +107,14 @@ class CharacterMain extends React.Component {
         }
     }
 
-    updateHealth(num) {
-        this.updateState('health', this.state.char.health === num ? num - 1 : num);
+    handleDeath() {
+        let newState = Object.assign({}, this.state.char)
+        newState['dead'] = true;
+        this.setState({ deathModal: false, char: newState }, this.saveCharacter());
     }
 
-    openDeadModal() {
-        return;
+    updateHealth(num) {
+        this.updateState('health', this.state.char.health === num ? num - 1 : num);
     }
 
     healthTrackerDisp() {
@@ -115,8 +124,9 @@ class CharacterMain extends React.Component {
                     id="heart-0"
                     className="heart-container"
                     alt="0 Health"
+                    disabled={this.state.char.dead}
                     fluid
-                    onClick={this.openDeadModal}
+                    onClick={() => this.setState({ deathModal: true })}
                     src={"http://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
                 />
             </Col>
@@ -179,10 +189,16 @@ class CharacterMain extends React.Component {
     }
 
     saveCharacterButton() {
-        if (window.currentUser && window.currentUser.id === this.state.char.userId) {
+        if (!this.state.char.dead && window.currentUser && window.currentUser.id === this.state.char.userId) {
             return (
                 <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={this.saveCharacter}>Save Character</NavDropdown.Item>
             )
+        }
+    }
+
+    deathHeader() {
+        if (this.state.char.dead) {
+            return <Row className="justify-content-center"><h3>This character is dead. Changes cannot be saved.</h3></Row>
         }
     }
 
@@ -204,6 +220,8 @@ class CharacterMain extends React.Component {
                     <Nav.Link className="grenze" href="#inventory-section">Inventory</Nav.Link>
                     <Nav.Link className="grenze" href="#advancement-section">Advancement</Nav.Link>
                     <NavDropdown className="grenze" title="Options">
+                        {this.saveCharacterButton()}
+                        <NavDropdown.Divider />
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
                             Show Rules
                         </NavDropdown.Item>
@@ -211,13 +229,17 @@ class CharacterMain extends React.Component {
                             Roll Dice
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        {this.saveCharacterButton()}
+                        <NavDropdown.Item as="button" className="mx-1" variant="danger" onClick={() => this.setState({ deleteModal: true })}>
+                            Delete Character
+                        </NavDropdown.Item>
                     </NavDropdown>
                     <Navbar.Toggle className="ml-auto" />
                 </Nav>
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
+            <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
+            <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.props.match.params.id} charName={this.state.char.name} campaignId={this.state.char.campaignId} />
             <Container className="bg-light">
                 <Row className="justify-content-center">
                     <h1 className="text-center ged-color mb-0">GED:</h1>
@@ -225,6 +247,7 @@ class CharacterMain extends React.Component {
                 <Row className="justify-content-center">
                     <h1 className="text-center ged-color">Guild of Expendable Dungeoneers</h1>
                 </Row>
+                {this.deathHeader()}
                 <Row>
                 <Form>
                     <Row id="main-section" className="mb-3">

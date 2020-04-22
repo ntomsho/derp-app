@@ -44,7 +44,7 @@ class Api::CharactersController < ApplicationController
     def character_params
         params.require(:character).permit(:campaign_id, :name, :c_class, :race_string, :race_traits, :background, 
         :appearance, :derp, :health, :max_health, :plot_points, :selected_fighting_skill, :trained_skills, 
-        :current_specials, :inventory, :level, :experience, :advancements, :saved_tag, :regulation)
+        :current_specials, :inventory, :level, :experience, :advancements, :saved_tag, :regulation, :dead)
     end
 
 end
