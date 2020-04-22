@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import {fetchCampaigns} from '../../actions/campaign_actions';
 
@@ -30,22 +29,18 @@ const CampaignModal = (props) => {
     return (
         <Modal show={props.show} onHide={props.onHide}>
             <Modal.Header closeButton>
-                <Modal.Title>
-                    Current Campaign: {props.campaignTitle || "None"}
-                </Modal.Title>
+                <h1>{props.campaignTitle || "No Campaign"}</h1>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <InputGroup>
-                        <InputGroup.Prepend><InputGroup.Text>Campaign</InputGroup.Text></InputGroup.Prepend>
-                        <Form.Control as="select" name="campaignId" value={props.campaignId} onChange={handleChange}>
-                            {campaignsList.map(campaign => {
-                                return (
-                                    <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
-                                )
-                            })}
-                        </Form.Control>
-                    </InputGroup>
+                    <Form.Label><h3>Change Campaign</h3></Form.Label>
+                    <Form.Control as="select" name="campaignId" value={props.campaignId} onChange={handleChange}>
+                        {campaignsList.map(campaign => {
+                            return (
+                                <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
+                            )
+                        })}
+                    </Form.Control>
                 </Form>
             </Modal.Body>
         </Modal>

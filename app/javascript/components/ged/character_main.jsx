@@ -246,7 +246,7 @@ class CharacterMain extends React.Component {
                         {this.saveCharacterButton()}
                         <NavDropdown.Divider />
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ campaignModal: true })}>
-                            {this.state.campaignTitle || "No Campaign"}
+                            Campaign: {this.state.campaignTitle || "None"}
                         </NavDropdown.Item>
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
                             Show Rules
