@@ -57,12 +57,21 @@ export default function Skills(props) {
     // }
 
     function skillDesc() {
+        const trained = (props.selectedFightingSkill === highlightedSkill || props.trainedSkills.includes(highlightedSkill));
         if (highlightedSkill) {
             const uses = SKILL_USES[highlightedSkill].split(", ");
             return (
                 <>
                 <Row className="justify-content-center">
-                    <h2 className="skill-desc-headline text-center">{highlightedSkill}</h2>
+                    <Col xs={12}>
+                        <h2 className="skill-desc-headline text-center">{highlightedSkill}</h2>
+                    </Col>
+                    {trained ?
+                    <Col xs={12}>
+                        <h3 className="grenze text-center">Trained</h3>
+                    </Col>
+                    :
+                    null}
                 </Row>
                 <Row className="justify-content-center">
                     <div className="d-flex vert-to-hor">
