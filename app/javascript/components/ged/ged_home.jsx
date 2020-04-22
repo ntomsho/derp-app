@@ -123,10 +123,10 @@ const GEDHome = (props) => {
         return (
             <Container style={{ height: '92vh' }} className="bg-light overflow-auto">
                 <Row className="">
-                    <Col style={{height: '92vh'}} className="d-flex" md={6}>
+                    <Col className="d-flex" md={6}>
                         {campaignsListDisp()}
                     </Col>
-                    <Col style={{height: '92vh'}} className="d-flex" md={6}>
+                    <Col className="d-flex" md={6}>
                         {CharactersListDisp()}
                     </Col>
                 </Row>

@@ -4,7 +4,8 @@
 
 html, body, #root {
     height: 100% !important;
-    background-color: darkgray;
+    background-color: #f8f9fa;
+    // background-color: darkgray;
 }
 
 h1, h2, h3 {
@@ -18,13 +19,13 @@ h1, h2, h3 {
     left: 0;
 }
 
-.absolute-button-right {
-    position: absolute;
-    right: 0;
-}
-
 .class-button {
     height: 92px;
+}
+
+.class-headline-text {
+    position: relative;
+    left: 5%;
 }
 
 .form-submit-button {

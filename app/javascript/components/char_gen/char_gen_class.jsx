@@ -18,7 +18,7 @@ export default function CharGenClass(props) {
                 style={{ backgroundColor: CLASS_COLORS[props.cClass] }}
                 onAnimationEnd={() => setBannerAnim(false)}
             >
-                <h2 className={"class-headline-text"}>{props.cClass}</h2>
+                <h2 className={"ml-4"}>{props.cClass}</h2>
             </div>
         )
     }

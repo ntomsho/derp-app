@@ -65,7 +65,7 @@ export default function ClassMain(props) {
     return (
         <>
         <div className="w-100 text-white" style={{ backgroundColor: CLASS_COLORS[props.cClass] }}>
-            <h2 className="class-headline-text">{props.cClass}</h2>
+            <h2 className="ml-4">{props.cClass}</h2>
         </div>
         <br/>
         {classComp()}

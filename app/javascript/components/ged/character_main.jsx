@@ -225,6 +225,7 @@ class CharacterMain extends React.Component {
                 <Row className="justify-content-center">
                     <h1 className="text-center ged-color">Guild of Expendable Dungeoneers</h1>
                 </Row>
+                <Row>
                 <Form>
                     <Row id="main-section" className="mb-3">
                         <Col xs={6} md={4} className="my-1">
@@ -285,6 +286,7 @@ class CharacterMain extends React.Component {
                         </Col>
                     </Row>
                 </Form>
+                </Row>
 
                 <Row className="mb-5">
                     <Col xs={8}>
