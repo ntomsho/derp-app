@@ -13,7 +13,6 @@ const DeleteModal = (props) => {
     }
 
     if (deleted) {
-        console.log('Deleted');
         return <Redirect to={props.campaignId ? `/ged/campaigns/${props.campaignId}` : '/ged'} />
     } else {
         return (

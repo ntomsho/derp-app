@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import DeleteCampaignModal from './delete_campaign_modal';
 import InviteComponent from './invite_component';
 import { fetchCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
@@ -19,6 +20,7 @@ class Campaign extends React.Component {
         this.state = {
             subPending: null,
             usersList: [],
+            deleteModal: false,
             campaign: {
                 title: "",
                 description: "",
@@ -103,11 +105,17 @@ class Campaign extends React.Component {
         const { director } = this.state.campaign;
         return (
             <Container className="bg-light pl-5">
+                <DeleteCampaignModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} campaignId={this.props.match.params.id} />
                 <Row>
                     <h1 className="display-3">{this.state.campaign.title}</h1>
                 </Row>
                 <Row className="mb-3">
                     <div>Directed by: {director.id === this.props.loggedInUser.id ? "You" : director.username}</div>
+                    {this.props.loggedInUser.id === this.state.campaign.director.id ? 
+                        <Button className="absolute-button-right" variant="danger" onClick={() => this.setState({ deleteModal: true })}>
+                            Delete Campaign
+                        </Button>
+                        : null}
                 </Row>
                 <Row>
                     <p><em>{this.state.campaign.description}</em></p>

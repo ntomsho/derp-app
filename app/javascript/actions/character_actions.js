@@ -34,7 +34,6 @@ export const updateCharacter = (character, character_id) => {
 }
 
 export const deleteCharacter = (character_id, callback) => {
-    debugger
     return $.ajax({
         method: "DELETE",
         url: `/api/characters/${character_id}`
