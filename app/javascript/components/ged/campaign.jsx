@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -38,17 +38,18 @@ class Campaign extends React.Component {
         this.subRequested = this.subRequested.bind(this);
         this.requestSub = this.requestSub.bind(this);
         this.inviteUser = this.inviteUser.bind(this);
+        this.findPlayer = this.findPlayer.bind(this);
     }
 
     componentDidMount() {
         fetchCampaign(this.props.match.params.id, this.loadCampaign);
+        fetchUsers({ 'campaign_id': this.props.match.params.id }, this.loadPlayers)
     }
 
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
-        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState }, 
-        () => fetchUsers({ 'campaign_id': this.props.match.params.id }), (users) => this.loadPlayers(users));
+        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState });
     }
 
     loadPlayers(users) {
