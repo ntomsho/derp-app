@@ -2,10 +2,19 @@ class Api::CampaignsController < ApplicationController
 
     def index
         unless params[:search_params]
-            @campaigns = Campaign.all().order(updated_at: :desc)
+            @campaigns = Campaign.all().order(updated_at: :desc).limit(20)
         else
             parameter = params[:search_params].keys.first
-            @campaigns = Campaign.where("? LIKE ?", parameter, params[:search_params][parameter]).order(updated_at: :desc)
+            value = params[:search_params][parameter]
+            case parameter
+                when "user_id"
+                    @campaigns = User.find(value).campaigns.limit(20)
+                when "user_playing"
+                    @campaigns = User.find(value).playing_in.limit(20)
+                when "director"
+                    @campaigns = Campaign.where(director: { id: value }).campaigns.limit(20)
+            end
+            # @campaigns = Campaign.where("? LIKE ?", parameter, params[:search_params][parameter]).order(updated_at: :desc)
         end
         render :index
     end

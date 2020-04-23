@@ -33,6 +33,7 @@ class Campaign extends React.Component {
             }
         }
         this.loadCampaign = this.loadCampaign.bind(this);
+        this.loadPlayers = this.loadPlayers.bind(this);
         this.userSubbed = this.userSubbed.bind(this);
         this.subRequested = this.subRequested.bind(this);
         this.requestSub = this.requestSub.bind(this);
@@ -40,14 +41,18 @@ class Campaign extends React.Component {
     }
 
     componentDidMount() {
-        fetchCampaign(this.props.match.params.id, this.loadCampaign).then(() => {
-        fetchUsers((users) => this.setState({ usersList: users }))});
+        fetchCampaign(this.props.match.params.id, this.loadCampaign);
     }
 
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
-        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState });
+        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState }, 
+        () => fetchUsers({ 'campaign_id': this.props.match.params.id }), (users) => this.loadPlayers(users));
+    }
+
+    loadPlayers(users) {
+        this.setState({ usersList: users });
     }
 
     inviteUser(user) {
@@ -60,7 +65,7 @@ class Campaign extends React.Component {
     }
 
     subRequested(invites) {
-        return invites.some(invite => invite.requester_id == this.props.loggedInUser.id);
+        return invites.some(invite => invite.requester_id === this.props.loggedInUser.id);
     }
 
     requestSub() {
@@ -96,7 +101,7 @@ class Campaign extends React.Component {
             }
         } else {
             return (
-                <InviteComponent users={this.state.usersList} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
+                <InviteComponent campaignId={this.props.match.params.id} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
             )
         }
     }

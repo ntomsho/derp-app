@@ -211,7 +211,7 @@ class CharacterMain extends React.Component {
     }
 
     saveCharacterButton() {
-        if (!this.state.char.dead && window.currentUser && window.currentUser.id === this.state.char.userId) {
+        if (!this.state.char.dead && props.currentUser && props.currentUser.id === this.state.char.userId) {
             return (
                 <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={this.saveCharacter}>Save Character</NavDropdown.Item>
             )
@@ -264,7 +264,7 @@ class CharacterMain extends React.Component {
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
-            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} update={this.updateCampaign} />
+            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} update={this.updateCampaign} loggedInUser={this.props.loggedInUser} />
             <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
             <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.props.match.params.id} charName={this.state.char.name} campaignId={this.state.char.campaignId} />
             <Container className="bg-light">

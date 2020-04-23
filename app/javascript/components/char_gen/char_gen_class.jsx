@@ -48,7 +48,7 @@ export default function CharGenClass(props) {
                 {firstRoll ? "Roll Class" : "Reroll Class"}
             </Button>
         </Row>
-        <Row>
+        <Row className="justify-content-center">
             {CLASSES.map((c, i) => {
                 return (
                     <Col xs={6} sm={5} md={4} lg={3} key={i}>

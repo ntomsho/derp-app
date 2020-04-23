@@ -140,6 +140,7 @@ class CharGen extends React.Component {
             case 6:
                 return <CharGenConfirm
                     char={this.state.char}
+                    loggedInUser={this.props.loggedInUser}
                     campaign={this.state.campaign}
                     updateSelection={this.updateSelection}
                     rerolls={this.state.rerolls}

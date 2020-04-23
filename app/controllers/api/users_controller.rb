@@ -1,7 +1,14 @@
 class Api::UsersController < ApplicationController
 
     def index
-        @users = User.all()
+        unless params[:search_params]
+            @users = User.all().order(updated_at: :desc).limit(20)
+        else
+            filters = params[:search_params].keys
+            @users = Campaign.find(params[:search_params]['campaign_id']).subscribing_users.limit(20) if filters.include?('campaign_id')
+            @users = User.where.not(id: Campaign.find(params[:search_params]['not_in_campaign_id']).subscribing_user_ids).order(updated_at: :desc).limit(20) if filters.include?('not_in_campaign_id')
+            @users = @users.where('username LIKE :search OR email LIKE :search', search: "%#{params[:search_params]['query']}%") if filters.include?('query')
+        end
         render :index
     end
 

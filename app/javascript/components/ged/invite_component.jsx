@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { fetchUsers } from '../../actions/user_actions';
 
 // Selector is still messed up, fix later
 
 const InviteComponent = (props) => {
     const [query, setQuery] = useState("");
-    let searchNum = 5;
+    const [usersList, setUsersList] = useState([]);
+
+    useEffect(() => {
+        if (query) {
+            fetchUsers({"not_in_campaign_id": props.campaignId, "query": query}, (users) => setUsersList(users));
+        }
+    }, [query])
 
     return (
         <Form className="w-xs-100 w-md-50 mb-4">
@@ -17,8 +24,8 @@ const InviteComponent = (props) => {
             </Row>
             <Row>
                 <ListGroup>
-                    {props.users.slice(0,searchNum).map(user => {
-                        if (query.length > 0 && user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
+                    {usersList.map(user => {
+                        if (user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
                             return (
                                 <ListGroup.Item key={user.id} type="button" onClick={() => props.selector(user)}>
                                     {user.username}

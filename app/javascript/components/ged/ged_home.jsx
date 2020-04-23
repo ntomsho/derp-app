@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import { fetchUsers } from '../../actions/user_actions';
 import { fetchCampaigns } from '../../actions/campaign_actions';
 import { fetchCharacters } from '../../actions/character_actions';
 import { Link } from 'react-router-dom';
@@ -17,7 +16,7 @@ const GEDHome = (props) => {
 
     useEffect(() => {
         // Look into useReducer to combine these
-        fetchCampaigns(setCampaignsList);
+        fetchCampaigns({}, setCampaignsList);
         if (props.loggedInUser) fetchCharacters(props.loggedInUser.id, setCharactersList)
     }, [])
 

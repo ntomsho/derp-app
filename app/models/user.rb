@@ -24,6 +24,10 @@ class User < ApplicationRecord
     
     has_many :received_invites, class_name: :Invite, as: :requested
 
+    def playing_in
+        self.campaigns.where.not(director: self)
+    end
+
     def password=(password)
         @password = password
         self.password_digest = BCrypt::Password.create(password)

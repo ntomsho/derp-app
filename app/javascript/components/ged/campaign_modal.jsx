@@ -8,14 +8,14 @@ const CampaignModal = (props) => {
     const [campaignsList, setCampaignsList] = useState([]);
 
     useEffect(() => {
-        fetchCampaigns(sortCampaigns);
+        fetchCampaigns({'user_playing': props.loggedInUser.id}, sortCampaigns);
     }, []);
 
     function sortCampaigns(campaigns) {
         let myCampaigns = [{ id: "", title: "None" }];
         if (props.campaignId) myCampaigns.unshift({ id: props.campaignId, title: props.campaignTitle })
         campaigns.forEach(campaign => {
-            if (campaign.id !== props.campaignId && campaign.director.id !== window.currentUser.id && campaign.subs.some(sub => sub.user_id === window.currentUser.id)) {
+            if (campaign.id !== props.campaignId && campaign.director.id !== props.loggedInUser.id && campaign.subs.some(sub => sub.user_id === props.loggedInUser.id)) {
                 myCampaigns.push(campaign);
             };
         });

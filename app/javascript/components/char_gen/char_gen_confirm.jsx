@@ -22,13 +22,13 @@ export default function CharGenConfirm(props) {
     const [newCharId, setNewCharId] = useState(null);
 
     useEffect(() => {
-        fetchCampaigns(sortCampaigns);
+        fetchCampaigns({'user_playing': props.loggedInUser.id}, sortCampaigns);
     }, []);
 
     function sortCampaigns(campaigns) {
         let myCampaigns = [{id: null, title: "None"}];
         campaigns.forEach(campaign => {
-            if (campaign.director.id !== window.currentUser.id && campaign.subs.some(sub => sub.user_id === window.currentUser.id)){
+            if (campaign.director.id !== props.loggedInUser.id && campaign.subs.some(sub => sub.user_id === props.loggedInUser.id)){
                 myCampaigns.push(campaign);
             };
         });
