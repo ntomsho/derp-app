@@ -9,7 +9,7 @@ import DeleteCampaignModal from './delete_campaign_modal';
 import InviteComponent from './invite_component';
 import { fetchCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
-import { createInvite } from '../../actions/invite_actions';
+import { createInvite, deleteInvite } from '../../actions/invite_actions';
 import { CLASS_COLORS } from '../../dndb-tables';
 
 //Add delete campaign button
@@ -39,6 +39,8 @@ class Campaign extends React.Component {
         this.requestSub = this.requestSub.bind(this);
         this.inviteUser = this.inviteUser.bind(this);
         this.findPlayer = this.findPlayer.bind(this);
+        this.cancelInvite = this.cancelInvite.bind(this);
+        this.clearRequest = this.clearRequest.bind(this);
     }
 
     componentDidMount() {
@@ -82,6 +84,69 @@ class Campaign extends React.Component {
         }
     }
 
+    cancelInvite(invite) {
+        let newState = Object.assign({}, this.state.campaign);
+        for (let i = 0; i < newState.sent_invites.length; i++) {
+            if (newState.sent_invites[i].id === invite.id) {
+                newState.sent_invites.splice(i, 1);
+            }
+        }
+        this.setState({ campaign: newState });
+    }
+
+    clearRequest(invite) {
+        let newState = Object.assign({}, this.state.campaign);
+        for (let i = 0; i < newState.requested_invites.length; i++) {
+            if (newState.requested_invites[i].id === invite.id) {
+                newState.requested_invites.splice(i, 1);
+            }
+        }
+        this.setState({ campaign: newState });
+    }
+
+    invitesDisp() {
+        let sent;
+        let requested;
+        if (this.state.campaign.sent_invites.length > 0) {
+            sent = (
+                <Col xs={12} md={6}>
+                    <div className="grenze">Pending Invitations</div>
+                    <ListGroup>
+                        {this.state.campaign.sent_invites.map(invite => {
+                            return (
+                                <ListGroup.Item key={invite.id}>
+                                    <div>Username: <strong>{invite.username}</strong></div>
+                                    <div>Invited: {invite.created}</div>
+                                    <Button variant="danger" onClick={() => deleteInvite(invite.id, false, this.cancelInvite)}>Cancel</Button>
+                                </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                </Col>
+            )
+        }
+        if (this.state.campaign.requested_invites.length > 0) {
+            requested = (
+                <Col xs={12} md={6}>
+                    <div className="grenze">Pending Join Requests</div>
+                    <ListGroup>
+                        {this.state.campaign.requested_invites.map(invite => {
+                            return (
+                                <ListGroup.Item key={invite.id}>
+                                    <div>Username: <strong>{invite.username}</strong></div>
+                                    <div>Requested: {invite.created}</div>
+                                    <Button variant="success" onClick={() => deleteInvite(invite.id, false, this.cancelInvite)}>Accept</Button>
+                                    <Button variant="danger" onClick={() => deleteInvite(invite.id, false, this.clearRequest)}>Reject</Button>
+                                </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                </Col>
+            )
+        }
+        return <>{sent}{requested}</>
+    }
+
     joinButton() {
         if (this.state.campaign.title === "") return;
         if (this.props.loggedInUser.id !== this.state.campaign.director.id) {
@@ -102,23 +167,29 @@ class Campaign extends React.Component {
             }
         } else {
             return (
-                <InviteComponent campaignId={this.props.match.params.id} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
+                <>
+                <Col xs={12}>
+                    <InviteComponent campaignId={this.props.match.params.id} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
+                </Col>
+                {this.invitesDisp()}
+                </>
             )
         }
     }
 
     render() {
         const { director } = this.state.campaign;
+        const userDirecting = director.id === this.props.loggedInUser.id
         return (
             <Container className="bg-light pl-5">
                 <DeleteCampaignModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} campaignId={this.props.match.params.id} />
                 <Row>
                     <h1 className="display-3">{this.state.campaign.title}</h1>
                 </Row>
-                <Row className="mb-3">
-                    <div>Directed by: {director.id === this.props.loggedInUser.id ? "You" : director.username}</div>
-                    {this.props.loggedInUser.id === this.state.campaign.director.id ? 
-                        <Button className="absolute-button-right" variant="danger" onClick={() => this.setState({ deleteModal: true })}>
+                <Row className={`mb-3 ${userDirecting ? "justify-content-between" : ""}`}>
+                    <div>Directed by: {userDirecting ? "You" : director.username}</div>
+                    {userDirecting ? 
+                        <Button variant="danger" onClick={() => this.setState({ deleteModal: true })}>
                             Delete Campaign
                         </Button>
                         : null}

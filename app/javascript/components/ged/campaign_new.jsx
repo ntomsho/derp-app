@@ -68,7 +68,6 @@ const CampaignNew = (props) => {
     }
 
     if (campaignId) {
-        debugger
         return (
             <Container className="bg-light pl-5">
                 <h1 className="display-4">Create a New Campaign</h1>

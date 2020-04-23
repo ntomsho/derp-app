@@ -5,6 +5,7 @@ class Api::InvitesController < ApplicationController
         @invite.requester = params[:invite][:requester_type].constantize.find(params[:invite][:requester_id])
         @invite.requested = params[:invite][:requested_type].constantize.find(params[:invite][:requested_id])
         if @invite.save
+            render json: {id: @invite.id}
         else
             render json: @invite.errors.full_messages, status: 422
         end
