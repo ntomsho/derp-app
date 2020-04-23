@@ -114,9 +114,9 @@ class Campaign extends React.Component {
 
     allSubbedAndInvited() {
         let users = [];
-        users.concat(this.state.campaign.subs.map(sub => sub.user_id));
-        users.concat(this.state.campaign.sent_invites.map(invite => invite.requested_id));
-        users.concat(this.state.campaign.requested_invites.map(invite => invite.requester_id));
+        users = users.concat(this.state.campaign.subs.map(sub => sub.user_id));
+        users = users.concat(this.state.campaign.sent_invites.map(invite => invite.requested_id));
+        users = users.concat(this.state.campaign.requested_invites.map(invite => invite.requester_id));
         return users;
     }
 
