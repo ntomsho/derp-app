@@ -71,7 +71,7 @@ const CampaignNew = (props) => {
         return (
             <Container className="bg-light pl-5">
                 <h1 className="display-4">Create a New Campaign</h1>
-                <InviteComponent selector={addUser} campaignId={campaignId} loggedInUser={props.loggedInUser} />
+                <InviteComponent selector={addUser} selectedIds={invitedUsers.map((user) => user.id)} campaignId={campaignId} loggedInUser={props.loggedInUser} />
                     <ListGroup>
                         {invitedUsers.map(user => {
                             return (

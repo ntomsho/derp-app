@@ -28,7 +28,7 @@ const InviteComponent = (props) => {
                         if (user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
                             return (
                                 <ListGroup.Item key={user.id} type="button" onClick={() => props.selector(user)}>
-                                    {user.username}
+                                    {props.selectedIds.includes(user.id) ? "✓" : ""} {user.username}
                                 </ListGroup.Item>
                             )
                         }

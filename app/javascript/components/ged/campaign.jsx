@@ -67,7 +67,7 @@ class Campaign extends React.Component {
     
     addInvite(invite) {
         let newState = Object.assign({}, this.state.campaign);
-        newState.sent_invites.push(invite);
+        newState.sent_invites.unshift({id: invite.id, requested_id: invite.requested.id, username: invite.requested.username, viewed: invite.viewed, created: invite.created_at});
         this.setState({ campaign: newState });
     }
 
@@ -110,6 +110,14 @@ class Campaign extends React.Component {
             }
         }
         this.setState({ campaign: newState });
+    }
+
+    allSubbedAndInvited() {
+        let users = [];
+        users.concat(this.state.campaign.subs.map(sub => sub.user_id));
+        users.concat(this.state.campaign.sent_invites.map(invite => invite.requested_id));
+        users.concat(this.state.campaign.requested_invites.map(invite => invite.requester_id));
+        return users;
     }
 
     invitesDisp() {
@@ -177,7 +185,7 @@ class Campaign extends React.Component {
             return (
                 <>
                 <Col xs={12}>
-                    <InviteComponent campaignId={this.props.match.params.id} selector={this.inviteUser} loggedInUser={this.props.loggedInUser} />
+                    <InviteComponent campaignId={this.props.match.params.id} selector={this.inviteUser} selectedIds={this.allSubbedAndInvited()} loggedInUser={this.props.loggedInUser} />
                 </Col>
                 {this.invitesDisp()}
                 </>
