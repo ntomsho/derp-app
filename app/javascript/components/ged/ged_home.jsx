@@ -65,7 +65,7 @@ const GEDHome = (props) => {
                                     <ListGroup.Item action variant={"light"}>
                                         <strong>{campaign.title}</strong>
                                         <div>Directed by: {campaign.director.username}</div>
-                                        <div><em>{campaign.description}</em></div>
+                                        <div><em>{campaign.description.slice(0,200)}</em></div>
                                     </ListGroup.Item>
                                 </Link>
                             )
