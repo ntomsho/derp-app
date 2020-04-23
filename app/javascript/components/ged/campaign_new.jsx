@@ -33,24 +33,27 @@ const CampaignNew = (props) => {
 
     const processInvites = () => {
         invitedUsers.forEach(user => {
-            createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user })
+            createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user.id })
         });
         setFinished(true);
     }
 
     const addUser = (user) => {
-        if (!invitedUsers.includes(user.id)) {
+        let matchingUserInd = null;
+        for (let i = 0; i < invitedUsers.length; i++) {
+            if (invitedUsers[i].id === user.id) {
+                matchingUserInd = i;
+                break;
+            }
+        };
+        // if (!invitedUsers.some((invitedUser) => invitedUser.id === user.id)) {
+        if (matchingUserInd === null) {
             let newInvitedUsers = Object.assign([], invitedUsers);
             newInvitedUsers.push(user);
             setInvitedUsers(newInvitedUsers);
         } else {
             let newInvitedUsers = Object.assign([], invitedUsers);
-            for (let i = 0; i < newInvitedUsers.length; i++) {
-                if (newInvitedUsers[i].id === user.id) {
-                    newInvitedUsers.splice(newInvitedUsers.indexOf(user.id), 1);
-                    break;
-                }
-            }
+            newInvitedUsers.splice(matchingUserInd, 1);
             setInvitedUsers(newInvitedUsers);
         }
     }
