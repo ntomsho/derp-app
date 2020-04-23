@@ -4,17 +4,15 @@ class Api::CampaignsController < ApplicationController
         unless params[:search_params]
             @campaigns = Campaign.all().order(updated_at: :desc).limit(20)
         else
-            parameter = params[:search_params].keys.first
-            value = params[:search_params][parameter]
-            case parameter
-                when "user_id"
-                    @campaigns = User.find(value).campaigns.limit(20)
-                when "user_playing"
-                    @campaigns = User.find(value).playing_in.limit(20)
-                when "director"
-                    @campaigns = Campaign.where(director: { id: value }).campaigns.limit(20)
-            end
-            # @campaigns = Campaign.where("? LIKE ?", parameter, params[:search_params][parameter]).order(updated_at: :desc)
+            filters = params[:search_params].keys
+            @campaigns = User.find(params[:search_params]['user_id']).campaigns.order(updated_at: :desc)if filters.include?('user_id')
+            @campaigns = User.find(params[:search_params]['user_playing']).playing_in.order(updated_at: :desc) if filters.include?('user_playing')
+            @campaigns = Campaign.where(director: { id: params[:search_params]['director'] }).campaigns.order(updated_at: :desc) if filters.include?('director')
+            @campaigns = Campaign.where.not(id: User.find(params[:search_params]['user_not_playing']).campaign_ids).order(updated_at: :desc) if filters.include?('user_not_playing')
+            @campaigns = @campaigns.where('title LIKE :search', search: "%#{params[:search_params]['query']}%") if filters.include?('query')
+            @campaigns = @campaigns.limit(params[:search_params]['limit']) if filters.include?('limit')
+        
+            # @campaigns = 
         end
         render :index
     end
