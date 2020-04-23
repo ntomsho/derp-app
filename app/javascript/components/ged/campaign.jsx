@@ -38,6 +38,7 @@ class Campaign extends React.Component {
         this.subRequested = this.subRequested.bind(this);
         this.requestSub = this.requestSub.bind(this);
         this.inviteUser = this.inviteUser.bind(this);
+        this.addInvite = this.addInvite.bind(this);
         this.findPlayer = this.findPlayer.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
         this.clearRequest = this.clearRequest.bind(this);
@@ -59,8 +60,15 @@ class Campaign extends React.Component {
     }
 
     inviteUser(user) {
-        if (user.id)
-            createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id });
+        if (user.id) {
+            createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id }, this.addInvite);
+        }
+    }
+    
+    addInvite(invite) {
+        let newState = Object.assign({}, this.state.campaign);
+        newState.sent_invites.push(invite);
+        this.setState({ campaign: newState });
     }
 
     userSubbed() {
@@ -73,7 +81,7 @@ class Campaign extends React.Component {
 
     requestSub() {
         if (!this.userSubbed() && !this.state.subPending) {
-            createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id });
+            createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id }, this.addInvite);
             this.setState({ subPending: true })
         }
     }
@@ -135,7 +143,7 @@ class Campaign extends React.Component {
                                 <ListGroup.Item key={invite.id}>
                                     <div>Username: <strong>{invite.username}</strong></div>
                                     <div>Requested: {invite.created}</div>
-                                    <Button variant="success" onClick={() => deleteInvite(invite.id, false, this.cancelInvite)}>Accept</Button>
+                                    <Button variant="success" onClick={() => deleteInvite(invite.id, false, this.clearRequest)}>Accept</Button>
                                     <Button variant="danger" onClick={() => deleteInvite(invite.id, false, this.clearRequest)}>Reject</Button>
                                 </ListGroup.Item>
                             )

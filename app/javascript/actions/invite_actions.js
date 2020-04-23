@@ -1,9 +1,9 @@
-export const createInvite = (invite) => {
+export const createInvite = (invite, callback) => {
     return $.ajax({
         method: "POST",
         url: "/api/invites",
         data: { invite }
-    })
+    }).then(invite => callback(invite))
 };
 
 export const deleteInvite = (invite_id, accepted, callback) => {

@@ -33,7 +33,7 @@ const CampaignNew = (props) => {
 
     const processInvites = () => {
         invitedUsers.forEach(user => {
-            createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user });
+            createInvite({ requester_type: 'Campaign', requester_id: campaignId, requested_type: 'User', requested_id: user })
         });
         setFinished(true);
     }
