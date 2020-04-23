@@ -19,7 +19,7 @@ export const createCampaign = (campaign, callback) => {
         url: "/api/campaigns",
         data: { campaign }
     })
-    // .then(newCampaign => callback(Object.assign({}, newCampaign)));
+    .then(newCampaign => callback(Object.assign({}, newCampaign)));
 }
 
 export const deleteCampaign = (campaign_id, callback) => {

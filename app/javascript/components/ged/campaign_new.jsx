@@ -14,17 +14,21 @@ const CampaignNew = (props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [campaignId, setCampaignId] = useState(null);
-    const [allUsers, setAllUsers] = useState([]);
+    // const [allUsers, setAllUsers] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [finished, setFinished] = useState(false);
 
-    useEffect(() => {
-        fetchUsers(setAllUsers);
-    }, []);
+    // useEffect(() => {
+    //     fetchUsers(setAllUsers);
+    // }, []);
 
-    const handleSubmit = () => {
+    const create = () => {
         const campaign = Object.assign({}, { title: title, description: description });
-        createCampaign(campaign).then(newCampaign => setCampaignId(newCampaign.id));
+        createCampaign(campaign, findId);
+    }
+
+    const findId = (campaign) => {
+        setCampaignId(campaign.id)
     }
 
     const processInvites = () => {
@@ -51,8 +55,12 @@ const CampaignNew = (props) => {
         }
     }
 
-    const update = (stateSetter, e) => {
-        stateSetter(e.currentTarget.value);
+    const update = (e) => {
+        if (e.target.name === "title") {
+            setTitle(e.currentTarget.value);
+        } else {
+            setDescription(e.currentTarget.value);
+        }
     }
 
     if (finished) {
@@ -60,14 +68,15 @@ const CampaignNew = (props) => {
     }
 
     if (campaignId) {
+        debugger
         return (
             <Container className="bg-light pl-5">
                 <h1 className="display-4">Create a New Campaign</h1>
-                <InviteComponent users={allUsers} selector={addUser} loggedInUser={props.loggedInUser} />
+                <InviteComponent selector={addUser} campaignId={campaignId} loggedInUser={props.loggedInUser} />
                     <ListGroup>
                         {invitedUsers.map(user => {
                             return (
-                                <ListGroup.Item key={user.id} onClick={addUser(user)}>
+                                <ListGroup.Item key={user.id} onClick={() => addUser(user)}>
                                     {user.username}
                                 </ListGroup.Item>
                             )
@@ -82,9 +91,9 @@ const CampaignNew = (props) => {
         <Container className="bg-light pl-5">
             <Form>
                 <h1 className="display-4">Create a New Campaign</h1>
-                <Form.Control type="text" placeholder="Title" value={title} onChange={(e) => update(setTitle, e)} className="session-input" />
-                <Form.Control as="textarea" placeholder="Description" value={description} onChange={(e) => update(setDescription, e)} className="session-input" />
-                <Button type="submit" onClick={handleSubmit}>Submit</Button>
+                <Form.Control type="text" placeholder="Title" name="title" value={title} onChange={update} className="session-input" />
+                <Form.Control as="textarea" placeholder="Description" name="description" value={description} onChange={update} className="session-input" />
+                <Button onClick={create}>Submit</Button>
             </Form>
         </Container>
     )
