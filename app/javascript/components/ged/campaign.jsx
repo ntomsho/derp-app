@@ -60,9 +60,18 @@ class Campaign extends React.Component {
     }
 
     inviteUser(user) {
-        if (user.id) {
-            createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id }, this.addInvite);
+        if (this.userSubbed(user.id)) {
+            return;    
         }
+        let deleteId;
+        this.state.campaign.sent_invites.forEach(invite => {
+            if (invite.requested_id === user.id) {
+                deleteId = invite.id;
+                return;
+            }
+        });
+        if (deleteId) return deleteInvite(deleteId, false, this.cancelInvite);
+        createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id }, this.addInvite);
     }
     
     addInvite(invite) {
@@ -71,8 +80,8 @@ class Campaign extends React.Component {
         this.setState({ campaign: newState });
     }
 
-    userSubbed() {
-        return this.state.campaign.subs.some(sub => sub.user_id === this.props.loggedInUser.id);
+    userSubbed(userId) {
+        return this.state.campaign.subs.some(sub => sub.user_id === userId);
     }
 
     subRequested(invites) {
@@ -80,7 +89,7 @@ class Campaign extends React.Component {
     }
 
     requestSub() {
-        if (!this.userSubbed() && !this.state.subPending) {
+        if (!this.userSubbed(this.props.loggedInUser.id) && !this.state.subPending) {
             createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id }, this.addInvite);
             this.setState({ subPending: true })
         }
@@ -167,7 +176,7 @@ class Campaign extends React.Component {
         if (this.state.campaign.title === "") return;
         if (this.props.loggedInUser.id !== this.state.campaign.director.id) {
             const campaign = { title: this.state.campaign.title, id: this.props.match.params.id }
-            if (this.userSubbed()) {
+            if (this.userSubbed(this.props.loggedInUser.id)) {
                 return (
                     <Link to={{ pathname: "/ged/characters/new", state: campaign }}><Button>
                         + Create New Character

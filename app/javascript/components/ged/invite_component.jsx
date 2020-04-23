@@ -25,7 +25,6 @@ const InviteComponent = (props) => {
             <Row>
                 <ListGroup>
                     {usersList.map(user => {
-                        debugger
                         if (user.id !== props.loggedInUser.id && user.username.toLowerCase().startsWith(query.toLowerCase())) {
                             return (
                                 <ListGroup.Item key={user.id} type="button" onClick={() => props.selector(user)}>
