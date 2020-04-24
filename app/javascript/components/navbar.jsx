@@ -50,7 +50,10 @@ const NavbarComp = (props) => {
                 >
                     {notifications.map(notification => {
                         return (
-                            <NavDropdown.Item key={notification.id} href={notification.requester_type === "Campaign" ? `/ged/campaigns/${notification.requester_id}` : `/ged/campaigns/${notification.requested_id}`}>
+                            <NavDropdown.Item key={notification.id} 
+                                style={{whiteSpace: 'normal'}}
+                                href={notification.requester_type === "Campaign" ? `/ged/campaigns/${notification.requester_id}` : `/ged/campaigns/${notification.requested_id}`}
+                            >
                                 <div>
                                     {notification.requester_type === "Campaign" ? 
                                         <small><strong>{notification.requester_director.username}</strong> has invited you to join their campaign <strong>{notification.requester_title}</strong></small> :
