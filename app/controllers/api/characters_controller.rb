@@ -14,9 +14,6 @@ class Api::CharactersController < ApplicationController
         @character = Character.new(character_params)
         @character.user_id = current_user.id
         if @character.save
-            # unless @character.campaign.is_subbed?(current_user.id)
-            #     CampaignSub.create(user_id: current_user.id, campaign_id: @character.campaign_id, is_director: false)
-            # end
             render "api/characters/show"
         else
             render json: @character.errors.full_messages, status: 422

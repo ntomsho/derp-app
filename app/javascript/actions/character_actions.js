@@ -13,15 +13,16 @@ export const fetchCharacter = (id, callback) => {
     }).then(character => callback(Object.assign({}, character)));
 };
 
-export const createCharacter = (character, setErrors) => {
+export const createCharacter = (character, callback, setErrors) => {
     character['race_traits'] = JSON.stringify(character.race_traits);
     character['trained_skills'] = JSON.stringify(character.trained_skills);
     character['inventory'] = JSON.stringify(character.inventory);
     character['current_specials'] = JSON.stringify(character.current_specials);
     return $.ajax({
         method: "POST",
-        url: "api/characters",
+        url: "/api/characters",
         data: { character },
+        success: callback,
         error: (errors) => setErrors(errors.responseJSON)
     })
 }

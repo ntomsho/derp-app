@@ -74,8 +74,12 @@ export default function CharGenConfirm(props) {
             charCopy.plot_points = 1;
             charCopy.current_specials = {};
             charCopy.regulation = props.rerolls > 0 ? true : false;
-            createCharacter(charCopy, setErrors).then((newChar) => setNewCharId(newChar.id));
+            createCharacter(charCopy, loadNewChar, temp);
         }
+    }
+
+    function loadNewChar(newChar) {
+        setNewCharId(newChar.id)
     }
 
     function loadedCampaignOption() {
@@ -84,6 +88,10 @@ export default function CharGenConfirm(props) {
                 <option value={props.campaign.id}>{props.campaign.title}</option>
             )
         }
+    }
+
+    function temp(errors) {
+        setErrors(errors)
     }
 
     if (newCharId) {
