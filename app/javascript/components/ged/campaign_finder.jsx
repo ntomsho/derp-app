@@ -12,16 +12,20 @@ const CampaignFinder = (props) => {
     const [limit, setLimit] = useState(10);
 
     useEffect(() => {
-        if (query) fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
+        if (query) {
+            fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
+        } else {
+            setCampaignsList([]);
+        }
     }, [query, limit])
 
     return (
-        <div className="h-100">
+        <div className="h-40">
             <h2>Discover New Campaigns</h2>
             <Form>
                 <Form.Control type="text" value={query} onChange={(e) => setQuery(e.currentTarget.value)} />
             </Form>
-            <ListGroup className="overflow-auto h-75">
+            <ListGroup className="overflow-auto h-100">
                 {campaignsList.map(campaign => {
                     return (
                         <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`} >
@@ -33,7 +37,7 @@ const CampaignFinder = (props) => {
                         </Link>
                     )
                 })}
-                <Button variant="secondary" onClick={() => setLimit(limit + 10)}>See More</Button>
+                {/* <Button variant="secondary" onClick={() => setLimit(limit + 10)}>See More</Button> */}
             </ListGroup>
         </div>
     )

@@ -15,9 +15,7 @@ const GEDHome = (props) => {
     const [myCampaigns, setMyCampaigns] = useState("Loading")
 
     useEffect(() => {
-        // Look into useReducer to combine these
         fetchCampaigns({'user_id': props.loggedInUser.id}, loadCampaigns);
-        // if (props.loggedInUser) fetchCharacters(props.loggedInUser.id, setCharactersList)
     }, [])
 
     const loadCampaigns = (campaignsList) => {
@@ -36,31 +34,30 @@ const GEDHome = (props) => {
     const myCampaignsListDisp = () => {
         if (myCampaigns !== "Loading") {
             return (
-                <div className="h-100">
-                    <div className="h-50">
-                        <h2>Campaigns You Direct</h2>
+                <div >
+                    <h2>Campaigns You Direct</h2>
+                    <div className="h-40">
                         <Button className="mb-3"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
-                        <ListGroup className="overflow-auto h-50">
+                        <ListGroup className="overflow-auto h-75">
                             {myCampaigns.directing.map((campaign, i) => {
                                 return (
                                     <Link key={i} to={`/ged/campaigns/${campaign.id}`}>
-                                        <ListGroup.Item action variant={"light"}>
+                                        <ListGroup.Item action variant="light">
                                             <strong>{campaign.title}</strong>
-                                            {/* <div>Directed by: {campaign.director.id === props.loggedInUser.id ? "You" : campaign.director.username}</div> */}
                                         </ListGroup.Item>
                                     </Link>
                                 )
                             })}
                         </ListGroup>
                     </div>
-                    <div className="h-50">
-                        <h2>Campaigns You Play In</h2>
+                    <h2>Campaigns You Play In</h2>
+                    <div className="h-40">
                         <Button className="mb-3"><Link to="/ged/characters/new">+ New Character</Link></Button>
-                        <ListGroup className="overflow-auto h-50">
+                        <ListGroup className="overflow-auto h-75">
                             {myCampaigns.playing.map(campaign => {
                                 return (
                                     <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`}>
-                                        <ListGroup.Item action variant={"light"}>
+                                        <ListGroup.Item action variant="light">
                                             <strong>{campaign.title}</strong>
                                             <div>Directed by: {campaign.director.username}</div>
                                         </ListGroup.Item>
@@ -78,29 +75,6 @@ const GEDHome = (props) => {
         }
     }
 
-    // const CharactersListDisp = () => {
-    //     return (
-    //         <div className="h-100">
-    //             <h2>Your Characters</h2>
-    //             <Button className="mb-3"><Link to="/ged/characters/new">+ New Character</Link></Button>
-    //             <ListGroup className="overflow-auto h-75">
-    //                 {charactersList.map(character => {
-    //                     if (!character.dead) {
-    //                         return (
-    //                             <Link key={character.id} to={`/ged/characters/${character.id}`} >
-    //                                 <ListGroup.Item action variant={"light"}>
-    //                                     <div style={{color: CLASS_COLORS[character.c_class]}}>{character.name} Level {character.level} {character.c_class}</div>
-    //                                     <div>Campaign: {findCampaign(character.campaign_id).title}</div>
-    //                                 </ListGroup.Item>
-    //                             </Link>
-    //                         )
-    //                     }
-    //                 })}
-    //             </ListGroup>
-    //         </div>
-    //     )
-    // }
-
     if (!props.loggedInUser) {
         return (
             <div>Login to see more</div>
@@ -108,12 +82,22 @@ const GEDHome = (props) => {
     } else {
         return (
             <Container style={{ height: '92vh' }} className="bg-light overflow-auto">
-                <Row className="">
-                    <Col className="d-flex" md={6}>
+                <Row style={{height: '92vh'}}>
+                    <Col className="d-flex h-100" md={6}>
                         {myCampaignsListDisp()}
                     </Col>
-                    <Col className="d-flex" md={6}>
-                        <CampaignFinder loggedInUser={props.loggedInUser} />
+                    <Col className="d-flex h-100" md={6}>
+                        <div >
+                            <h2>Resources</h2>
+                            <div style={{height: '12%'}}>
+                                <ListGroup className="overflow h-75">
+                                    <ListGroup.Item action variant="light">
+                                        Coming soon
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </div>
+                            <CampaignFinder loggedInUser={props.loggedInUser} />
+                        </div>
                     </Col>
                 </Row>
             </Container>
