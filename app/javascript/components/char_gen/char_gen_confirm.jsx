@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Errors from '../errors';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -18,6 +19,8 @@ export default function CharGenConfirm(props) {
     // let { character: char } = props;
     // const allSkills = character.trainedSkills;
     // if (character.selectedFightingSkill) allSkills.unshift(character.seletedFightingSkill);
+    
+    const [errors, setErrors] = useState([]);
     const [campaignsList, setCampaignsList] = useState([]);
     const [newCharId, setNewCharId] = useState(null);
 
@@ -71,7 +74,7 @@ export default function CharGenConfirm(props) {
             charCopy.plot_points = 1;
             charCopy.current_specials = {};
             charCopy.regulation = props.rerolls > 0 ? true : false;
-            createCharacter(charCopy).then((newChar) => setNewCharId(newChar.id));
+            createCharacter(charCopy, setErrors).then((newChar) => setNewCharId(newChar.id));
         }
     }
 
@@ -97,6 +100,7 @@ export default function CharGenConfirm(props) {
             <Row>
                 <Col>
                     <Form>
+                        <Errors errors={errors} />
                         <InputGroup>
                             <InputGroup.Prepend><InputGroup.Text>Name: </InputGroup.Text></InputGroup.Prepend>
                             <Form.Control onChange={handleChange} type="text" name="name" value={character.name}></Form.Control>

@@ -211,7 +211,7 @@ class CharacterMain extends React.Component {
     }
 
     saveCharacterButton() {
-        if (!this.state.char.dead && props.currentUser && props.currentUser.id === this.state.char.userId) {
+        if (!this.state.char.dead && this.props.loggedInUser.id === this.state.char.userId) {
             return (
                 <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={this.saveCharacter}>Save Character</NavDropdown.Item>
             )
