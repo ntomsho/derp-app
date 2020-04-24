@@ -9,15 +9,28 @@ const CampaignFinder = (props) => {
 
     const [query, setQuery] = useState("");
     const [campaignsList, setCampaignsList] = useState([]);
-    const [limit, setLimit] = useState(10);
+    // const [limit, setLimit] = useState(10);
+    const [searchTimer, setSearchTimer] = useState(null)
+
+    // useEffect(() => {
+    //     if (query) {
+    //         fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
+    //     } else {
+    //         setCampaignsList([]);
+    //     }
+    // }, [query, limit])
 
     useEffect(() => {
-        if (query) {
-            fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
-        } else {
-            setCampaignsList([]);
-        }
-    }, [query, limit])
+        makeSearch();
+    }, [query])
+
+    const makeSearch = () => {
+        clearTimeout(searchTimer)
+        setSearchTimer(setTimeout(() => {
+            query === "" ? setCampaignsList([]) : 
+                fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
+        }, 400))
+    }
 
     return (
         <div className="h-40">
