@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_145046) do
+ActiveRecord::Schema.define(version: 2020_04_24_162544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,9 @@ ActiveRecord::Schema.define(version: 2020_04_24_145046) do
     t.boolean "is_director"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_campaign_subs_on_campaign_id"
     t.index ["user_id", "campaign_id"], name: "index_campaign_subs_on_user_id_and_campaign_id", unique: true
+    t.index ["user_id"], name: "index_campaign_subs_on_user_id"
   end
 
   create_table "campaigns", force: :cascade do |t|
