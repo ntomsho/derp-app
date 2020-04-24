@@ -11,8 +11,6 @@ class Api::CampaignsController < ApplicationController
             @campaigns = Campaign.where.not(id: User.find(params[:search_params]['user_not_playing']).campaign_ids).order(updated_at: :desc) if filters.include?('user_not_playing')
             @campaigns = @campaigns.where('title LIKE :search', search: "%#{params[:search_params]['query']}%") if filters.include?('query')
             @campaigns = @campaigns.limit(params[:search_params]['limit']) if filters.include?('limit')
-        
-            # @campaigns = 
         end
         render :index
     end

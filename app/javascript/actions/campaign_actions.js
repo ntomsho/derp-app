@@ -22,6 +22,14 @@ export const createCampaign = (campaign, callback) => {
     .then(newCampaign => callback(Object.assign({}, newCampaign)));
 }
 
+export const quitCampaign = (campaign_id, user_id, callback) => {
+    return $.ajax({
+        method: "DELETE",
+        url: "/api/campaign_subs",
+        data: { campaign_id, user_id }
+    }).then((subId) => callback(subId));
+}
+
 export const deleteCampaign = (campaign_id, callback) => {
     return $.ajax({
         method: "DELETE",

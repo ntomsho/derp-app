@@ -40,6 +40,7 @@ class Campaign extends React.Component {
         this.inviteUser = this.inviteUser.bind(this);
         this.addInvite = this.addInvite.bind(this);
         this.findPlayer = this.findPlayer.bind(this);
+        this.findMyInviteId = this.findMyInviteId.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
         this.clearRequest = this.clearRequest.bind(this);
     }
@@ -52,7 +53,7 @@ class Campaign extends React.Component {
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
-        this.setState({ subPending: this.subRequested(newState.requested_invites), campaign: newState });
+        this.setState({ subPending: this.subRequested(newState.requested_invites, newState.sent_invites), campaign: newState });
     }
 
     loadPlayers(users) {
@@ -73,6 +74,14 @@ class Campaign extends React.Component {
         if (deleteId) return deleteInvite(deleteId, false, this.cancelInvite);
         createInvite({ requester_type: 'Campaign', requester_id: this.props.match.params.id, requested_type: 'User', requested_id: user.id }, this.addInvite);
     }
+
+    leaveCampaign(user) {
+        let newState = Object.assign({}, this.state.campaign)
+        for (let i = 0; i < this.state.campaign.subs.length; i++) {
+            if (this.state.campaign.subs[i].user_id === user.id) this.state.campaign.subs.splice(i, 1);
+        }
+        this.setState({ campaign: newState });
+    }
     
     addInvite(invite) {
         let newState = Object.assign({}, this.state.campaign);
@@ -84,8 +93,14 @@ class Campaign extends React.Component {
         return this.state.campaign.subs.some(sub => sub.user_id === userId);
     }
 
-    subRequested(invites) {
-        return invites.some(invite => invite.requester_id === this.props.loggedInUser.id);
+    subRequested(sentInvites, receivedInvites) {
+        if (sentInvites.some(invite => (invite.requester_id === this.props.loggedInUser.id))) {
+            return "Requester"
+        } else if (receivedInvites.some(invite => (invite.requested_id === this.props.loggedInUser.id))) {
+            return "Requested"
+        } else {
+            return false
+        }
     }
 
     requestSub() {
@@ -98,6 +113,13 @@ class Campaign extends React.Component {
     findPlayer(userId) {
         for (let i = 0; i < this.state.usersList.length; i++) {
             if (this.state.usersList[i].id === userId) return this.state.usersList[i].username;
+        }
+    }
+
+    findMyInviteId() {
+        const invites = this.state.campaign.requested_invites.concat(this.state.campaign.sent_invites)
+        for (let i = 0; i < invites.length; i++) {
+            if (invites[i].requester_id === this.props.loggedInUser.id || invites[i].requested_id === this.props.loggedInUser.id) return invites[i].id
         }
     }
 
@@ -183,11 +205,24 @@ class Campaign extends React.Component {
                     </Button></Link>
                 )
             }
-            else {
+            else if (this.state.subPending) {
                 return (
-                    <button onClick={this.requestSub}>
-                        {this.state.subPending ? "Request Pending" : "Ask to Join Campaign"}
-                    </button>
+                    <>
+                    {this.state.subPending === "Requested" ?
+                    <Button variant="success" onClick={() => deleteInvite(this.findMyInviteId(), true, this.cancelInvite)}>
+                        Join Campaign
+                    </Button>
+                    :
+                    <Button disabled>
+                        Request Pending
+                    </Button>
+                    }</>
+                )
+            } else {
+                return (
+                    <Button onClick={this.requestSub}>
+                        Ask to Join Campaign
+                    </Button>
                 )
             }
         } else {
@@ -207,17 +242,20 @@ class Campaign extends React.Component {
         const userDirecting = director.id === this.props.loggedInUser.id
         return (
             <Container className="bg-light pl-5">
-                <DeleteCampaignModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} campaignId={this.props.match.params.id} />
+                <DeleteCampaignModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })}
+                    quitting={this.state.campaign.director.id !== this.props.loggedInUser.id}
+                    campaignId={this.props.match.params.id}
+                    loggedInUser={this.props.loggedInUser}
+                    leaveCampaign={this.leaveCampaign}
+                />
                 <Row>
                     <h1 className="display-3">{this.state.campaign.title}</h1>
                 </Row>
-                <Row className={`mb-3 ${userDirecting ? "justify-content-between" : ""}`}>
+                <Row className="mb-3 justify-content-between">
                     <div>Directed by: {userDirecting ? "You" : director.username}</div>
-                    {userDirecting ? 
-                        <Button variant="danger" onClick={() => this.setState({ deleteModal: true })}>
-                            Delete Campaign
-                        </Button>
-                        : null}
+                    <Button variant="danger" onClick={() => this.setState({ deleteModal: true })}>
+                        {userDirecting ? "Delete Campaign" : "Quit Campaign"}
+                    </Button>
                 </Row>
                 <Row>
                     <p><em>{this.state.campaign.description}</em></p>

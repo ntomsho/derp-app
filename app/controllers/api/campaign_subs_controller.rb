@@ -16,11 +16,15 @@ class Api::CampaignSubsController < ApplicationController
     end
 
     def destroy
-        # May need to change find method here
-        @sub = CampaignSub.find(params[:id])
-        sub_id = @sub.id
+        @sub = Campaign.find(params[:campaign_id]).campaign_subs.find_by(user_id: params[:user_id])
+        campaign_id = @sub.campaign_id
+        user_id = @sub.user_id
+        @sub.characters.each do |character|
+            character.campaign_id = nil
+            character.save
+        end
         @sub.destroy
-        render json: {id: sub_id}
+        render json: {user_id: user_id}
     end
 
     private

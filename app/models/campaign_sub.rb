@@ -11,4 +11,8 @@ class CampaignSub < ApplicationRecord
         foreign_key: :campaign_id,
         class_name: :Campaign
 
+    def characters
+        self.user.characters.where(campaign_id: self.campaign_id)
+    end
+
 end
