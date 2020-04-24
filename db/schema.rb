@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_015801) do
+ActiveRecord::Schema.define(version: 2020_04_24_145046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_015801) do
     t.boolean "is_director"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "campaign_id"], name: "index_campaign_subs_on_user_id_and_campaign_id", unique: true
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -30,11 +31,13 @@ ActiveRecord::Schema.define(version: 2020_04_14_015801) do
     t.integer "director_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["title", "director_id"], name: "index_campaigns_on_title_and_director_id", unique: true
+    t.index ["title"], name: "index_campaigns_on_title"
   end
 
   create_table "characters", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "campaign_id", null: false
+    t.integer "campaign_id"
     t.string "name", null: false
     t.string "c_class", null: false
     t.string "race_string", default: "Human"
@@ -55,7 +58,10 @@ ActiveRecord::Schema.define(version: 2020_04_14_015801) do
     t.string "saved_tag"
     t.boolean "regulation"
     t.boolean "dead"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["campaign_id"], name: "index_characters_on_campaign_id"
+    t.index ["name", "campaign_id"], name: "index_characters_on_name_and_campaign_id", unique: true
     t.index ["user_id"], name: "index_characters_on_user_id"
   end
 
@@ -75,7 +81,10 @@ ActiveRecord::Schema.define(version: 2020_04_14_015801) do
     t.bigint "requester_id"
     t.string "requested_type"
     t.bigint "requested_id"
+    t.index ["requested_id"], name: "index_invites_on_requested_id"
     t.index ["requested_type", "requested_id"], name: "index_invites_on_requested_type_and_requested_id"
+    t.index ["requester_id"], name: "index_invites_on_requester_id"
+    t.index ["requester_type", "requester_id", "requested_type", "requested_id"], name: "index_invites_unique_combinations", unique: true
     t.index ["requester_type", "requester_id"], name: "index_invites_on_requester_type_and_requester_id"
   end
 
@@ -88,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_015801) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email"
+    t.index ["username"], name: "index_users_on_username"
   end
 
 end

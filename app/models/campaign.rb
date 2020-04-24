@@ -1,5 +1,7 @@
 class Campaign < ApplicationRecord
 
+    validates :title, presence: true
+
     belongs_to :director,
         foreign_key: :director_id,
         class_name: :User
