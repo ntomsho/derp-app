@@ -13,13 +13,15 @@ export const fetchCampaign = (id, callback) => {
     }).then(campaign => callback(Object.assign({}, campaign)));
 };
 
-export const createCampaign = (campaign, callback) => {
+export const createCampaign = (campaign, callback, setErrors) => {
     return $.ajax({
         method: "POST",
         url: "/api/campaigns",
-        data: { campaign }
+        data: { campaign },
+        success: callback,
+        error: (errors) => setErrors(errors.responseJSON)
     })
-    .then(newCampaign => callback(Object.assign({}, newCampaign)));
+    // .then(newCampaign => callback(Object.assign({}, newCampaign)));
 }
 
 export const quitCampaign = (campaign_id, user_id, callback) => {

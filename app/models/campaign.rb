@@ -1,6 +1,6 @@
 class Campaign < ApplicationRecord
 
-    validates :title, presence: true
+    validates :title, presence: true, uniqueness: { scope: :director_id }
 
     belongs_to :director,
         foreign_key: :director_id,

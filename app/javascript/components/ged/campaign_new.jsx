@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Errors from '../errors';
 import InviteComponent from './invite_component';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -11,20 +12,16 @@ import { createInvite } from '../../actions/invite_actions';
 
 const CampaignNew = (props) => {
 
+    const [errors, setErrors] = useState([]);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [campaignId, setCampaignId] = useState(null);
-    // const [allUsers, setAllUsers] = useState([]);
     const [invitedUsers, setInvitedUsers] = useState([]);
     const [finished, setFinished] = useState(false);
 
-    // useEffect(() => {
-    //     fetchUsers(setAllUsers);
-    // }, []);
-
     const create = () => {
         const campaign = Object.assign({}, { title: title, description: description });
-        createCampaign(campaign, findId);
+        createCampaign(campaign, findId, setErrors);
     }
 
     const findId = (campaign) => {
@@ -46,7 +43,6 @@ const CampaignNew = (props) => {
                 break;
             }
         };
-        // if (!invitedUsers.some((invitedUser) => invitedUser.id === user.id)) {
         if (matchingUserInd === null) {
             let newInvitedUsers = Object.assign([], invitedUsers);
             newInvitedUsers.push(user);
@@ -93,6 +89,7 @@ const CampaignNew = (props) => {
         <Container className="bg-light pl-5">
             <Form>
                 <h1 className="display-4">Create a New Campaign</h1>
+                <Errors errors={errors} />
                 <Form.Control type="text" placeholder="Title" name="title" value={title} onChange={update} className="session-input" />
                 <Form.Control as="textarea" placeholder="Description" name="description" value={description} onChange={update} className="session-input" />
                 <Button onClick={create}>Submit</Button>
