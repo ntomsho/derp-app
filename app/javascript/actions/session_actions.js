@@ -1,17 +1,23 @@
-export const signup = (user, callback) => {
+export const signup = (user, callback, setErrors) => {
     return $.ajax({
         method: "POST",
         url: "/api/users",
-        data: { user }
-    }).then(user => callback(user));
+        data: { user },
+        success: callback,
+        error: (errors) => setErrors(errors.responseJSON)
+    })
+    // }).then(user => callback(user));
 };
 
-export const signin = (user, callback) => {
+export const signin = (user, callback, setErrors) => {
     return $.ajax({
         method: "POST",
         url: "/api/session",
-        data: { user }
-    }).then(user => callback(user));
+        data: { user },
+        success: callback,
+        error: (errors) => setErrors(errors.responseJSON)
+    })
+    // }).then(user => callback(user));
 };
 
 export const logout = (callback) => {

@@ -20,7 +20,7 @@ const Home = (props) => {
                     </Row>
                 </Col>
                 <Col>
-                    <h3 className="text-center">Create Account</h3>
+                    <h3 className="text-center">Sign Up</h3>
                     <Row className="justify-content-center">
                     <SignUpForm setLoggedIn={props.setLoggedInUser} />
                     </Row>

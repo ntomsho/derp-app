@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import Errors from './errors';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const SessionForm = (props) => {
 
-    const history = useHistory();
-    const location = useLocation();
+    const [errors, setErrors] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -16,7 +16,7 @@ const SessionForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const user = Object.assign({}, {email: email, username: username, password: password});
-        props.processForm(user, props.setLoggedIn);
+        props.processForm(user, props.setLoggedIn, setErrors);
     }
 
     const update = (stateSetter) => {
@@ -36,6 +36,8 @@ const SessionForm = (props) => {
     }
 
     return (
+        <>
+        <Errors errors={errors} />
         <Form className="w-100">
             <Form.Group>
                 <Form.Control type="email" value={email} placeholder="Email" onChange={update(setEmail)} className="session-input" />
@@ -46,6 +48,7 @@ const SessionForm = (props) => {
             </Form.Group>
             <Button onClick={handleSubmit} variant="light" className="border rounded form-submit-button">{props.formType}</Button>
         </Form>
+        </>
     )
 
 }
