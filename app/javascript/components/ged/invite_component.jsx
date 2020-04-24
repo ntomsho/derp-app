@@ -9,12 +9,19 @@ import { fetchUsers } from '../../actions/user_actions';
 const InviteComponent = (props) => {
     const [query, setQuery] = useState("");
     const [usersList, setUsersList] = useState([]);
+    const [searchTimer, setSearchTimer] = useState(null);
 
     useEffect(() => {
-        if (query) {
-            fetchUsers({"not_in_campaign_id": props.campaignId, "query": query}, (users) => setUsersList(users));
-        }
+        makeSearch();
     }, [query])
+
+    const makeSearch = () => {
+        clearTimeout(searchTimer)
+        setSearchTimer(setTimeout(() => {
+            query === "" ? setUsersList([]) :
+                fetchUsers({ "not_in_campaign_id": props.campaignId, "query": query }, (users) => setUsersList(users));
+        }, 300))
+    }
 
     return (
         <Form className="w-xs-100 w-md-50 mb-4">

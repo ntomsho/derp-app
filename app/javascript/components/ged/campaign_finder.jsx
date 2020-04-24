@@ -29,7 +29,7 @@ const CampaignFinder = (props) => {
         setSearchTimer(setTimeout(() => {
             query === "" ? setCampaignsList([]) : 
                 fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "query": query }, setCampaignsList);
-        }, 400))
+        }, 300))
     }
 
     return (
