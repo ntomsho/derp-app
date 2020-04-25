@@ -10,7 +10,7 @@ const ClassDescription = (props) => {
         <Accordion>
             <Card>
                 <Accordion.Toggle as={Button} variant="light" className="w-100" eventKey="0">
-                    Class Description
+                    Class Features
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
                     <Card.Body>
