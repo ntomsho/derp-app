@@ -62,6 +62,7 @@ class CharacterMain extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.updateCampaign = this.updateCampaign.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
+        this.levelUp = this.levelUp.bind(this);
         this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleDeath = this.handleDeath.bind(this);
@@ -86,6 +87,27 @@ class CharacterMain extends React.Component {
         } else {
             this.setState({ char: newState });
         }
+    }
+
+    levelUp(advancement) {
+        let newState = Object.assign({}, this.state.char)
+        newState.experience = 0;
+        newState.level++;
+        newState.advancements.push(advancement);
+        const adv = Object.keys(advancement)[0];
+        switch (adv) {
+            case "health":
+                newState.maxHealth += 2;
+                newState.health += 2;
+                break;
+            case "civSkill":
+                newState.maxHealth += 1;
+                newState.health += 1;
+                //No break here on purpose
+            default:
+                newState.trainedSkills.push(advancement[adv]);
+        }
+        this.setState({ char: newState });
     }
 
     saveCharacter() {
@@ -363,7 +385,7 @@ class CharacterMain extends React.Component {
                     <Inventory {...this.state.char} updateState={this.updateState} />
                 </Row>
                 <Row id="advancement-section">
-                    <Advancement {...this.state.char} updateState={this.updateState} />
+                    <Advancement {...this.state.char} updateState={this.updateState} levelUp={this.levelUp} />
                 </Row>
             </Container>
             </>

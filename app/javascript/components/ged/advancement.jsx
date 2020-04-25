@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LevelUpModal from './level_up_modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -26,10 +27,31 @@ const Advancement = (props) => {
         }
     }
 
+    function advancementText(advObj) {
+        const adv = Object.keys(advObj)[0];
+        switch (adv) {
+            case 'health':
+                return "+2 Max Health";
+            case 'civSkill':
+                return `Training in ${advObj[adv]} and +1 Max Health`;
+            default:
+                return `Training in ${advObj[adv]}`;
+        }
+    }
+
     return (
         <Container className="mb-2">
+            <LevelUpModal show={levelUpModal} onHide={() => setLevelUpModal(false)} 
+                trainedSkills={props.trainedSkills}
+                selectedFightingSkill={props.selectedFightingSkill}
+                cClass={props.cClass}
+                levelUp={props.levelUp}
+            />
             <Row>
                 <h1>Advancement</h1>
+            </Row>
+            <Row>
+                <h2>Level {props.level}</h2>
             </Row>
             <Row>
                 <Col xs={12} md={8}>
@@ -55,11 +77,9 @@ const Advancement = (props) => {
                     <h2>Advancements</h2>
                     <ListGroup>
                         {props.advancements.map((advancement, i) => {
-                            const adv = Object.keys(advancement)[0];
                             return (
-                                //temporary
                                 <ListGroup.Item key={i}>
-                                    Level {i + 2}: {adv}
+                                    Level {i + 2}: {advancementText(advancement)}
                                 </ListGroup.Item>    
                             )
                         })}
