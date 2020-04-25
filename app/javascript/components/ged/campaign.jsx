@@ -5,9 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import DeleteCampaignModal from './delete_campaign_modal';
 import InviteComponent from './invite_component';
-import { fetchCampaign } from '../../actions/campaign_actions';
+import { fetchCampaign, updateCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
 import { createInvite, deleteInvite } from '../../actions/invite_actions';
 import { CLASS_COLORS } from '../../dndb-tables';
@@ -18,6 +20,10 @@ class Campaign extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            editTitle: false,
+            editDesc: false,
+            tempString: "",
+            errors: [],
             subPending: null,
             usersList: [],
             deleteModal: false,
@@ -43,6 +49,10 @@ class Campaign extends React.Component {
         this.findMyInviteId = this.findMyInviteId.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
         this.clearRequest = this.clearRequest.bind(this);
+        this.openEdit = this.openEdit.bind(this);
+        this.closeEdit = this.closeEdit.bind(this);
+        this.updateTempString = this.updateTempString.bind(this);
+        this.setErrors = this.setErrors.bind(this);
     }
 
     componentDidMount() {
@@ -237,6 +247,78 @@ class Campaign extends React.Component {
         }
     }
 
+    openEdit(title) {
+        if (this.state.campaign.director.id === this.props.loggedInUser.id) {
+            if (title) {
+                this.setState({ editTitle: true, editDesc: false, tempString: this.state.campaign.title })
+            } else {
+                this.setState({editDesc: true, editTitle: false, tempString: this.state.campaign.description})
+            }
+        }
+    }
+
+    closeEdit(title) {
+        let newState = Object.assign({}, this.state.campaign);
+        if (title) {
+            newState.title = this.state.tempString;
+        } else {
+            newState.description = this.state.tempString;
+        }
+        updateCampaign(newState, (newCampaign) => this.setState({ editDesc: false, editTitle: false, tempString: "", campaign: newCampaign }), this.setErrors);
+    }
+
+    updateTempString(e) {
+        this.setState({ 'tempString': e.currentTarget.value })
+    }
+
+    setErrors(errors) {
+        this.setState({errors: errors});
+    }
+
+    titleDisp() {
+        if (this.state.editTitle) {
+            return (
+                <Form>
+                    <InputGroup>
+                        <Form.Control value={this.state.tempString} onChange={this.updateTempString} />
+                    </InputGroup>
+                    <InputGroup.Append>
+                        <Button onClick={() => this.closeEdit(true)} variant="success">Update</Button>
+                        <Button onClick={() => this.setState({editTitle: false, tempString: ""})} variant="danger">Cancel</Button>
+                    </InputGroup.Append>
+                </Form>
+            )
+        } else {
+            return (
+                <h1 className="display-3" onClick={() => this.openEdit(true)}>{this.state.campaign.title}</h1>
+            )
+        }
+    }
+
+    descriptionDisp() {
+        if (this.state.editDesc) {
+            return (
+                <Form>
+                    <InputGroup>
+                        <Form.Control as="textarea" rows="3" value={this.state.tempString} onChange={this.updateTempString} />
+                    </InputGroup>
+                    <InputGroup.Append>
+                        <Button onClick={() => this.closeEdit(false)} variant="success">Update</Button>
+                        <Button onClick={() => this.setState({ editDesc: false, tempString: "" })} variant="danger">Cancel</Button>
+                    </InputGroup.Append>
+                </Form>
+            )
+        } else if (this.state.campaign.description) {
+            return (
+                <p onClick={() => this.openEdit(false)}><em>{this.state.campaign.description}</em></p>
+            )
+        } else if (this.state.campaign.director.id === this.props.loggedInUser.id) {
+            return (
+                <Button onClick={() => this.openEdit(false)} variant="secondary">Add Description</Button>
+            )
+        }
+    }
+
     render() {
         const { director } = this.state.campaign;
         const userDirecting = director.id === this.props.loggedInUser.id
@@ -249,7 +331,7 @@ class Campaign extends React.Component {
                     leaveCampaign={this.leaveCampaign}
                 />
                 <Row>
-                    <h1 className="display-3">{this.state.campaign.title}</h1>
+                {this.titleDisp()}
                 </Row>
                 <Row className="mb-3 justify-content-between">
                     <div>Directed by: {userDirecting ? "You" : director.username}</div>
@@ -258,7 +340,7 @@ class Campaign extends React.Component {
                     </Button>
                 </Row>
                 <Row>
-                    <p><em>{this.state.campaign.description}</em></p>
+                    {this.descriptionDisp()}
                 </Row>
                 <Row>
                     {this.joinButton()}

@@ -21,8 +21,17 @@ export const createCampaign = (campaign, callback, setErrors) => {
         success: callback,
         error: (errors) => setErrors(errors.responseJSON)
     })
-    // .then(newCampaign => callback(Object.assign({}, newCampaign)));
-}
+};
+
+export const updateCampaign = (campaign, callback, setErrors) => {
+    return $.ajax({
+        method: "PATCH",
+        url: `/api/campaigns/${campaign.id}`,
+        data: { campaign },
+        success: callback,
+        error: (errors) => setErrors(errors.responseJSON)
+    })
+};
 
 export const quitCampaign = (campaign_id, user_id, callback) => {
     return $.ajax({

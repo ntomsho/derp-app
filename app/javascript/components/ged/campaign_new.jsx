@@ -91,7 +91,7 @@ const CampaignNew = (props) => {
                 <h1 className="display-4">Create a New Campaign</h1>
                 <Errors errors={errors} />
                 <Form.Control type="text" placeholder="Title" name="title" value={title} onChange={update} className="session-input" />
-                <Form.Control as="textarea" placeholder="Description" name="description" value={description} onChange={update} className="session-input" />
+                <Form.Control as="textarea" rows="3" placeholder="Description" name="description" value={description} onChange={update} className="session-input" />
                 <Button onClick={create}>Submit</Button>
             </Form>
         </Container>
