@@ -170,7 +170,7 @@ class CharacterMain extends React.Component {
             )
         }
         return (
-            <Row className="border border-secondary">
+            <Row>
                 {hearts}
             </Row>
         )
@@ -196,7 +196,7 @@ class CharacterMain extends React.Component {
             )
         }
         return (
-            <Row className="border border-secondary">
+            <Row>
                 {pp}
             </Row>
         )
@@ -242,7 +242,7 @@ class CharacterMain extends React.Component {
                     <Nav.Link className="grenze" href="#skills-section">Skills</Nav.Link>
                     <Nav.Link className="grenze" href="#inventory-section">Inventory</Nav.Link>
                     <Nav.Link className="grenze" href="#advancement-section">Advancement</Nav.Link>
-                    <NavDropdown className="grenze" title="Options">
+                    <NavDropdown alignRight className="grenze" title="Options">
                         {this.saveCharacterButton()}
                         <NavDropdown.Divider />
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ campaignModal: true })}>
