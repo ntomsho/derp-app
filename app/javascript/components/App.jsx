@@ -12,6 +12,7 @@ import CharGen from './char_gen/char_gen';
 import CharacterMain from './ged/character_main';
 import Campaign from './ged/campaign';
 import CampaignNew from './ged/campaign_new';
+import DeadPage from './dead_page';
 
 const App = () => {
     
@@ -31,7 +32,8 @@ const App = () => {
                 <Route exact path="/ged/characters/new" render={(props) => <CharGen {...props} loggedInUser={loggedInUser} />} />
                 <Route path="/ged/characters/:id" render={(props) => <CharacterMain {...props} loggedInUser={loggedInUser} /> } />
                 <Route path="/ged" render={(props) => <GEDHome {...props} loggedInUser={loggedInUser} />} />
-                <Route path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route exact path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route component={DeadPage} />
             </Switch>
         </BrowserRouter>
     )
