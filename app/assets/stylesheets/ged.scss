@@ -93,6 +93,11 @@ a:hover {
     flex-direction: row;
 }
 
+#rules-modal-body .row {
+    justify-content: center;
+    text-align: center;
+}
+
 @include media-breakpoint-up(md) {
 
     .form-submit-button {
