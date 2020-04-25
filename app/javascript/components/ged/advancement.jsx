@@ -34,17 +34,22 @@ const Advancement = (props) => {
             <Row>
                 <Col xs={12} md={8}>
                     <h2>Experience</h2>
-                    <InputGroup>
+                    <InputGroup className="mb-2">
                         <InputGroup.Prepend style={{ width: '10%' }}>
-                            <Button block variant="secondary" onClick={() => changeExp(false)}>-</Button>
+                            <Button block variant="outline-secondary" onClick={() => changeExp(false)}>-</Button>
                         </InputGroup.Prepend>
                         <ProgressBar style={{height: '38px'}} variant="warning" className="w-75" now={Math.floor((props.experience / nextLevelExp) * 100)} />
                         <span className="position-absolute w-100 text-center"><h3>{props.experience} / {nextLevelExp}</h3></span>
                         <InputGroup.Append style={{ width: '10%' }}>
-                            <Button block variant="secondary" onClick={() => changeExp(true)}>+</Button>
+                            <Button block variant="outline-secondary" onClick={() => changeExp(true)}>+</Button>
                         </InputGroup.Append>
                     </InputGroup>
-                    <div className='grenze'>Whenever you fill the Experience bar, you level up and gain an Advancement.</div>
+                    <div className="grenze text-center">
+                        {props.experience >= nextLevelExp ?
+                        levelUpButton() :
+                        "Whenever you fill the Experience bar, you level up and gain an Advancement"
+                        }
+                    </div>
                 </Col>
                 <Col xs={12} md={4}>
                     <h2>Advancements</h2>
