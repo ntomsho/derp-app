@@ -29,7 +29,9 @@ class CharacterMain extends React.Component {
         this.state = {
             campaignTitle: "",
             rulesModal: false,
-            diceRoller: false,
+            //
+            diceRoller: true,
+            //
             campaignModal: false,
             deathModal: false,
             deleteModal: false,
@@ -273,7 +275,7 @@ class CharacterMain extends React.Component {
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
                             Show Rules
                         </NavDropdown.Item>
-                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.props.setRollerOut(true)}>
+                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ diceRoller: true })}>
                             Roll Dice
                         </NavDropdown.Item>
                         <NavDropdown.Divider />

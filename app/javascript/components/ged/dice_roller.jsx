@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 export default function DiceRoller(props) {
     //Selection variables
@@ -17,14 +20,19 @@ export default function DiceRoller(props) {
     //  disadvantage: int if disadvantage, false if not
     //}
 
-    const topRef = useRef(null);
     const historyRef = useRef(null);
     const blankd6 = '▢';
     const dieFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+    
+    // const advantageSources = [
+    //     "You have a Skill that applies",
+    //     "You have Magic that applies",
+    //     "You have a Circumstance in your favor"
+    // ]
     const advantageSources = [
-        "You have a Skill that applies",
-        "You have Magic that applies",
-        "You have a Circumstance in your favor"
+        "Skill",
+        "Magic",
+        "Circumstance"
     ]
 
     useEffect(() => {
@@ -32,7 +40,7 @@ export default function DiceRoller(props) {
     }, [JSON.stringify(selectedDice), difficulty])
 
     useEffect(() => {
-        if (rollHistory.length > 0) historyRef.current.scrollTo(0, topRef.current.offsetTop)
+        if (rollHistory.length > 0) historyRef.current.scrollTo(0, 0)
     }, [JSON.stringify(rollHistory)])
 
     function numDice() {
@@ -104,46 +112,122 @@ export default function DiceRoller(props) {
             const currentRoll = rollHistory[rollHistory.length - 1];
             const resultText = resultString(currentRoll.total, currentRoll.dice[0]);
             return (
-                <div style={{width: '100%'}}>
-                    <div><strong>{currentRoll.result}</strong></div>
-                    <div>{resultText.main}</div>
-                    <div>{resultText.sub}</div>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        <div className="d20">
-                            <div className="d20-value">{currentRoll.dice[0]}</div>
-                        </div>
-                        {currentRoll.disadvantage ? 
-                            <span style={{color: 'red'}} className="current-d6">{dieFaces[(currentRoll.disadvantage * -1) - 1]}</span> :
-                            currentRoll.dice.map((die, i) => {
-                            if (i > 0) {
-                                return (
-                                    <span key={i} className="current-d6">{dieFaces[die - 1]}</span>
-                                )
-                            }
-                        })}
-                    </div>
-                </div>
+                <>
+                    <Row>
+                        <h1 style={{textDecoration: 'underline'}}>Result</h1>
+                    </Row>
+                    <Row className="mb-4">
+                        <Col>
+                            <h1>{currentRoll.result}</h1>
+                            <div className="d-flex">
+                                <h2 className="d20-value mr-3">{currentRoll.dice[0]}</h2>
+                                {currentRoll.disadvantage ?
+                                    <h2 style={{ color: 'red' }} className="current-d6">{dieFaces[(currentRoll.disadvantage * -1) - 1]}</h2> :
+                                    currentRoll.dice.map((die, i) => {
+                                        if (i > 0) {
+                                            return (
+                                                <h2 key={i} className="current-d6">{dieFaces[die - 1]}</h2>
+                                            )
+                                        }
+                                    })}
+                            </div>
+                        </Col>
+                        <Col>
+                            <h2>{resultText.main}</h2>
+                            <em>{resultText.sub}</em>
+                        </Col>
+                    </Row>
+                </>
+            )
+        } else {
+            return (
+                <>
+                <div style={{ minHeight: '174px' }} />
+                </>
             )
         }
     }
 
+    function diceSelectionDisplay() {
+        let cancels = difficulty;
+        return (
+            <Row>
+                <Col xs={10}>
+                    <Row style={{ color: disadvantage ? 'red' : 'black' }}>
+                            <Col xs={4}>
+                                <h3 className="text-center">Difficulty</h3>
+                            </Col>
+                            {/* <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}> */}
+                            {/* <Col> */}
+                            <Col xs={2}>
+                                <Button size="lg" className="text-center" variant="outline-secondary" onClick={() => changeDifficulty(false)}>-</Button>
+                            </Col>
+                            <Col xs={2}>
+                                <h2 className="text-center">{difficulty}</h2>
+                            </Col>
+                            <Col xs={2}>
+                                <Button size="lg" className="text-center" variant="outline-secondary" onClick={() => changeDifficulty(true)}>+</Button>
+                            </Col>
+                            {/* </Col> */}
+                            {/* </div> */}
+                            {/* {diceSelectDisadvantage()} */}
+                    </Row>
+                    <Row>
+                    {selectedDice.map((die, i) => {
+                        let canceled = false;
+                        if (selectedDice[i] && cancels > 0) {
+                            cancels -= 1;
+                            canceled = true;
+                        }
+                        return (
+                            <Col key={i} className="text-center">
+                                <small><em>{advantageSources[i]}</em></small>
+                                <div key={i} style={{ opacity: selectedDice[i] ? '100%' : '20%' }} variant="outline-secondary" onClick={() => selectAdvantageDie(i)} className="advantage-die">
+                                    {blankd6}
+                                    <div className={`canceled-x${canceled ? '' : ' hidden'}`}>X</div>
+                                </div>
+                            </Col>
+                        )
+                    })}
+                    </Row>
+                </Col>
+                <Col xs={2}>
+                    <Button className="h-100 grenze" size="lg" variant="secondary" onClick={rollDice}>Roll</Button>
+                </Col>
+            </Row>
+        )
+    }
+
+    // function diceSelectDisadvantage() {
+    //     if (disadvantage) {
+    //         return (
+    //             <div>
+    //                 <div>Disadvantage</div>
+    //                 <div>
+    //                     <div className="disadvantage-die">{blankd6}</div>
+    //                 </div>
+    //             </div>
+    //         )
+    //     }
+    // }
+
     function rollHistoryDisp() {
         if (rollHistory.length > 0) {
             return (
-                <div ref={historyRef} className="history-box">
-                    {rollHistory.map((roll, i) => {
+                <div ref={historyRef} className="overflow-auto border border-secondary border-rounded" style={{height: '100px'}}>
+                    {rollHistory.reverse().map((roll, i) => {
                         return (
-                            <div key={i} ref={i === rollHistory.length - 1 ? topRef : null}>
-                                <div>
-                                    <span><strong>{roll.result}</strong> </span>
-                                    <span>{resultString(roll.result, roll.dice[0]).main}</span>
+                            <div key={i}>
+                                <div className="d-flex align-items-center">
+                                    <h3 className="mr-3">{roll.result}</h3>
+                                    <span className="grenze">{resultString(roll.result, roll.dice[0]).main}</span>
                                 </div>
-                                <div>
-                                    <span>{roll.dice[0]}</span>
+                                <div className="d-flex">
+                                    <h3 className="mr-3">{roll.dice[0]}</h3>
                                     {
                                         roll.disadvantage ?
-                                            <span style={{color: 'red'}}>{dieFaces[(roll.disadvantage * -1) - 1]}</span> :
-                                            roll.dice.slice(1, 4).map((die, j) => <span key={j}>{dieFaces[die - 1]}</span>)
+                                            <h3 style={{color: 'red'}}>{dieFaces[(roll.disadvantage * -1) - 1]}</h3> :
+                                            roll.dice.slice(1, 4).map((die, j) => <h3 key={j}>{dieFaces[die - 1]}</h3>)
                                     }
                                 </div>
                                 <div style={{width: '50%', borderTop: '1px solid black'}}></div>
@@ -152,87 +236,38 @@ export default function DiceRoller(props) {
                     })}
                 </div>
             )
-        }
-    }
-
-    function diceSelectionDisplay() {
-        let cancels = difficulty;
-        return (
-            <>
-                {selectedDice.map((die, i) => {
-                    let canceled = false;
-                    if (selectedDice[i] && cancels > 0) {
-                        cancels -= 1;
-                        canceled = true;
-                    }
-                    return (
-                        <div key={i} style={{ display: 'flex', flexDirection: 'column' }}>
-                            <div>{advantageSources[i]}</div>
-                            <div key={i} onClick={() => selectAdvantageDie(i)} className={selectedDice[i] ? 'advantage-die-selected' : 'advantage-die'}>
-                                {blankd6}
-                                <div className={`canceled-x${canceled ? '' : ' hidden'}`}>X</div>
-                            </div>
-                        </div>
-                    )
-                })}
-            </>
-        )
-    }
-
-    function diceSelectDisadvantage() {
-        if (disadvantage) {
+        } else {
             return (
-                <div>
-                    <div>Disadvantage</div>
-                    <div>
-                        <div className="disadvantage-die">{blankd6}</div>
-                    </div>
-                </div>
+                <div className="overflow-auto border border-secondary border-rounded" style={{height: '100px', width: '100%'}} />
             )
         }
     }
 
     return (
         <Modal show={props.show} onHide={props.onHide}>
-        <div className={`dice-roller-container${props.extended ? '' : ' hidden'}`}>
-            <div className="dice-roller-main">
-                <button onClick={() => props.setRollerOut(false)}
-                    style={{ position: 'absolute', height: '5vh', width: '4vw', right: '0', top: '0' }}
-                >
-                    X
-                </button>
-                <div className="roller-top">
-                    <div className="roller-top-box">
-                        <h2>Result</h2>
-                        {currentRollDisp()}
+        <Modal.Header closeButton>
+            <h1>Dice Roller</h1>
+        </Modal.Header>
+        <Modal.Body>
+            {currentRollDisp()}
+            {diceSelectionDisplay()}
+            
+            <Row>
+                
+                <Col xs={6}>
+                    <h2>Roll History</h2>
+                    {rollHistoryDisp()}
+                </Col>
+            </Row>
+            <Row>
+                <div style={{ display: 'flex' }}>
+                    <div className="advantage-container">
+                        
                     </div>
-                    <div className="roller-top-box">
-                        <h2>Roll History</h2>
-                        {rollHistoryDisp()}
-                    </div>
+                    
                 </div>
-                <div className="dice-selection-box">
-                    <div style={{ display: 'flex' }}>
-                        <div className="advantage-container">
-                            {diceSelectionDisplay()}
-                        </div>
-                        <div style={{display: 'flex', flexDirection: 'column', width: '30%'}}>
-                            <button onClick={rollDice}>Roll</button>
-                            <div style={{ color: disadvantage ? 'red' : 'black', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-                                <div><strong>Difficulty</strong></div>
-                                <br/>
-                                <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-                                    <div onClick={() => changeDifficulty(false)}>-</div>
-                                    <div><strong>{difficulty}</strong></div>
-                                    <div onClick={() => changeDifficulty(true)}>+</div>
-                                </div>
-                                {diceSelectDisadvantage()}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </Row>
+        </Modal.Body>
         </Modal>
     )
 }

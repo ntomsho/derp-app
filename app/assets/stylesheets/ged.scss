@@ -24,6 +24,22 @@ h1, h2, h3 {
     right: 0;
 }
 
+.advantage-die {
+    font-size: 5rem;
+    cursor: pointer;
+}
+
+.canceled-x {
+  color: red;
+  position: absolute;
+  top: 17%;
+  left: 29%;
+}
+
+.canceled-x.hidden {
+  display: none;
+}
+
 .class-button {
     height: 92px;
 }
