@@ -1,4 +1,5 @@
 import React from 'react';
+import { Prompt } from 'react-router-dom';
 import { CLASSES, random, randomRace, BACKGROUNDS, APPEARANCES, DERPS } from '../../dndb-tables';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -27,39 +28,39 @@ class CharacterMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            changesMade: false,
             campaignTitle: "",
             rulesModal: false,
-            //
-            diceRoller: true,
-            //
+            diceRoller: false,
             campaignModal: false,
             deathModal: false,
             deleteModal: false,
-            char: {
-                name: "",
-                campaignId: null,
-                cClass: "",
-                raceString: "Human",
-                raceTraits: [],
-                background: "",
-                appearance: "",
-                derp: "",
-                health: 7,
-                maxHealth: 7,
-                plotPoints: 1,
-                selectedFightingSkill: "",
-                trainedSkills: [],
-                currentSpecials: {},
-                inventory: ["", "", "", "", "", "", "", "", "", "", "", ""],
-                level: 1,
-                experience: 0,
-                advancements: [],
-                savedTag: "",
-                favoriteTags: [],
-                rerolls: 0,
-                regulation: true,
-                dead: false
-            }
+            char: null
+            // {
+            //     name: "",
+            //     campaignId: null,
+            //     cClass: "",
+            //     raceString: "Human",
+            //     raceTraits: [],
+            //     background: "",
+            //     appearance: "",
+            //     derp: "",
+            //     health: 7,
+            //     maxHealth: 7,
+            //     plotPoints: 1,
+            //     selectedFightingSkill: "",
+            //     trainedSkills: [],
+            //     currentSpecials: {},
+            //     inventory: ["", "", "", "", "", "", "", "", "", "", "", ""],
+            //     level: 1,
+            //     experience: 0,
+            //     advancements: [],
+            //     savedTag: "",
+            //     favoriteTags: [],
+            //     rerolls: 0,
+            //     regulation: true,
+            //     dead: false
+            // }
         }
         this.updateState = this.updateState.bind(this);
         this.updateCampaign = this.updateCampaign.bind(this);
@@ -87,7 +88,7 @@ class CharacterMain extends React.Component {
         if (newState.campaignId) {
             fetchCampaign(newState.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title, char: newState }));
         } else {
-            this.setState({ char: newState });
+            this.setState({ changesMade: false, char: newState });
         }
     }
 
@@ -109,7 +110,7 @@ class CharacterMain extends React.Component {
             default:
                 newState.trainedSkills.push(advancement[adv]);
         }
-        this.setState({ char: newState });
+        this.setState({ changesMade: true, char: newState });
     }
 
     saveCharacter() {
@@ -126,7 +127,7 @@ class CharacterMain extends React.Component {
     updateState(key, val) {
         let newState = Object.assign({}, this.state.char);
         newState[key] = val;
-        this.setState({ char: newState });
+        this.setState({ changesMade: true, char: newState });
     }
 
     handleChange(event) {
@@ -249,7 +250,7 @@ class CharacterMain extends React.Component {
     }
 
     render() {
-        if (!this.state.char.name) {
+        if (!this.state.char) {
             return (
                 <Container className="bg-light">
                     Loading Character...
@@ -259,6 +260,7 @@ class CharacterMain extends React.Component {
 
         return (
             <>
+            <Prompt message="You have changes that will be lost if you leave without saving." />
             <Navbar sticky="top" bg="light">
                 <Nav className="flex-row justify-content-between">
                     <Nav.Link className="grenze" href="#main-section">Main</Nav.Link>
