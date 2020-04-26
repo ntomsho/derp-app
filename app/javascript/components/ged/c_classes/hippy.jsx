@@ -33,7 +33,7 @@ export default function Hippy(props) {
             forms.push(newForm);
             gifts.push(random(MUTATIONS));
         };
-        props.updateState('currentSpecials', { 'forms': forms, 'gifts': gifts });
+        props.updateState('currentSpecials', { 'forms': forms, 'gifts': gifts }, true);
     }
 
     function sacrificeForm(formInd) {
@@ -202,7 +202,7 @@ export default function Hippy(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomGift(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createFormsAndGifts}>Generate Gifts and Forms<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createFormsAndGifts}>Rest<br/>Refresh Gifts and Forms</Button>
                         </Form.Group>
                     </Form>
                 </Col>

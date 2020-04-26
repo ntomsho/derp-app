@@ -29,7 +29,7 @@ export default function KnightOfTushuze(props) {
         for (let i = 0; i < 4; i++) {
             blessings.push(randomBlessing());
         };
-        props.updateState('currentSpecials', { 'blessings': blessings })
+        props.updateState('currentSpecials', { 'blessings': blessings }, true)
     }
 
     function consumeBlessing(blessingInd) {
@@ -141,7 +141,7 @@ export default function KnightOfTushuze(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomBlessing(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createBlessings}>Generate Blessings<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createBlessings}>Rest<br/>Refresh Blessings</Button>
                         </Form.Group>
                     </Form>
                 </Col>

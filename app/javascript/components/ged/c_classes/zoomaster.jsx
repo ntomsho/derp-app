@@ -36,7 +36,7 @@ export default function Zoomaster(props) {
         for (let i = 0; i < 3; i++) {
             beasts.push(randomBeast());
         }
-        props.updateState('currentSpecials', { 'beasts': beasts });
+        props.updateState('currentSpecials', { 'beasts': beasts }, true);
     }
 
     function addCustomBeast(randomize) {
@@ -142,7 +142,7 @@ export default function Zoomaster(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomBeast(true, false)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createBeasts}>Generate New Beasts<br />(On rest)</Button>
+                            <Button variant="dark" className="ability-randomize-button" onClick={createBeasts}>Rest<br/>Refresh Beasts</Button>
                         </Form.Group>
                     </Form>
                 </Col>

@@ -125,9 +125,10 @@ class CharacterMain extends React.Component {
         updateCharacter(newState, this.props.match.params.id);
     }
 
-    updateState(key, val) {
+    updateState(key, val, rest) {
         let newState = Object.assign({}, this.state.char);
         newState[key] = val;
+        if (rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
         this.setState({ changesMade: true, char: newState });
     }
 

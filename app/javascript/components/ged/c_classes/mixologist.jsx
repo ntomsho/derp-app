@@ -49,7 +49,7 @@ export default function Mixologist(props) {
             newBases.push(randomBase());
             newCatalysts.push(randomCatalyst());
         }
-        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts });
+        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts }, true);
     }
 
     function addCustomComponent(randomize, compCat) {
@@ -250,7 +250,7 @@ export default function Mixologist(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomComponent(true, 'catalyst')}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={() => createComponents()}>Generate New Components<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={() => createComponents()}>Rest<br/>Refresh Components</Button>
                         </Form.Group>
                     </Form>
                 </Col>

@@ -64,7 +64,7 @@ export default function Wizcaster(props) {
         }
         setMissileUsed(false);
         setCurrentSpell([]);
-        props.updateState('currentSpecials', { 'words': newWords });
+        props.updateState('currentSpecials', { 'words': newWords }, true);
     }
 
     function addWordToSpell(start, wordInd) {
@@ -282,7 +282,7 @@ export default function Wizcaster(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomWord(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createWords}>Generate New Words<br/>(On rest)</Button>
+                            <Button variant="dark" className="ability-randomize-button" onClick={createWords}>Rest<br/>Refresh Words of Power</Button>
                         </Form.Group>
                     </Form>
                 </Col>

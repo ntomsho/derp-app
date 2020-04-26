@@ -40,7 +40,7 @@ export default function Runegoon(props) {
         for(let i = 0; i < 5; i++) {
             runes.push(randomRune());
         }
-        props.updateState('currentSpecials', {'runes': runes})
+        props.updateState('currentSpecials', {'runes': runes}, true)
     }
 
     function activateRune(runeInd, engrave) {
@@ -145,7 +145,7 @@ export default function Runegoon(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomRune(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createRunes}>Generate Random Runes<br/>(On rest)</Button>
+                            <Button variant="dark" className="ability-randomize-button" onClick={createRunes}>Rest<br/>Refresh Runes</Button>
                         </Form.Group>
                     </Form>
                 </Col>

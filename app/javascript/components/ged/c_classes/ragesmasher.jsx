@@ -24,7 +24,7 @@ export default function Ragesmasher(props) {
         while (totems.length < 3) {
             totems.push(randomAnimal());
         };
-        props.updateState('currentSpecials', { 'totems': totems })
+        props.updateState('currentSpecials', { 'totems': totems }, true)
     }
 
     function addCustomTotem(randomize) {
@@ -124,7 +124,7 @@ export default function Ragesmasher(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomTotem(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createTotems}>Generate Random Totems<br/>(On rest)</Button>
+                            <Button variant="dark" className="ability-randomize-button" onClick={createTotems}>Rest<br/>Refresh Totems</Button>
                         </Form.Group>
                     </Form>
                 </Col>

@@ -48,7 +48,7 @@ export default function Minstrel(props) {
         for (let i = 0; i < 6; i++) {
             notes.push(randomNote());
         };
-        props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes });
+        props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes }, true);
     }
 
     // function removeSong(songInd) {
@@ -194,7 +194,7 @@ export default function Minstrel(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomNote(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createSongsAndNotes}>Generate New Songs<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createSongsAndNotes}>Rest<br/>Refresh Songs and Notes</Button>
                         </Form.Group>
                     </Form>
                 </Col>

@@ -68,7 +68,7 @@ export default function Battlebro(props) {
         for (let i = 0; i < 3; i++) {
             weapons.push(randomWeapon());
         }
-        props.updateState('currentSpecials', { 'weapons': weapons });
+        props.updateState('currentSpecials', { 'weapons': weapons }, true);
     }
 
     function currentWeaponDisp() {
@@ -155,7 +155,7 @@ export default function Battlebro(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomWeapon(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createWeaponForms}>Generate Weapon Forms<br />(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createWeaponForms}>Rest<br />Refresh Weapon Forms</Button>
                         </Form.Group>
                     </Form>
                 </Col>

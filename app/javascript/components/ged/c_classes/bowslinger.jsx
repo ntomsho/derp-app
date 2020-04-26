@@ -30,7 +30,7 @@ export default function Bowslinger(props) {
             ammo.push(randomAmmo());
         };
         setSavableAmmo([]);
-        props.updateState('currentSpecials', {'ammo': ammo})
+        props.updateState('currentSpecials', {'ammo': ammo}, true)
     }
 
     function consumeAmmo(ammoInd) {    
@@ -140,7 +140,7 @@ export default function Bowslinger(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomAmmo(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createAmmo}>Create Ammo<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createAmmo}>Rest<br/>Refresh Special Ammo</Button>
                         </Form.Group>
                     </Form>
                 </Col>

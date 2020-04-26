@@ -23,7 +23,7 @@ export default function Neerdowell(props) {
         for (let i = 0; i < 4; i++) {
             items.push(randomMagicItem());
         };
-        props.updateState('currentSpecials', { 'items': items })
+        props.updateState('currentSpecials', { 'items': items }, true)
     }
 
     function consumeItem(itemInd) {
@@ -87,7 +87,7 @@ export default function Neerdowell(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomItem(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createItems}>Generate Random Items<br/>(On rest)</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createItems}>Rest<br/>Refresh Stolen Items</Button>
                         </Form.Group>
                     </Form>
                 </Col>
