@@ -211,11 +211,8 @@ class CharacterMain extends React.Component {
         const pp = [];
         for (let i = 0; i < 3; i++) {
             pp.push(
-                <Col md={1} xs={2} key={i}>
-                    <h1 key={i}
-                        id={`pp-${i + 1}`}
-                        className="plot-point"
-                        onClick={() => this.updatePlotPoints(i + 1)}
+                <Col md={3} xs={4} key={i} className="plot-point" onClick={() => this.updatePlotPoints(i + 1)}>
+                    <h1 key={i} id={`pp-${i + 1}`}
                     >
                         {this.state.char.plotPoints >= i + 1 ? "⦿" : "⦾"}
                     </h1>
