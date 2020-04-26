@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -34,7 +35,7 @@ const GEDHome = (props) => {
     const myCampaignsListDisp = () => {
         if (myCampaigns !== "Loading") {
             return (
-                <div >
+                <div>
                     <h2>Campaigns You Direct</h2>
                     <div className="h-40">
                         <Button className="mb-3"><Link to="/ged/campaigns/new">+ New Campaign</Link></Button>
@@ -70,7 +71,10 @@ const GEDHome = (props) => {
             )
         } else {
             return (
-                <div>Loading Campaigns...</div>
+                <div style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">
+                    <h1>Loading Your Campaigns...</h1>
+                    <Spinner animation="grow" role="status" variant="dark" />
+                </div>
             )
         }
     }

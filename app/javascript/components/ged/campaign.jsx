@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -20,6 +21,7 @@ class Campaign extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            campaignLoaded: false,
             editTitle: false,
             editDesc: false,
             tempString: "",
@@ -63,7 +65,7 @@ class Campaign extends React.Component {
     loadCampaign(loadedCampaign) {
         let newState = {};
         newState = Object.assign(newState, loadedCampaign);
-        this.setState({ subPending: this.subRequested(newState.requested_invites, newState.sent_invites), campaign: newState });
+        this.setState({ campaignLoaded: true, subPending: this.subRequested(newState.requested_invites, newState.sent_invites), campaign: newState });
     }
 
     loadPlayers(users) {
@@ -322,6 +324,14 @@ class Campaign extends React.Component {
     render() {
         const { director } = this.state.campaign;
         const userDirecting = director.id === this.props.loggedInUser.id
+        if (!this.state.campaignLoaded) {
+            return (
+                <Container style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">
+                    <h1>Loading Campaign...</h1>
+                    <Spinner animation="grow" role="status" variant="dark" />
+                </Container>
+            )
+        }
         return (
             <Container className="bg-light pl-5">
                 <DeleteCampaignModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })}

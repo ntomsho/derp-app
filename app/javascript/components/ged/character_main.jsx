@@ -1,6 +1,7 @@
 import React from 'react';
 import { Prompt } from 'react-router-dom';
 import { CLASSES, random, randomRace, BACKGROUNDS, APPEARANCES, DERPS } from '../../dndb-tables';
+import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -252,8 +253,9 @@ class CharacterMain extends React.Component {
     render() {
         if (!this.state.char) {
             return (
-                <Container className="bg-light">
-                    Loading Character...
+                <Container style={{height: '92vh'}} className="d-flex bg-light w-100 justify-content-center align-items-center">
+                    <h1>Loading Character...</h1>
+                    <Spinner animation="grow" role="status" variant="dark" />
                 </Container>
             )
         }
