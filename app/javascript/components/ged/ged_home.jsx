@@ -7,10 +7,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import CampaignFinder from './campaign_finder';
 import { fetchCampaigns } from '../../actions/campaign_actions';
-import { fetchCharacters } from '../../actions/character_actions';
 import { Link } from 'react-router-dom';
-import { CLASS_COLORS } from '../../dndb-tables';
-//Still need a more optimal solution for responsive display here
+
 const GEDHome = (props) => {
 
     const [myCampaigns, setMyCampaigns] = useState("Loading")
