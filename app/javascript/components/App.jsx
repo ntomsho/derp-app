@@ -5,6 +5,7 @@ import {
     Redirect,
     BrowserRouter
 } from 'react-router-dom';
+import PrivateRoute from '../route_utils';
 import NavbarComp from './navbar';
 import Home from './Home';
 import GEDHome from './ged/ged_home';
@@ -17,20 +18,6 @@ import DeadPage from './dead_page';
 const App = () => {
     
     const [loggedInUser, setLoggedInUser] = useState(window.currentUser || null)
-    const routes = !loggedInUser ? 
-        <>
-        <Route exact path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
-        <Redirect to="/" />
-        </> : 
-        <>
-        <Route exact path="/ged/campaigns/new" render={(props) => <CampaignNew {...props} loggedInUser={loggedInUser} />} />
-        <Route path="/ged/campaigns/:id" render={(props) => <Campaign {...props} loggedInUser={loggedInUser} />} />
-        <Route exact path="/ged/characters/new" render={(props) => <CharGen {...props} loggedInUser={loggedInUser} />} />
-        <Route exact path="/ged/characters/:id" render={(props) => <CharacterMain {...props} loggedInUser={loggedInUser} />} />
-        <Route path="/ged" render={(props) => <GEDHome {...props} loggedInUser={loggedInUser} />} />
-        <Route path="/" render={(props) => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
-        <Route component={DeadPage} />
-        </>
 
     return (
         <BrowserRouter>
@@ -38,7 +25,13 @@ const App = () => {
                 {loggedInUser ? <NavbarComp loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} /> : null}
             </header>
             <Switch>
-                {routes}
+                <PrivateRoute path="/ged/campaigns/new" component={CampaignNew} loggedInUser={loggedInUser} />} />
+                <PrivateRoute path="/ged/campaigns/:id" component={Campaign} loggedInUser={loggedInUser} />} />
+                <PrivateRoute path="/ged/characters/new" component={CharGen} loggedInUser={loggedInUser} />} />
+                <PrivateRoute path="/ged/characters/:id" component={CharacterMain} loggedInUser={loggedInUser} />} />
+                <PrivateRoute path="/ged" component={GEDHome} loggedInUser={loggedInUser} />} />
+                <Route path="/" component={Home} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route component={DeadPage} />
             </Switch>
         </BrowserRouter>
     )
