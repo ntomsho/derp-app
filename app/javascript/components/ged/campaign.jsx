@@ -47,7 +47,6 @@ class Campaign extends React.Component {
         this.requestSub = this.requestSub.bind(this);
         this.inviteUser = this.inviteUser.bind(this);
         this.addInvite = this.addInvite.bind(this);
-        this.findPlayer = this.findPlayer.bind(this);
         this.findMyInviteId = this.findMyInviteId.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
         this.clearRequest = this.clearRequest.bind(this);
@@ -119,12 +118,6 @@ class Campaign extends React.Component {
         if (!this.userSubbed(this.props.loggedInUser.id) && !this.state.subPending) {
             createInvite({ requester_type: 'User', requester_id: this.props.loggedInUser.id, requested_type: 'Campaign', requested_id: this.props.match.params.id }, this.addInvite);
             this.setState({ subPending: true })
-        }
-    }
-
-    findPlayer(userId) {
-        for (let i = 0; i < this.state.usersList.length; i++) {
-            if (this.state.usersList[i].id === userId) return this.state.usersList[i].username;
         }
     }
 

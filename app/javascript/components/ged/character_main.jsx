@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
+import Errors from '../errors';
 import RulesModal from './rules_modal';
 import DiceRoller from './dice_roller';
 import CampaignModal from './campaign_modal';
@@ -29,6 +30,7 @@ class CharacterMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            errors: [],
             changesMade: false,
             campaignTitle: "",
             rulesModal: false,
@@ -37,35 +39,11 @@ class CharacterMain extends React.Component {
             deathModal: false,
             deleteModal: false,
             char: null
-            // {
-            //     name: "",
-            //     campaignId: null,
-            //     cClass: "",
-            //     raceString: "Human",
-            //     raceTraits: [],
-            //     background: "",
-            //     appearance: "",
-            //     derp: "",
-            //     health: 7,
-            //     maxHealth: 7,
-            //     plotPoints: 1,
-            //     selectedFightingSkill: "",
-            //     trainedSkills: [],
-            //     currentSpecials: {},
-            //     inventory: ["", "", "", "", "", "", "", "", "", "", "", ""],
-            //     level: 1,
-            //     experience: 0,
-            //     advancements: [],
-            //     savedTag: "",
-            //     favoriteTags: [],
-            //     rerolls: 0,
-            //     regulation: true,
-            //     dead: false
-            // }
         }
         this.updateState = this.updateState.bind(this);
         this.updateCampaign = this.updateCampaign.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
+        this.setErrors = this.setErrors.bind(this);
         this.levelUp = this.levelUp.bind(this);
         this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -91,13 +69,17 @@ class CharacterMain extends React.Component {
                 newState[snakeToCamel(key)] = JSON.parse(character[key]) : 
                 newState[snakeToCamel(key)] = character[key];
         });
-        //Temporary until assoc is figured out
+        //Temporary until implemented
         newState.favoriteTags = [];
         if (newState.campaignId) {
             fetchCampaign(newState.campaignId, (campaign) => this.setState({ changesMade: false, campaignTitle: campaign.title, char: newState }));
         } else {
             this.setState({ changesMade: false, char: newState });
         }
+    }
+
+    setErrors(errors) {
+        this.setState({ errors: errors })
     }
 
     levelUp(advancement) {
@@ -130,7 +112,7 @@ class CharacterMain extends React.Component {
                 JSON.stringify(this.state.char[key]) : 
                 this.state.char[key]
         });
-        updateCharacter(newState);
+        updateCharacter(newState, this.setErrors);
         localStorage.removeItem(this.props.match.params.id);
     }
 
@@ -158,11 +140,11 @@ class CharacterMain extends React.Component {
         let newState = Object.assign({}, this.state.char);
         if (campaignId === null) {
             newState['campaignId'] = null;
-            this.setState({ campaignTitle: "", char: newState }, saveCharacter);
+            this.setState({ campaignTitle: "", char: newState }, this.saveCharacter);
         } else {
             fetchCampaign(campaignId, (campaign) => {
                 newState['campaignId'] = campaign.id;
-                this.setState({ campaignTitle: campaign.title, char: newState }, saveCharacter);
+                this.setState({ campaignTitle: campaign.title, char: newState }, this.saveCharacter);
             });
         }
     }
@@ -302,7 +284,8 @@ class CharacterMain extends React.Component {
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
-            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} update={this.updateCampaign} loggedInUser={this.props.loggedInUser} />
+            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} 
+                update={this.updateCampaign} loggedInUser={this.props.loggedInUser} errors={this.state.errors} />
             <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
             <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.props.match.params.id} charName={this.state.char.name} campaignId={this.state.char.campaignId} />
             <Container className="bg-light">
@@ -315,6 +298,7 @@ class CharacterMain extends React.Component {
                 {this.deathHeader()}
                 <Row>
                 <Form>
+                    <Errors errors={this.state.errors} />
                     <Row id="main-section" className="mb-3">
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Name</Form.Label>

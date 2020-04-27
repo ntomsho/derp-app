@@ -1,7 +1,7 @@
 class Character < ApplicationRecord
 
     validates :user_id, presence: true
-    validates :name, uniqueness: { scope: :campaign_id }
+    validates :name, presence: true, uniqueness: { scope: :campaign_id }
 
     belongs_to :user,
         foreign_key: :user_id,

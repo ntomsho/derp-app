@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Errors from '../errors';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import {fetchCampaigns} from '../../actions/campaign_actions';
@@ -33,6 +34,7 @@ const CampaignModal = (props) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
+                    <Errors errors={props.errors} />
                     <Form.Label><h3>Change Campaign</h3></Form.Label>
                     <Form.Control as="select" name="campaignId" value={props.campaignId} onChange={handleChange}>
                         {campaignsList.map(campaign => {

@@ -1,15 +1,27 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Alert from 'react-bootstrap/Alert';
 
 const Errors = (props) => {
 
-    if (props.errors.length > 0) {
+    const [errorsList, setErrorsList] = useState(props.errors);
+
+    useEffect(() => {
+        setErrorsList(props.errors);
+    }, [props.errors])
+
+    const clearError = (ind) => {
+        let newErrors = Object.assign([], errorsList);
+        newErrors.splice(ind, 1);
+        setErrorsList(newErrors);
+    }
+
+    if (errorsList.length > 0) {
         return (
             <>
-                {props.errors.map((error, i) => {
+                {errorsList.map((error, i) => {
                     return (
-                        <Alert key={i} variant="danger">
-                            -{error}
+                        <Alert dismissible key={i} variant="danger" onClose={() => clearError(i)}>
+                            {error}
                         </Alert>
                     )
                 })}
