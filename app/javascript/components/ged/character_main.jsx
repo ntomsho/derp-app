@@ -255,7 +255,7 @@ class CharacterMain extends React.Component {
         return (
             <>
             <Prompt message="You have changes that will be lost if you leave without saving." />
-            <Navbar sticky="top" bg="light">
+            <Navbar style={{zIndex: '999'}} sticky="top" bg="light">
                 <Nav className="flex-row justify-content-between">
                     <Nav.Link className="grenze" href="#main-section">Main</Nav.Link>
                     <Nav.Link className="grenze" href="#class-section">Class</Nav.Link>
