@@ -162,7 +162,7 @@ class CharacterMain extends React.Component {
 
     healthTrackerDisp() {
         const hearts = [
-            <Col md={2} xs={3} key={0}>
+            <Col xs={3} md={2} lg={1} key={0}>
                 <Image
                     id="heart-0"
                     className="heart-container"
@@ -176,7 +176,7 @@ class CharacterMain extends React.Component {
         ];
         for (let i = 0; i < this.state.char.maxHealth; i++) {
             hearts.push(
-                <Col md={2} xs={3} key={i + 1}>
+                <Col xs={3} md={2} lg={1} key={i + 1}>
                     <Image 
                         id={`heart-${i + 1}`}
                         className="heart-container"
@@ -205,7 +205,7 @@ class CharacterMain extends React.Component {
         const pp = [];
         for (let i = 0; i < 3; i++) {
             pp.push(
-                <Col md={3} xs={4} key={i} className="plot-point" onClick={() => this.updatePlotPoints(i + 1)}>
+                <Col lg={2} md={3} xs={4} key={i} className="plot-point d-flex justify-content-center align-items-center" onClick={() => this.updatePlotPoints(i + 1)}>
                     <h1 key={i} id={`pp-${i + 1}`}
                     >
                         {this.state.char.plotPoints >= i + 1 ? "⦿" : "⦾"}
