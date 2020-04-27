@@ -12,12 +12,11 @@ const InviteComponent = (props) => {
     const [query, setQuery] = useState("");
     const [usersList, setUsersList] = useState([]);
     const [searching, setSearching] = useState(false);
-    let timer;
 
-    useEffect((timer) => {
+    useEffect(() => {
         if (query === "") return setUsersList([]);
         if (!searching) setSearching(true);
-        timer = (setTimeout(() => {
+        const timer = (setTimeout(() => {
             processSearch(timer)
         }, 300))
     }, [query])
