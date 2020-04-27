@@ -1,5 +1,4 @@
 import React from 'react';
-import { Prompt } from 'react-router-dom';
 import { CLASSES, random, randomRace, BACKGROUNDS, APPEARANCES, DERPS } from '../../dndb-tables';
 import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
@@ -55,6 +54,8 @@ class CharacterMain extends React.Component {
             const character = (JSON.parse(localStorage.getItem(this.props.match.params.id)))
             if (character.campaignId) {
                 fetchCampaign(character.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title, char: character }));
+            } else {
+                this.setState({ char: character })
             }
         } else {
             fetchCharacter(this.props.match.params.id, this.loadCharacter);
@@ -254,7 +255,6 @@ class CharacterMain extends React.Component {
 
         return (
             <>
-            <Prompt message="You have changes that will be lost if you leave without saving." />
             <Navbar style={{zIndex: '999'}} sticky="top" bg="light">
                 <Nav className="flex-row justify-content-between">
                     <Nav.Link className="grenze" href="#main-section">Main</Nav.Link>

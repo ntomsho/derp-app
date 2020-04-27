@@ -14,11 +14,7 @@ import { fetchCampaigns } from '../../actions/campaign_actions'
 import { camelToSnake } from '../../case_converter';
 
 export default function CharGenConfirm(props) {
-    let character = props.char;
-    // Why won't this destructuring work?
-    // let { character: char } = props;
-    // const allSkills = character.trainedSkills;
-    // if (character.selectedFightingSkill) allSkills.unshift(character.seletedFightingSkill);
+    let character = Object.assign({}, props.char);
     
     const [errors, setErrors] = useState([]);
     const [campaignsList, setCampaignsList] = useState([]);
@@ -30,11 +26,13 @@ export default function CharGenConfirm(props) {
 
     function sortCampaigns(campaigns) {
         let myCampaigns = [{id: null, title: "None"}];
-        campaigns.forEach(campaign => {
-            if (campaign.director.id !== props.loggedInUser.id && campaign.subs.some(sub => sub.user_id === props.loggedInUser.id)){
-                myCampaigns.push(campaign);
-            };
-        });
+        if (props.campaign) {
+            campaigns.forEach(campaign => {
+                campaign.id === props.campaign.id ? myCampaigns.unshift(campaign) : myCampaigns.push(campaign);
+            });
+        } else {
+            myCampaigns = myCampaigns.concat(campaigns);
+        }
         setCampaignsList(myCampaigns);
     }
 
@@ -68,8 +66,6 @@ export default function CharGenConfirm(props) {
             Object.keys(character).forEach(key => {
                 if (key !== "inventoryStartingChoices") charCopy[camelToSnake(key)] = character[key];
             });
-            // // charCopy.campaign_id = campaignId;
-            // charCopy.campaign_id = 2;
             charCopy.health = 7;
             charCopy.plot_points = 1;
             charCopy.current_specials = {};
@@ -80,14 +76,6 @@ export default function CharGenConfirm(props) {
 
     function loadNewChar(newChar) {
         setNewCharId(newChar.id)
-    }
-
-    function loadedCampaignOption() {
-        if (props.campaign) {
-            return (
-                <option value={props.campaign.id}>{props.campaign.title}</option>
-            )
-        }
     }
 
     function temp(errors) {
@@ -122,7 +110,6 @@ export default function CharGenConfirm(props) {
                         <InputGroup>
                             <InputGroup.Prepend><InputGroup.Text>Campaign</InputGroup.Text></InputGroup.Prepend>
                             <Form.Control as="select" name="campaignId" value={character.campaignId} onChange={handleChange}>
-                                {loadedCampaignOption()}
                                 {campaignsList.map(campaign => {
                                     return (
                                         <option key={campaign.id} value={campaign.id}>{campaign.title}</option>

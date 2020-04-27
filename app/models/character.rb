@@ -7,7 +7,7 @@ class Character < ApplicationRecord
         foreign_key: :user_id,
         class_name: :User
 
-    belongs_to :campaign,
+    belongs_to :campaign, optional: true,
         foreign_key: :campaign_id,
         class_name: :Campaign
 
