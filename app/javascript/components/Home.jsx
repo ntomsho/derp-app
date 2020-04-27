@@ -36,7 +36,7 @@ const Home = (props) => {
                     <h1>The DERP</h1>
                 </Row>
                 <Row className="justify-content-center">
-                    <h3 className="m-0">(Dangerously Eccentric Roleplaying)</h3>
+                    <h3 className="m-0">(Decidedly Eccentric Roleplaying)</h3>
                 </Row>
                 <Row className="justify-content-center">
                     <h1>System</h1>
