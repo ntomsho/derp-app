@@ -181,7 +181,7 @@ Character.create!(
     selected_fighting_skill: "Brute Force",
     trained_skills: "[\"Believe In Yourself\"]",
     current_specials: "{}",
-    inventory: "[\"Polearm\",\"Shield\",\"Potion of Healing\",\"Lockpicks\",\"Spyglass\",\"Hourglass\",\"Torch\",\"Chakram\"]"
+    inventory: "[\"Polearm\",\"Shield\",\"Potion of Healing\",\"Lockpicks\",\"Spyglass\",\"Hourglass\",\"Torch\",\"Chakram\"]",
     dead: true
 )
 
