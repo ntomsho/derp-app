@@ -30,7 +30,7 @@ const App = () => {
                 <PrivateRoute path="/ged/characters/new" component={CharGen} loggedInUser={loggedInUser} />} />
                 <PrivateRoute path="/ged/characters/:id" component={CharacterMain} loggedInUser={loggedInUser} />} />
                 <PrivateRoute path="/ged" component={GEDHome} loggedInUser={loggedInUser} />} />
-                <Route path="/" component={Home} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route path="/" render={props => <Home {...props} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
                 <Route component={DeadPage} />
             </Switch>
         </BrowserRouter>
