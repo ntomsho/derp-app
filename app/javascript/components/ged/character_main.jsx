@@ -73,7 +73,14 @@ class CharacterMain extends React.Component {
     }
 
     componentDidMount() {
-        fetchCharacter(this.props.match.params.id, this.loadCharacter);
+        if (localStorage.getItem(this.props.match.params.id)) {
+            const character = (JSON.parse(localStorage.getItem(this.props.match.params.id)))
+            if (character.campaignId) {
+                fetchCampaign(character.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title, char: character }));
+            }
+        } else {
+            fetchCharacter(this.props.match.params.id, this.loadCharacter);
+        }
     }
 
     loadCharacter(character) {
@@ -87,7 +94,7 @@ class CharacterMain extends React.Component {
         //Temporary until assoc is figured out
         newState.favoriteTags = [];
         if (newState.campaignId) {
-            fetchCampaign(newState.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title, char: newState }));
+            fetchCampaign(newState.campaignId, (campaign) => this.setState({ changesMade: false, campaignTitle: campaign.title, char: newState }));
         } else {
             this.setState({ changesMade: false, char: newState });
         }
@@ -112,6 +119,7 @@ class CharacterMain extends React.Component {
                 newState.trainedSkills.push(advancement[adv]);
         }
         this.setState({ changesMade: true, char: newState });
+        localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
     }
 
     saveCharacter() {
@@ -122,7 +130,8 @@ class CharacterMain extends React.Component {
                 JSON.stringify(this.state.char[key]) : 
                 this.state.char[key]
         });
-        updateCharacter(newState, this.props.match.params.id);
+        updateCharacter(newState);
+        localStorage.removeItem(this.props.match.params.id);
     }
 
     updateState(key, val, rest) {
@@ -130,6 +139,7 @@ class CharacterMain extends React.Component {
         newState[key] = val;
         if (rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
         this.setState({ changesMade: true, char: newState });
+        localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
     }
 
     handleChange(event) {
@@ -138,6 +148,7 @@ class CharacterMain extends React.Component {
             newState['currentSpecials'] = {};
             newState['cClass'] = event.target.value
             this.setState({ char: newState });
+            localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
         } else {
             this.updateState(event.target.name, event.target.value)
         }
@@ -147,11 +158,11 @@ class CharacterMain extends React.Component {
         let newState = Object.assign({}, this.state.char);
         if (campaignId === null) {
             newState['campaignId'] = null;
-            this.setState({ campaignTitle: "", char: newState });
+            this.setState({ campaignTitle: "", char: newState }, saveCharacter);
         } else {
             fetchCampaign(campaignId, (campaign) => {
                 newState['campaignId'] = campaign.id;
-                this.setState({ campaignTitle: campaign.title, char: newState });
+                this.setState({ campaignTitle: campaign.title, char: newState }, saveCharacter);
             });
         }
     }
@@ -160,6 +171,7 @@ class CharacterMain extends React.Component {
         let newState = Object.assign({}, this.state.char)
         newState['dead'] = true;
         this.setState({ deathModal: false, char: newState }, this.saveCharacter());
+        localStorage.removeItem(this.props.match.params.id);
     }
 
     updateHealth(num) {

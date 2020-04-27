@@ -15,7 +15,7 @@ const CampaignModal = (props) => {
         let myCampaigns = [{ id: "", title: "None" }];
         if (props.campaignId) myCampaigns.unshift({ id: props.campaignId, title: props.campaignTitle })
         campaigns.forEach(campaign => {
-            if (campaign.id !== props.campaignId && campaign.director.id !== props.loggedInUser.id && campaign.subs.some(sub => sub.user_id === props.loggedInUser.id)) {
+            if (campaign.id !== props.campaignId) {
                 myCampaigns.push(campaign);
             };
         });

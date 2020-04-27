@@ -27,10 +27,10 @@ export const createCharacter = (character, callback, setErrors) => {
     })
 }
 
-export const updateCharacter = (character, character_id, setErrors) => {
+export const updateCharacter = (character, setErrors) => {
     return $.ajax({
         method: "PATCH",
-        url: `/api/characters/${character_id}`,
+        url: `/api/characters/${character.id}`,
         data: { character },
         error: (errors) => setErrors(errors.responseJSON)
     });
