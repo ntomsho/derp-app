@@ -16,7 +16,6 @@ const NavbarComp = (props) => {
     
     const history = useHistory();
     const location = useLocation();
-    // const [pendingRequests, setPendingRequesets] = useState()
     const [notifications, setNotifications] = useState(props.loggedInUser.received_invites.concat(props.loggedInUser.campaign_received_invites));
     const [myCharacters, setMyCharacters] = useState([])
 
@@ -43,7 +42,7 @@ const NavbarComp = (props) => {
         return (
             <>
             <Navbar expand="md" bg="dark" variant="dark">
-                <Navbar.Brand className="text-light" href="/">DERP</Navbar.Brand>
+                <Navbar.Brand className="text-light grenze" href="/">DERP</Navbar.Brand>
                 <Navbar.Text className="text-primary">{props.loggedInUser.username}</Navbar.Text>
                 <NavDropdown className="text-light"
                     title={<span>Notifications <Badge pill variant="danger">{notifications.length}</Badge></span>}
@@ -83,8 +82,6 @@ const NavbarComp = (props) => {
                             }
                         })}
                     </NavDropdown>
-                    {/* <NotificationsList list={notifications} listSetter={setNotifications} />
-                    <NotificationsList list={joinRequests} listSetter={setJoinRequests} /> */}
                     <Button className="ml-md-auto" onClick={logMeOut} variant="light">Logout</Button>
                 </Navbar.Collapse>
                 <Navbar.Toggle className="ml-auto" />
