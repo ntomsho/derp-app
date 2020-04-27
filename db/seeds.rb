@@ -162,7 +162,7 @@ Character.create!(
     selected_fighting_skill: "",
     trained_skills: "[\"Thinkiness\"]",
     current_specials: "{}",
-    inventory: "[\"Polearm\",\"Cleric's tools\",\"Potion of Healing\",\"Grappling hook\",\"Bomb\",\"Staff\",\"Tripwire\",\"Spyglass\"]"
+    inventory: "[\"Polearm\",\"Cleric's tools\",\"Potion of Healing\",\"Grappling hook\",\"Bomb\",\"Staff\",\"Tripwire\",\"Spyglass\"]",
     dead: true
 )
 
