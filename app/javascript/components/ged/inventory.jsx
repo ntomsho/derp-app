@@ -8,107 +8,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 export default function Inventory(props) {
-    const [startingChoices, setStartingChoices] = useState([])
-
-    useEffect(() => {
-        if (props.cClass) {
-            const itemPackage = STARTING_ITEMS[props.cClass]
-            let startChoiceArr = [];
-            for (let i = 0; i < itemPackage.length; i++) {
-                if (itemPackage[i].length === 1) {
-                    startChoiceArr.push(itemPackage[i][0])
-                } else {
-                    startChoiceArr.push(undefined)
-                }
-            }
-            setStartingChoices(startChoiceArr)
-        }
-    }, [props.cClass])
-
-    // function startingEquipmentDisp() {
-    //     if (props.cClass && JSON.stringify(props.inventory) === JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""])) {
-    //         const itemPackage = STARTING_ITEMS[props.cClass];
-    //         return (
-    //             <>
-    //             <h3>Starting Inventory Choices</h3>
-    //             <ul>
-    //                 {itemPackage.map((choices, i) => {
-    //                     return (
-    //                         <div key={i} style={{display: 'flex', justifyContent: 'center'}}>
-    //                         {choiceField(choices, i)}
-    //                         </div>
-    //                     )
-    //                 })}
-    //             </ul>
-    //             <div>Plus {8 - itemPackage.length} standard items</div>
-    //             <button 
-    //             className="accept-button"
-    //             // disabled={startingChoices.length === itemPackage.length}
-    //             onClick={createStartingInv}
-    //             >
-    //                 Accept
-    //             </button>
-    //             </>
-    //         )
-    //     }
-    // }
-
-    // function choiceField(choices, ind) {
-    //     return (
-    //         <>
-    //         {choices.map((choice, i) => {
-    //             return (
-    //                 <div key={i} 
-    //                 onClick={() => startingChoice(choice, ind)}
-    //                 className={`starting-items-choice${startingChoices[ind] === choice ? ' selected' : ''}`}>
-    //                     {choice}
-    //                 </div>
-    //             )
-    //         })}
-    //         </>
-    //     )
-    // }
-
-    // function startingChoice(choice, ind) {
-    //     let newChoices = startingChoices;
-    //     newChoices[ind] = choice;
-    //     setStartingChoices([...newChoices]);
-    // }
-
-    // function createStartingInv() {
-    //     console.log(`createStartingInv`)
-    //     let newInv = [];
-    //     for (let i = 0; i < startingChoices.length; i++) {
-    //         let item;
-    //         switch(startingChoices[i]) {
-    //             case "Melee Weapon":
-    //                 item = random(WEAPONS.slice(0, 18));
-    //                 break;
-    //             case "Ranged Weapon":
-    //                 item = random(WEAPONS.slice(19, 36));
-    //                 break;
-    //             case "Weapon Oil":
-    //             case "Animal Totem":
-    //             case "Songbook":
-    //             case "Scroll of Power":
-    //             case "Command Scroll":
-    //             case "Holy Symbol":
-    //             case "Alchemical Ingredient":
-    //                 item = randomResourceItem(startingChoices[i])
-    //                 break;
-    //             case "Magic Item":
-    //                 item = randomMagicItem();
-    //                 break;
-    //             default:
-    //                 item = startingChoices[i];
-    //         }
-    //         newInv.push(item);
-    //     }
-    //     while (newInv.length < 8) {
-    //         newInv.push(random(EQUIPMENT));
-    //     }
-    //     props.updateState('inventory', newInv);
-    // }
 
     function moveToStash(num) {
         if (props.inventory[num] === "") return;
@@ -174,7 +73,6 @@ export default function Inventory(props) {
             <Row>
                 <h2>Inventory</h2>
             </Row>
-        {/* {startingEquipmentDisp()} */}
             <Row>
                 <Col xs={12}>
                     <Row>
