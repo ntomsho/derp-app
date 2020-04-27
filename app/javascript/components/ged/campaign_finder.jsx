@@ -11,9 +11,11 @@ const CampaignFinder = (props) => {
     const [query, setQuery] = useState("");
     const [campaignsList, setCampaignsList] = useState([]);
     const [searching, setSearching] = useState(false)
+    const [initialList, setInitialList] = useState(false);
 
     useEffect(() => {
-        if (query === "") return setCampaignsList([]);
+        if (!initialList) fetchCampaigns({ "user_not_playing": props.loggedInUser.id, "limit": 5 }, (campaigns) => setInitialList(campaigns))
+        if (query === "") return;
         if (!searching) setSearching(true);
         const timer = (setTimeout(() => {
             processSearch(timer)
@@ -35,6 +37,8 @@ const CampaignFinder = (props) => {
             return <Spinner size="sm" animation="grow" role="status" variant="dark" />
         }
     }
+    
+    const useList = query === "" ? initialList === false ? [] : initialList : campaignsList;
 
     return (
         <div className="h-40">
@@ -48,7 +52,7 @@ const CampaignFinder = (props) => {
                 </InputGroup>
             </Form>
             <ListGroup className="overflow-auto h-100 ml-5">
-                {campaignsList.map(campaign => {
+                {useList.map(campaign => {
                     return (
                         <Link key={campaign.id} to={`/ged/campaigns/${campaign.id}`} >
                             <ListGroup.Item action variant={"light"}>
