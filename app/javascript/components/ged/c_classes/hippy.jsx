@@ -37,7 +37,6 @@ export default function Hippy(props) {
     }
 
     function sacrificeForm(formInd) {
-        setCurrentMutation(random(MUTATIONS));
         let newResources = Object.assign({}, currentSpecials);
         newResources.forms.splice(formInd, 1);
         newResources.gifts.push(random(MUTATIONS));
