@@ -17,22 +17,21 @@ campaign.characters.each do |character|
     player_name: character.user.username, player_id: character.user.id }
 end
 
-subs = []
-campaign.campaign_subs.each do |sub|
-    subs << sub
+def make_char_obj(character)
+    return {id: character.id, name: character.name, level: character.level, c_class: character.c_class}
 end
 
-alive_chars = []
+subs = []
 dead_chars = []
-campaign.characters.each do |character|
-    char_obj = {id: character.id, name: character.name, level: character.level, c_class: character.c_class}
-    character.dead ? dead_chars << character : alive_chars << character
+campaign.campaign_subs.each do |sub|
+    sub_obj = {id: sub.id, user_id: sub.user.id, username: sub.user.username, characters: []}
+    sub.characters.each {|char| char.dead ? dead_chars << make_char_obj(char) : sub_obj[:characters] << make_char_obj(char) }
+    subs << sub_obj
 end
 
 json.extract! campaign, :id, :title, :description
 json.sent_invites sent_invites
 json.requested_invites requested_invites
-json.alive_chars alive_chars
 json.dead_chars dead_chars
 json.director director
 json.subs subs

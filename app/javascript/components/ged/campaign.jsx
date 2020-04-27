@@ -323,7 +323,9 @@ class Campaign extends React.Component {
 
     render() {
         const { director } = this.state.campaign;
-        const userDirecting = director.id === this.props.loggedInUser.id
+        const userDirecting = director.id === this.props.loggedInUser.id;
+        const subs = this.state.campaign.subs;
+        const graveyard = this.state.campaign.dead_chars;
         if (!this.state.campaignLoaded) {
             return (
                 <Container style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">
@@ -355,21 +357,27 @@ class Campaign extends React.Component {
                 <Row>
                     {this.joinButton()}
                 </Row>
-                <Row>
-                    <Col xs={12} md={6}>
+                <Row className="my-4">
+                    <Col xs={12} md={6} className="mb-3">
                         <Row>
-                            <h3>Active Roster</h3>
+                            <h2>Active Roster</h2>
                         </Row>
                         <Row>
                             <ListGroup>
-                                {this.state.campaign.alive_chars.map(character => {
+                                {subs.map(sub => {
                                     return (
-                                        <Link key={character.id} to={`/ged/characters/${character.id}`}>
-                                            <ListGroup.Item>
-                                                <div style={{color: CLASS_COLORS[character.c_class]}}>{character.name} Level {character.level} {character.c_class}</div>
-                                                <div>Played by {this.findPlayer(character.user_id)}</div>
-                                            </ListGroup.Item>
-                                        </Link>
+                                        <div key={sub.id}>
+                                        <h3 className="ml-3" style={{textDecoration: 'underline'}}>{sub.username}</h3>
+                                        {sub.characters.map((char) => {
+                                            return (
+                                                <Link key={char.id} to={`/ged/characters/${char.id}`}>
+                                                    <ListGroup.Item>
+                                                        <div style={{color: CLASS_COLORS[char.c_class]}}>{char.name} Level {char.level} {char.c_class}</div>
+                                                    </ListGroup.Item>
+                                                </Link>
+                                            )
+                                        })}
+                                        </div>
                                     )
                                 })}
                             </ListGroup>
@@ -377,11 +385,11 @@ class Campaign extends React.Component {
                     </Col>
                     <Col xs={12} md={6}>
                         <Row>
-                            <h3>Graveyard</h3>
+                            <h2>Graveyard</h2>
                         </Row>
                         <Row>
                             <ListGroup>
-                                {this.state.campaign.dead_chars.map(character => {
+                                {graveyard.map(character => {
                                     return (
                                         <Link key={character.id} to={`/ged/characters/${character.id}`}>
                                             <ListGroup.Item>
