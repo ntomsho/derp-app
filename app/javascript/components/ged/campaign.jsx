@@ -394,7 +394,7 @@ class Campaign extends React.Component {
                                         <Link key={character.id} to={`/ged/characters/${character.id}`}>
                                             <ListGroup.Item>
                                                 <div style={{ color: CLASS_COLORS[character.c_class] }}>{character.name} Level {character.level} {character.c_class}</div>
-                                                <div>Played by {this.findPlayer(character.user_id)}</div>
+                                                <div>Played by {character.player_name}</div>
                                             </ListGroup.Item>
                                         </Link>
                                     )
