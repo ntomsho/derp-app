@@ -5,17 +5,17 @@ import Button from 'react-bootstrap/Button';
 import { random, CLASS_SKILLS, SKILL_USES, CLASS_COLORS, FIGHTING_SKILLS, CIVILIZED_SKILLS, CLASS_FIGHTING_SKILLS } from '../../dndb-tables';
 
 export default function CharGenSkills(props) {
-    const fightingSkills = CLASS_FIGHTING_SKILLS[props.cClass];
-    const maxSkills = (fightingSkills ? 0 : 1) + (props.raceTraits === "Human" ? 1 : 0);
+    const fightingSkills = CLASS_FIGHTING_SKILLS[props.cClass] || [];
+    const maxSkills = (fightingSkills.length === 0 ? 1 : 0) + (props.raceTraits === "Human" ? 1 : 0);
     const [classSkillChosen, setClassSkillChosen] = useState(!!fightingSkills);
     const [skillFirstRoll, setSkillFirstRoll] = useState(true);
 
     useEffect(() => {
-        if (fightingSkills && fightingSkills.length === 1) props.updateSelection('selectedFightingSkill', fightingSkills[0]);
+        if (fightingSkills.length === 1) props.updateSelection('selectedFightingSkill', fightingSkills[0]);
     }, [])
 
     useEffect(() => {
-        if (fightingSkills) return;
+        if (fightingSkills.length > 0) return;
         for (let i = 0; i < props.trainedSkills.length; i++) {
             if (CLASS_SKILLS[props.cClass].includes(props.trainedSkills[i]) || props.trainedSkills[i] === props.selectedFightingSkill) {
                 setClassSkillChosen(true);
@@ -54,14 +54,14 @@ export default function CharGenSkills(props) {
 
     function fightingSkillsDisplay() {
         let remainingSkills;
-        if (fightingSkills) {
+        if (fightingSkills.length > 0) {
             remainingSkills = fightingSkills.length === 2 ? <div>Choose {fightingSkills.join(" or ")}</div> : <div>Your class gives you training in {fightingSkills[0]}</div>;
         }
 
         return (
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 {FIGHTING_SKILLS.map((skill, i) => {
-                    const classSkill = fightingSkills === undefined ? false : fightingSkills.includes(skill);
+                    const classSkill = fightingSkills.length === 0 ? false : fightingSkills.includes(skill);
                     return (
                         <Button key={i}
                             style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
@@ -80,7 +80,7 @@ export default function CharGenSkills(props) {
     }
 
     function fightingChoicesRemaining() {
-        if (fightingSkills) {
+        if (fightingSkills.length > 0) {
             return fightingSkills.length === 2 ? <div>Choose {fightingSkills.join(" or ")}</div> : <div>Your class gives you training in {fightingSkills[0]}</div>;
         } else {
             return <div>Your class doesn't get training in any Fightin' Skills.</div>
@@ -93,7 +93,7 @@ export default function CharGenSkills(props) {
                 <div>That's enough for you</div>
             )
         }
-        if (!fightingSkills && !classSkillChosen) {
+        if (fightingSkills.length === 0 && !classSkillChosen) {
             return (
                 <div>Select one of your <span style={{ color: CLASS_COLORS[props.cClass] }}>Class Skills</span></div>
             )
