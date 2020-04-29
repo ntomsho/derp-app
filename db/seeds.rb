@@ -56,6 +56,12 @@ mandy = Campaign.create!(
     director_id: panos.id
 )
 
+zandalee = Campaign.create!(
+    title: "Captain Corelli's Mandolin",
+    description: "Thierry's wife Zandalee married the poet, he once was. Taking over his dad's company in New Orleans gives him stress and impotence. Thierry meets his high school buddy Johnny at a bachelor party. The painter Johnny can satisfy Zandalee.",
+    director_id: testman.id
+)
+
 # CampaignSubs
 
 CampaignSub.create!(
@@ -83,6 +89,12 @@ CampaignSub.create!(
 )
 
 CampaignSub.create!(
+    user_id: testman.id,
+    campaign_id: zandalee.id,
+    is_director: true
+)
+
+CampaignSub.create!(
     user_id: spike.id,
     campaign_id: adaptation.id,
     is_director: true
@@ -98,6 +110,12 @@ CampaignSub.create!(
     user_id: panos.id,
     campaign_id: mandy.id,
     is_director: true
+)
+
+CapaignSub.create!(
+    user_id: panos.id,
+    campaign_id: zandalee.id,
+    is_director: false
 )
 
 # Invites
@@ -125,6 +143,16 @@ Invite.create!(
 Invite.create!(
     requester: spike,
     requested: season
+)
+
+Invite.create!(
+    requester: zandalee,
+    requested: cage
+)
+
+Invite.create!(
+    requester: spike,
+    requested: zandalee
 )
 
 # Characters
@@ -199,6 +227,24 @@ Character.create!(
     plot_points: 0,
     selected_fighting_skill: "",
     trained_skills: "[\"Believe in Yourself\",\"Creepin'\"]",
+    current_specials: "{}",
+    inventory: "[\"Beatstick\",\"Recurve bow\",\"Holy Symbol of Rad Moves\",\"Medicine\",\"Horn\",\"Musical instrument\",\"Stablehand tools\",\"Rope (50 ft.)\"]"
+)
+
+Character.create!(
+    name: "Susan Orlean",
+    user_id: testman.id,
+    campaign_id: adaptation.id,
+    c_class: "Wizcaster",
+    race_string: "Human",
+    race_traits: "Human",
+    background: "Writer",
+    appearance: "Meryl Streep",
+    derp: "Addicted to flower drugs",
+    health: 7,
+    plot_points: 1,
+    selected_fighting_skill: "",
+    trained_skills: "[\"Creepin'\", \"Thinkiness\"]",
     current_specials: "{}",
     inventory: "[\"Beatstick\",\"Recurve bow\",\"Holy Symbol of Rad Moves\",\"Medicine\",\"Horn\",\"Musical instrument\",\"Stablehand tools\",\"Rope (50 ft.)\"]"
 )

@@ -18,7 +18,7 @@ end
 subs = []
 dead_chars = []
 campaign.campaign_subs.each do |sub|
-    sub_obj = {id: sub.id, user_id: sub.user.id, username: sub.user.username, characters: []}
+    sub_obj = {id: sub.id, user_id: sub.user.id, username: sub.user.username, is_director: sub.is_director, characters: []}
     sub.characters.each {|char| char.dead ? dead_chars << make_char_obj(char) : sub_obj[:characters] << make_char_obj(char) }
     subs << sub_obj
 end

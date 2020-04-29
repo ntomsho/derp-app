@@ -285,7 +285,7 @@ class Campaign extends React.Component {
             )
         } else {
             return (
-                <h1 className="display-3" onClick={() => this.openEdit(true)}>{this.state.campaign.title}</h1>
+                <h1 className="display-3 d-inline" onClick={() => this.openEdit(true)}>{this.state.campaign.title}</h1>
             )
         }
     }
@@ -358,6 +358,7 @@ class Campaign extends React.Component {
                         <Row>
                             <ListGroup>
                                 {subs.map(sub => {
+                                    if (sub.is_director) return null;
                                     return (
                                         <div key={sub.id}>
                                         <h3 className="ml-3" style={{textDecoration: 'underline'}}>{sub.username}</h3>
