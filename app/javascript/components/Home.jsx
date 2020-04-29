@@ -4,11 +4,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import SignUpForm from './signup_form';
 import SignInForm from './login_form';
+import { signin } from '../actions/session_actions';
 
 const Home = (props) => {
+
+    const demoUser = { email: 'testy1@test.com', password: 'password123' };
 
     const sessionForms = () => {
         return (
@@ -48,7 +52,7 @@ const Home = (props) => {
                     <Row className="justify-content-center">
                         <h1>Select Game</h1>
                     </Row>
-                    <CardGroup>
+                    <CardGroup className="justify-content-center">
                         <Card className="ged-color mr-1">
                             <Link className="ged-color text-center" to="/ged">
                                 <Card.Body>
@@ -75,12 +79,13 @@ const Home = (props) => {
                     <Row className="row-reverse-sm">
                         <Col xs={12} md={6} className="mb-4 mb-md-0">
                             {sessionForms()}
+                            <Button block className="mt-3 demo-user-md" variant="dark" onClick={() => signin(demoUser, props.setLoggedInUser)}>Sign In to Demo Account</Button>
                         </Col>
                         <Col xs={12} md={6}>
                             <p>Welcome to the official character generator and campaign tool for DERP System tabletop roleplaying games.</p>
                             <p>Use this app to create characters and manage campaigns in your favorite DERP System games.</p>
                             <p>Sign up today!</p>
-                            <p>Or don't. I'm not your dad.</p>
+                            <p><small>Please.</small></p>
                         </Col>
                     </Row>
                     </>}

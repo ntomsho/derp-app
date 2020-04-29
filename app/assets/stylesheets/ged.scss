@@ -49,6 +49,10 @@ h1, h2, h3 {
     left: 5%;
 }
 
+.demo-user-md {
+    display: none !important;
+}
+
 .form-submit-button {
     width: 100%;
 }
@@ -120,6 +124,14 @@ a:hover {
 
 @include media-breakpoint-up(md) {
 
+    .demo-user-xs {
+        display: none !important;
+    }
+
+    .demo-user-md {
+        display: block !important;
+    }
+    
     .form-submit-button {
         width: auto;
     }

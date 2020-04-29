@@ -11,8 +11,6 @@ const SessionForm = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const csrf_token = $("meta[name='csrf-token']").attr("content");
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const user = Object.assign({}, {email: email, username: username, password: password});
@@ -22,6 +20,15 @@ const SessionForm = (props) => {
     const update = (stateSetter) => {
         return e => {
             stateSetter(e.currentTarget.value);
+        }
+    }
+
+    const demoButton = () => {
+        if (props.formType === "Login") {
+            const demoUser = { email: 'testy1@test.com', password: 'password123' }
+            return (
+                <Button block className="mt-3 demo-user-xs" variant="dark" onClick={() => props.processForm(demoUser, props.setLoggedIn, setErrors)}>Sign In to Demo Account</Button>
+            )
         }
     }
 
@@ -47,6 +54,7 @@ const SessionForm = (props) => {
                 <Form.Control type="password" value={password} placeholder="Password" onChange={update(setPassword)} className="session-input" />
             </Form.Group>
             <Button onClick={handleSubmit} variant="light" className="border rounded form-submit-button">{props.formType}</Button>
+            {demoButton()}
         </Form>
         </>
     )
