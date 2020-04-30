@@ -45,7 +45,7 @@ const SessionForm = (props) => {
     return (
         <>
         <Errors errors={errors} />
-        <Form className="w-100">
+        <Form className="w-100" onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Control type="email" value={email} placeholder="Email" onChange={update(setEmail)} className="session-input" />
             </Form.Group>
@@ -53,7 +53,7 @@ const SessionForm = (props) => {
             <Form.Group>
                 <Form.Control type="password" value={password} placeholder="Password" onChange={update(setPassword)} className="session-input" />
             </Form.Group>
-            <Button onClick={handleSubmit} variant="light" className="border rounded form-submit-button">{props.formType}</Button>
+            <Button type="submit" variant="light" className="border rounded form-submit-button">{props.formType}</Button>
             {demoButton()}
         </Form>
         </>
