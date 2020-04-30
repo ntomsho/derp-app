@@ -12,23 +12,10 @@ export default function DiceRoller(props) {
     const [disadvantage, setDisadvantage] = useState(false);
     //the first roll in rollHistory is always the current one
 
-    //roll "class"
-    //{ 
-    //  result: int (final roll),
-    //  difficulty: int,
-    //  dice: [mainDie, adv1, adv2, adv3],
-    //  disadvantage: int if disadvantage, false if not
-    //}
-
     const historyRef = useRef(null);
     const blankd6 = '▢';
     const dieFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     
-    // const advantageSources = [
-    //     "You have a Skill that applies",
-    //     "You have Magic that applies",
-    //     "You have a Circumstance in your favor"
-    // ]
     const advantageSources = [
         "Skill",
         "Magic",
@@ -157,8 +144,6 @@ export default function DiceRoller(props) {
                             <Col xs={4}>
                                 <h3 className="text-center">Difficulty</h3>
                             </Col>
-                            {/* <div style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}> */}
-                            {/* <Col> */}
                             <Col xs={2}>
                                 <Button size="lg" className="text-center" variant="outline-secondary" onClick={() => changeDifficulty(false)}>-</Button>
                             </Col>
@@ -168,9 +153,6 @@ export default function DiceRoller(props) {
                             <Col xs={2}>
                                 <Button size="lg" className="text-center" variant="outline-secondary" onClick={() => changeDifficulty(true)}>+</Button>
                             </Col>
-                            {/* </Col> */}
-                            {/* </div> */}
-                            {/* {diceSelectDisadvantage()} */}
                     </Row>
                     <Row>
                     {selectedDice.map((die, i) => {
@@ -197,19 +179,6 @@ export default function DiceRoller(props) {
             </Row>
         )
     }
-
-    // function diceSelectDisadvantage() {
-    //     if (disadvantage) {
-    //         return (
-    //             <div>
-    //                 <div>Disadvantage</div>
-    //                 <div>
-    //                     <div className="disadvantage-die">{blankd6}</div>
-    //                 </div>
-    //             </div>
-    //         )
-    //     }
-    // }
 
     function rollHistoryDisp() {
         if (rollHistory.length > 0) {
@@ -258,14 +227,6 @@ export default function DiceRoller(props) {
                     <h2>Roll History</h2>
                     {rollHistoryDisp()}
                 </Col>
-            </Row>
-            <Row>
-                <div style={{ display: 'flex' }}>
-                    <div className="advantage-container">
-                        
-                    </div>
-                    
-                </div>
             </Row>
         </Modal.Body>
         </Modal>

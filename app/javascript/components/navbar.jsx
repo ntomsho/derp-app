@@ -72,6 +72,10 @@ const NavbarComp = (props) => {
                         <Nav.Link className="text-light" href="/ged">GED</Nav.Link>
                     </Nav>
                     <NavDropdown className="text-light" title="Your Characters">
+                        <NavDropdown.Item href="/ged/characters/new">
+                            New Character
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
                         {myCharacters.map((character) => {
                             if (!character.dead) {
                                 return (

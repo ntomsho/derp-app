@@ -177,9 +177,7 @@ export default function Wizcaster(props) {
                     )
                 } else {
                     return (
-                        // <Col xs={1} className="text-center">
-                            <Button variant="secondary" className="absolute-button-left" onClick={() => addWordToSpell(true, selectedWordInd)}>+</Button>
-                        // </Col>
+                        <Button variant="secondary" className="absolute-button-left" onClick={() => addWordToSpell(true, selectedWordInd)}>+</Button>
                     )
                 }
             }
@@ -192,9 +190,7 @@ export default function Wizcaster(props) {
                 return (<></>)
             } else {
                 return (
-                    // <Col xs={1} className="text-center">
-                        <Button variant="secondary" className="absolute-button-right" onClick={() => addWordToSpell(false, selectedWordInd)}>+</Button>
-                    // </Col>
+                    <Button variant="secondary" className="absolute-button-right" onClick={() => addWordToSpell(false, selectedWordInd)}>+</Button>
                 )
             }
         }
