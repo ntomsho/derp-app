@@ -57,7 +57,7 @@ mandy = Campaign.create!(
 )
 
 zandalee = Campaign.create!(
-    title: "Captain Corelli's Mandolin",
+    title: "Zandalee",
     description: "Thierry's wife Zandalee married the poet, he once was. Taking over his dad's company in New Orleans gives him stress and impotence. Thierry meets his high school buddy Johnny at a bachelor party. The painter Johnny can satisfy Zandalee.",
     director_id: testman.id
 )
@@ -191,7 +191,6 @@ Character.create!(
     trained_skills: "[\"Thinkiness\"]",
     current_specials: "{}",
     inventory: "[\"Polearm\",\"Cleric's tools\",\"Potion of Healing\",\"Grappling hook\",\"Bomb\",\"Staff\",\"Tripwire\",\"Spyglass\"]",
-    dead: true
 )
 
 Character.create!(
@@ -210,6 +209,7 @@ Character.create!(
     trained_skills: "[\"Believe In Yourself\"]",
     current_specials: "{}",
     inventory: "[\"Polearm\",\"Shield\",\"Potion of Healing\",\"Lockpicks\",\"Spyglass\",\"Hourglass\",\"Torch\",\"Chakram\"]",
+    dead: true
 )
 
 Character.create!(

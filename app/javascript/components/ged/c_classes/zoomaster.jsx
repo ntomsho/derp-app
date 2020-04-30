@@ -142,7 +142,7 @@ export default function Zoomaster(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomBeast(true, false)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createBeasts}>Rest<br/>Refresh Beasts</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createBeasts}>Rest<br/>Refresh Beasts</Button>
                         </Form.Group>
                     </Form>
                 </Col>

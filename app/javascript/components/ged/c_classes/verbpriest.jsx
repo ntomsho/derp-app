@@ -138,7 +138,7 @@ export default function Verbpriest(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomWord(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createWords}>Rest<br/>Refresh Command Words</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createWords}>Rest<br/>Refresh Command Words</Button>
                         </Form.Group>
                     </Form>
                 </Col>

@@ -145,7 +145,7 @@ export default function Runegoon(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomRune(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createRunes}>Rest<br/>Refresh Runes</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createRunes}>Rest<br/>Refresh Runes</Button>
                         </Form.Group>
                     </Form>
                 </Col>

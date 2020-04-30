@@ -124,7 +124,7 @@ export default function Ragesmasher(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomTotem(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="dark" className="ability-randomize-button" onClick={createTotems}>Rest<br/>Refresh Totems</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createTotems}>Rest<br/>Refresh Totems</Button>
                         </Form.Group>
                     </Form>
                 </Col>

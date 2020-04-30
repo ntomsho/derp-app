@@ -9,7 +9,6 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-//Consider changing keep button to a function and preventing it from showing on the last of either category
 export default function Mixologist(props) {
     let { currentSpecials } = props;
     let { bases, catalysts } = currentSpecials;

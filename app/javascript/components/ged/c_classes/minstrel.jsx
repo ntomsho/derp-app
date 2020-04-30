@@ -51,12 +51,6 @@ export default function Minstrel(props) {
         props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes }, true);
     }
 
-    // function removeSong(songInd) {
-    //     let newSongs = currentSpecials.songs;
-    //     newSongs.splice(songInd, 1);
-    //     props.updateState('currentSpecials', { 'songs': newSongs, 'notes': currentSpecials.notes });
-    // }
-
     function spendNote(noteInd) {
         let newNotes = currentSpecials.notes;
         newNotes.splice(noteInd, 1);
