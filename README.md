@@ -63,12 +63,6 @@ Once created, you can access your digital character sheet conveniently from mobi
 <br/>
 
 <figure>
-  <img src="https://i.imgur.com/0FAysEV.png">
-  <figcaption><em>Each character class has their own unique abilities</em></figcaption>
-</figure>
-<br/>
-
-<figure>
   <img src="https://i.imgur.com/TKLEP4y.png">
   <figcaption><em>Manage every aspect of your character from your mobile device</em></figcaption>
 </figure>
