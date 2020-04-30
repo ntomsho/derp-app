@@ -210,7 +210,6 @@ Character.create!(
     trained_skills: "[\"Believe In Yourself\"]",
     current_specials: "{}",
     inventory: "[\"Polearm\",\"Shield\",\"Potion of Healing\",\"Lockpicks\",\"Spyglass\",\"Hourglass\",\"Torch\",\"Chakram\"]",
-    dead: true
 )
 
 Character.create!(
