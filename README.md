@@ -56,6 +56,8 @@ Once created, you can access your digital character sheet conveniently from mobi
 </figure>
 <br/>
 
+To avoid excessive calls to the backend, the app uses localStorage to persist a copy of any changes made to the character in realtime even if the user refreshes or navigates away from the page, their mobile device enters sleep mode, or even if they open another character. Saving the character sends a new request to the backend, saving the changes in the backend and clearing the localStorage copy.
+
 <figure>
   <img src="https://i.imgur.com/0FAysEV.png">
   <figcaption><em>Each character class has their own unique abilities (desktop)</em></figcaption>
