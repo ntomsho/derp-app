@@ -6,6 +6,7 @@ User.destroy_all
 
 # Users
 
+
 testman = User.create!(
     username: "ArthurTestman",
     email: "testy1@test.com",
