@@ -112,7 +112,7 @@ CampaignSub.create!(
     is_director: true
 )
 
-CapaignSub.create!(
+CampaignSub.create!(
     user_id: panos.id,
     campaign_id: zandalee.id,
     is_director: false
