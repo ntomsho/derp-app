@@ -4,7 +4,7 @@ import SkillButton from './skill_button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
 
 export default function Skills(props) {
     const [highlightedSkill, setHighlightedSkill] = useState("");
@@ -28,33 +28,6 @@ export default function Skills(props) {
         setNumClassSkills(classSkillCount);
         setNumRegSkills(regSkillCount);
     }, [JSON.stringify(props.trainedSkills)])
-    
-    // function remainingClassSkills() {
-    //     if (numClassSkills === 0) {
-    //         return (
-    //             <span>Choose a <strong style={{ border: `3px solid ${CLASS_COLORS[props.cClass]}` }}>Class Skill</strong></span>
-    //         )
-    //     }
-    // }
-
-    // function randomSkill() {
-    //     let newSkill = random(SKILLS);
-    //     while (props.trainedSkills.includes(newSkill)) {
-    //         newSkill = random(SKILLS);
-    //     }
-    //     return newSkill;
-    // }
-    
-    // function remainingSkills() {
-    //     if (numRegSkills < maxRegSkills) {
-    //         return (
-    //             <>
-    //             <span>{maxRegSkills} Random Skill{numRegSkills > 1 ? "s" : ""} Remaining</span>
-    //             <button className="randomize-button" onClick={() => selectSkill(randomSkill())}>🎲</button>
-    //             </>
-    //         )
-    //     }
-    // }
 
     function skillDesc() {
         const trained = (props.selectedFightingSkill === highlightedSkill || props.trainedSkills.includes(highlightedSkill));
@@ -81,31 +54,14 @@ export default function Skills(props) {
                             )
                         })}
                     </div>
-                {/* <button className="select-skill-button" onClick={() => selectSkill(highlightedSkill)}>{props.trainedSkills.includes(highlightedSkill) ? 'Remove Skill' : 'Add Skill'}</button> */}
+                </Row>
+                <Row className="justify-content-center mt-3">
+                    <Button variant="outline-secondary" onClick={() => setHighlightedSkill("")}>Close</Button>
                 </Row>
                 </>
             )
         }
     }
-
-    // function selectSkill(skill) {
-    //     let newSkillSet = props.trainedSkills;
-    //     const inClass = classSkills.includes(skill);
-    //     const selected = props.trainedSkills.includes(skill);
-
-    //     if (selected) {
-    //         newSkillSet.splice(newSkillSet.indexOf(skill), 1);
-    //         props.updateState('trainedSkills', newSkillSet);
-    //     } else {
-    //         if (inClass && (numClassSkills > 0 && numRegSkills >= maxRegSkills)) {
-    //             return
-    //         } else if (!inClass && numRegSkills >= maxRegSkills) {
-    //             return
-    //         }
-    //         newSkillSet.push(skill);
-    //         props.updateState('trainedSkills', newSkillSet);
-    //     }
-    // }
 
     function createSkillRow(i) {
         const skills = i === 0 ? FIGHTING_SKILLS : CIVILIZED_SKILLS.slice(i - 3, i);        
@@ -131,10 +87,6 @@ export default function Skills(props) {
                 <h1>Skills</h1>
             </Row>
             <Row>
-                {/* <div className="remaining-skills">
-                {remainingSkills()}
-                {remainingClassSkills()}
-                </div> */}
                 <Col xs={12} md={9}>
                     <h2>Fightin' Skills</h2>
                     <Row>
