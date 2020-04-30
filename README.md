@@ -8,7 +8,7 @@ The DERP System launches with GED: Guild of Expendable Dungeoneers, a game of da
 
 <figure>
   <img src="https://i.imgur.com/GqWde8q.png">
-  <figcaption>Main page for GED: the launch game for the DERP System</figcaption>
+  <figcaption><small><em>Main page for GED: the launch game for the DERP System</em></small></figcaption>
 </figure>
 
 DERP-App provides tools for Directors to create their own campaigns and invite new players. The App keeps track of each player's stable of characters, both active and deceased. Users can also request to join new campaigns and create new characters for them or assign free characters.
