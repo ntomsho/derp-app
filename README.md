@@ -8,60 +8,69 @@ The DERP System launches with GED: Guild of Expendable Dungeoneers, a game of da
 
 <figure>
   <img src="https://i.imgur.com/GqWde8q.png">
-  <figcaption><small><em>Main page for GED: the launch game for the DERP System</em></small></figcaption>
+  <figcaption><em>Main page for GED: the launch game for the DERP System</em></figcaption>
 </figure>
+<br/>
 
 DERP-App provides tools for Directors to create their own campaigns and invite new players. The App keeps track of each player's stable of characters, both active and deceased. Users can also request to join new campaigns and create new characters for them or assign free characters.
 
 <figure>
   <img src="https://i.imgur.com/wTRTQmx.png">
-  <figcaption>Campaign page (desktop)</figcaption>
+  <figcaption><em>Campaign page (desktop)</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/YCFr5sm.png">
-  <figcaption>Campaign page (mobile)</figcaption>
+  <figcaption><em>Campaign page (mobile)</em></figcaption>
 </figure>
+<br/>
 
 The app has a responsive design that makes it easy to use on both desktop and mobile. Prepare for a game beforehand on desktop and have all your campaigns and characters ready on your phone at the table. No need for printing character sheets and the built-in dice roller means never having to worry about forgetting your little plastic rolly bits at home.
 
 <figure>
   <img src="https://i.imgur.com/BDU16Mc.png">
-  <figcaption>Check requests to join campaigns from the navbar</figcaption>
+  <figcaption><em>Check requests to join campaigns from the navbar</em></figcaption>
 </figure>
+<br/>
 
 Character creation is quick and easy. Just follow the listed steps one-by-one, provide a name, and click Generate Character and your new adventurer will be added to the roster of any of your current campaigns (or to a general stock of unassigned characters that you can later migrate to other campaigns).
 
 <figure>
   <img src="https://i.imgur.com/NER9ZTw.png">
-  <figcaption>Final confirmation at the end of character creation</figcaption>
+  <figcaption><em>Final confirmation at the end of character creation</em></figcaption>
 </figure>
+<br/>
 
 Once created, you can access your digital character sheet conveniently from mobile, using the navbar links at the top to get directly to whatever information you need.
 
 <figure>
   <img src="https://i.imgur.com/Fh8CPZq.png">
-  <figcaption>Character page (desktop)</figcaption>
+  <figcaption><em>Character page (desktop)</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/m344NiL.png">
-  <figcaption>Character page (mobile)</figcaption>
+  <figcaption><em>Character page (mobile)</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/0FAysEV.png">
-  <figcaption>Each character class has their own unique abilities (desktop)</figcaption>
+  <figcaption><em>Each character class has their own unique abilities (desktop)</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/0FAysEV.png">
-  <figcaption>Each character class has their own unique abilities</figcaption>
+  <figcaption><em>Each character class has their own unique abilities</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/TKLEP4y.png">
-  <figcaption>Manage every aspect of your character from your mobile device</figcaption>
+  <figcaption><em>Manage every aspect of your character from your mobile device</em></figcaption>
 </figure>
 
 ## Technology Used
@@ -70,17 +79,19 @@ DERP-App has a backend built in Rails6, the newest version of the Ruby-on-Rails 
 
 <figure>
   <img src="https://i.imgur.com/Vw1KycT.png">
-  <figcaption>Customized Bootstrap classes for consistent aesthetic</figcaption>
+  <figcaption><em>Customized Bootstrap classes for consistent aesthetic</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/EaZVffa.png">
-  <figcaption>Polymorphic associations allow DRY code for invites to/from campaigns and users</figcaption>
+  <figcaption><em>Polymorphic associations allow DRY code for invites to/from campaigns and users</em></figcaption>
 </figure>
+<br/>
 
 <figure>
   <img src="https://i.imgur.com/1LCkznE.png">
-  <figcaption>Language logic used for proper presentation of modular text components</figcaption>
+  <figcaption><em>Language logic used for proper presentation of modular text components</em></figcaption>
 </figure>
 
 ## Coming Features
