@@ -66,6 +66,7 @@ class CharacterMain extends React.Component {
         const JSONValues = ["race_traits", "trained_skills", "current_specials", "inventory", "advancements", "favorite_tags"];
         let newState = {};
         Object.keys(character).forEach(key => {
+            if (key === "race_traits" && character[key] === "Human") return newState["raceTraits"] = "Human";
             JSONValues.includes(key) ? 
                 newState[snakeToCamel(key)] = JSON.parse(character[key]) : 
                 newState[snakeToCamel(key)] = character[key];
