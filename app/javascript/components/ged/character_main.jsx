@@ -172,7 +172,7 @@ class CharacterMain extends React.Component {
                     disabled={this.state.char.dead}
                     fluid
                     onClick={() => this.setState({ deathModal: true })}
-                    src={"http://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
+                    src={"https://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
                 />
             </Col>
         ];
@@ -186,8 +186,8 @@ class CharacterMain extends React.Component {
                         fluid
                         onClick={() => this.updateHealth(i + 1)}
                         src={this.state.char.health >= i + 1 ?
-                            "http://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
-                            "http://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
+                            "https://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
+                            "https://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
                     />
                 </Col>
             )
@@ -316,45 +316,30 @@ class CharacterMain extends React.Component {
                                         )
                                     })}
                                 </Form.Control>
-                                {/* <InputGroup.Append>
-                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.props.updateState('cClass', random(CLASSES))}>🎲</Button>
-                                </InputGroup.Append> */}
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
-                                {/* <InputGroup.Append>
-                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('raceString', randomRace() === "Human" ? "Human" : "")}>🎲</Button>
-                                </InputGroup.Append> */}
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Background</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></Form.Control>
-                                {/* <InputGroup.Append>
-                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('background', random(BACKGROUNDS))}>🎲</Button>
-                                </InputGroup.Append> */}
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Appearance</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></Form.Control>
-                                {/* <InputGroup.Append>
-                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('appearance', random(APPEARANCES))}>🎲</Button>
-                                </InputGroup.Append> */}
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Derp</Form.Label>
                             <InputGroup>
                                 <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></Form.Control>
-                                {/* <InputGroup.Append>
-                                    <Button variant="outline-dark" className="randomize-button" onClick={() => this.updateState('derp', random(DERPS))}>🎲</Button>
-                                </InputGroup.Append> */}
                             </InputGroup>
                         </Col>
                     </Row>
