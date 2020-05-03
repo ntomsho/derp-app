@@ -18,7 +18,7 @@ export default function Minstrel(props) {
 
     useEffect(() => {
         if (!currentSpecials.songs) {
-            props.updateState('currentSpecials', { 'songs': [], 'notes': [] })
+            createSongsAndNotes();
         }
     })
 

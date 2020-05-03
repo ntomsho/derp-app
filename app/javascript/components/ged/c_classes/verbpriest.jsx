@@ -15,7 +15,7 @@ export default function Verbpriest(props) {
 
     useEffect(() => {
         if (!currentSpecials.words) {
-            props.updateState('currentSpecials', { 'words': [] });
+            createWords();
         }
     })
 

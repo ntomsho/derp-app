@@ -16,7 +16,7 @@ export default function KnightOfTushuze(props) {
 
     useEffect(() => {
         if (!currentSpecials.blessings) {
-            props.updateState('currentSpecials', { 'blessings': [] })
+            createBlessings();
         }
     })
 

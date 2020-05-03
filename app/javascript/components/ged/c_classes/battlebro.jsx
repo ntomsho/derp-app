@@ -18,7 +18,7 @@ export default function Battlebro(props) {
 
     useEffect(() => {
         if (!currentSpecials.weapons) {
-            props.updateState('currentSpecials', { 'weapons': [] });
+            createWeaponForms();
         }
     })
 

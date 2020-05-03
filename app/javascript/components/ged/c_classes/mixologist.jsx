@@ -26,7 +26,7 @@ export default function Mixologist(props) {
 
     useEffect(() => {
         if (!currentSpecials.bases && !currentSpecials.catalysts) {
-            props.updateState('currentSpecials', { 'bases': [], 'catalysts': [] });
+            createComponents();
         }
     })
 

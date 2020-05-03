@@ -16,7 +16,7 @@ export default function Runegoon(props) {
 
     useEffect(() => {
         if (!currentSpecials.runes) {
-            props.updateState('currentSpecials', { 'runes': [] });
+            createRunes();
         }
     });
 

@@ -14,7 +14,7 @@ export default function Neerdowell(props) {
 
     useEffect(() => {
         if (!currentSpecials.items) {
-            props.updateState('currentSpecials', { 'items': [] })
+            createItems();
         }
     })
 

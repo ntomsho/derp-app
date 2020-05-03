@@ -18,7 +18,7 @@ export default function Hippy(props) {
 
     useEffect(() => {
         if (!currentSpecials.forms) {
-            props.updateState('currentSpecials', { 'forms': [], 'gifts': [] })
+            createFormsAndGifts();
         }
     })
 

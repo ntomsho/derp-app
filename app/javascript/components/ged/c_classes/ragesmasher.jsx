@@ -15,7 +15,7 @@ export default function Ragesmasher(props) {
 
     useEffect(() => {
         if (!currentSpecials.totems) {
-            props.updateState('currentSpecials', { 'totems': [] })
+            createTotems();
         }
     });
 

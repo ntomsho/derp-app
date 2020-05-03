@@ -22,7 +22,7 @@ export default function Wizcaster(props) {
 
     useEffect(() => {
         if (!currentSpecials.words) {
-            props.updateState('currentSpecials', { 'words': [] });
+            createWords();
         }
     });
 

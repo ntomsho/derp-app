@@ -16,7 +16,7 @@ export default function Zoomaster(props) {
 
     useEffect(() => {
         if (!currentSpecials.beasts) {
-            props.updateState('currentSpecials', { 'beasts': [] })
+            createBeasts();
         }
     });
 

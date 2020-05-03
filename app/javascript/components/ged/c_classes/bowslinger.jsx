@@ -15,7 +15,7 @@ export default function Bowslinger(props) {
 
     useEffect(() => {
         if (!currentSpecials.ammo) {
-            props.updateState('currentSpecials', { 'ammo': [] })
+            createAmmo();
         }
     })
 
