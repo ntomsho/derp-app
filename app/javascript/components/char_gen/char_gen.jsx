@@ -70,7 +70,7 @@ class CharGen extends React.Component {
                         (this.state.char.trainedSkills.length >= 1);
                 };
             case 4:
-                return (JSON.stringify(this.props.inventory) !== JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""]));
+                return (JSON.stringify(this.state.char.inventory) !== JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""]));
             case 5:
                 return (!!this.state.char.background && !!this.state.char.appearance && !!this.state.char.derp);
             default:

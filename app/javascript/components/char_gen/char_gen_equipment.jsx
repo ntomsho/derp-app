@@ -32,7 +32,6 @@ export default function CharGenEquipment(props) {
         if (props.cClass && JSON.stringify(props.inventory) === JSON.stringify(["", "", "", "", "", "", "", "", "", "", "", ""])) {
             return (
                 <>
-                    <h2>Choose one item from each row</h2>
                     {itemPackage.map((choices, i) => {
                         return (
                             <Row key={i} className="my-2 justify-content-center">
@@ -42,6 +41,7 @@ export default function CharGenEquipment(props) {
                     })}
                     <Row className="justify-content-center">
                         <Button
+                            disabled={props.inventoryStartingChoices.length !== itemPackage.length}
                             variant="primary"
                             onClick={createStartingInv}
                         >
