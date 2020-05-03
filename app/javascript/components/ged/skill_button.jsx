@@ -3,9 +3,17 @@ import { FIGHTING_SKILLS } from '../../dndb-tables';
 import Button from 'react-bootstrap/Button';
 
 const SkillButton = (props) => {
+    function buttonVariant() {
+        if (FIGHTING_SKILLS.includes(props.children)) {
+            return props.selected ? "warning" : "outline-warning";
+        } else {
+            return props.selected ? "info" : "outline-info";
+        }
+    }
+    
     return (
-        <Button className={`h-100 skill-button ${props.classSkill ? " class-skill" : ""} ${props.selected ? " selected" : ""}`}
-        variant={FIGHTING_SKILLS.includes(props.children) ? "warning" : "info"}
+        <Button className={`h-100 skill-button ${props.classSkill ? " class-skill" : ""}`}
+        variant={buttonVariant()}
         block
         onClick={() => props.setHighlightedSkill(props.children)}
             style={props.classSkill ? { borderColor: props.classColor }: {}}
