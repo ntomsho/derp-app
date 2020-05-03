@@ -21,6 +21,7 @@ export default function CharGenRace(props) {
                 newRaceString = "Human";
                 setSelection(1);
             } else {
+                newRaceString = nonHumanString;
                 setSelection(2)
                 setTraits(newRaceTraits)
             }
@@ -30,85 +31,44 @@ export default function CharGenRace(props) {
     }
 
     function setRace(human) {
+        let trait1 = traits[0];
+        let trait2 = traits[1];
         if (human) {
             setSelection(1)
         } else {
             setSelection(2)
             if (traits[0] === "") {
-                const trait1 = random(RACE_TRAITS);
-                let trait2 = random(RACE_TRAITS);
+                trait1 = random(RACE_TRAITS);
+                trait2 = random(RACE_TRAITS);
                 while (trait1 === trait2) {
                     trait2 = random(RACE_TRAITS);
                 }
                 setTraits([trait1, trait2]);
             }
         }
-        props.updateSelection(['raceString', "raceTraits"], [human ? "Human" : nonHumanString, human ? "Human" : [traits]]);
+        props.updateSelection(['raceString', "raceTraits"], [human ? "Human" : nonHumanString, human ? "Human" : [trait1, trait2]]);
     }
 
     function update(e) {
-        setSelection(2);
-        setNonHumanString(e.currentTarget.value);
-        props.updateSelection(['raceString', "raceTraits"], [nonHumanString, [trait1, trait2]]);
+        const newString = e.currentTarget.value;
+        setNonHumanString(newString);
+        props.updateSelection('raceString', newString);
     }
 
     function randomizeTrait(index) {
-        setSelection(2);
         let newTraits = traits;
         newTraits[index] = random(RACE_TRAITS);
         while (newTraits[0] === newTraits[1]) {
             newTraits[index] = random(RACE_TRAITS);
         }
-        props.updateSelection(['raceString', 'raceTraits'], [nonHumanString, newTraits], true);
+        props.updateSelection('raceTraits', newTraits, true);
     }
-
-    // function raceStringDisplay() {
-    //     if (props.raceTraits) {
-    //         const stringBox = props.raceTraits === "Human" ?
-    //             <span><strong>Human</strong></span> :
-    //             <>
-    //                 <span>a er... something else. Name your race: </span><Form.Control type="text" ref={input1} value={props.raceString} onChange={(event) => props.updateSelection('raceString', event.target.value)}></Form.Control>
-    //             </>
-    //         return (
-    //             <div className="mb-3">You are {stringBox}</div>
-    //         )
-    //     }
-    // }
-
-    // function raceTraitsDisplay() {
-    //     if (props.raceTraits) {
-    //         if (props.raceTraits === "Human") {
-    //             return (
-    //                 <div>You gain training in an additional Skill. You can choose your second Class Skill, or roll a random Civilized Skill on the next screen</div>
-    //             )
-    //         } else {
-    //             return (
-    //                 <>
-    //                 <Row>
-    //                     <div>You have the following traits that give you Magic Advantage when relevant:</div>
-    //                 </Row>
-    //                 <Row className="w-100">
-    //                     <Col className="text-center">
-    //                         <div><strong>{props.raceTraits[0]}</strong></div>
-    //                         <Button onClick={() => randomizeTrait(0)}>Reroll</Button>
-    //                     </Col>
-    //                     <Col className="text-center">
-    //                         <div><strong>{props.raceTraits[1]}</strong></div>
-    //                         <Button onClick={() => randomizeTrait(1)}>Reroll</Button>
-    //                     </Col>
-    //                 </Row>
-    //                 </>
-    //             )
-    //         }
-    //     }
-    // }
 
     function raceDisplay() {
         if (selection === 1) {
             return (
                 <Col xs={12}>
                     <h2 className="text-center">Human</h2>
-                    {/* <Button variant="secondary" onClick={() => setRace(true)}>Select</Button> */}
                     <div>You gain training in an additional Skill. You can choose your second Class Skill, or roll a random Civilized Skill on the next screen</div>
                 </Col>
             )
@@ -153,12 +113,6 @@ export default function CharGenRace(props) {
             <Row>
                 {raceDisplay()}
             </Row>
-            {/* <Row>
-                {raceStringDisplay()}
-            </Row>
-            <Row>
-                {raceTraitsDisplay()}
-            </Row> */}
         </>
     )
 }
