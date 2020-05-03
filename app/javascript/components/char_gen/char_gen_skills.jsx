@@ -66,7 +66,7 @@ export default function CharGenSkills(props) {
                         <Button key={i}
                             style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
                             // active={props.selectedFightingSkill === skill}
-                            variant="warning"
+                            variant={props.selectedFightingSkill === skill ? "warning" : "outline-warning"}
                             className={`skill-button ${classSkill ? " class-skill" : ""} ${props.selectedFightingSkill === skill ? " selected" : ""}`}
                             onClick={() => selectFightingSkill(skill)}
                         >
@@ -121,7 +121,7 @@ export default function CharGenSkills(props) {
                         <Button key={i}
                             style={classSkill ? { color: CLASS_COLORS[props.cClass] } : {}}
                             // active={props.trainedSkills.includes(skill)}
-                            variant="info"
+                            variant={props.trainedSkills.includes(skill) ? "info" : "outline-info"}
                             className={`skill-button ${classSkill ? " class-skill" : ""} ${props.trainedSkills.includes(skill) ? " selected" : ""}`}
                             onClick={() => selectSkill(skill, false)}
                         >

@@ -81,19 +81,36 @@ class CharGen extends React.Component {
     stageText() {
         switch (this.state.stage) {
             case 1:
-                return "Class";
+                return "Roll Class";
             case 2:
-                return "Race";
+                return "Roll Race";
             case 3:
-                return "Skills";
+                return "Select Skills";
             case 4:
-                return "Equipment";
+                return "Select Equipment";
             case 5:
                 return "Details";
             case 6:
                 return "Confirmation";
             default:
                 return;
+        }
+    }
+
+    stageInstructions() {
+        switch (this.state.stage) {
+            case 1:
+                return "Click the Roll Class button to get a random character class."
+            case 2:
+                return "Click the Roll Race button to get a random race. If you're a non-human, you can keep or reroll either of your random race traits."
+            case 3:
+                return "Follow the directions in both columns. Select Skills by clicking on Skill buttons or the Roll Skill button."
+            case 4:
+                return "Click on one equipment option in each row, then click Generate Starting Equipment get your stating inventory."
+            case 5:
+                return "Click Reroll on any category you'd like to change."
+            case 6:
+                return "Choose a name and confirm your selections, then click the Create Character button."
         }
     }
 
@@ -171,6 +188,9 @@ class CharGen extends React.Component {
                     <Col>
                         <Button className="w-100 h-100" disabled={!this.canProceed()} variant="dark" onClick={() => this.setState({stage: this.state.stage + 1})}>{">>"}</Button>
                     </Col>
+                </Row>
+                <Row className="justify-content-center">
+                    <h3>{this.stageInstructions()}</h3>
                 </Row>
                 <Container>
                     {this.selectionArea()}

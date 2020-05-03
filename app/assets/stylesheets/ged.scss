@@ -97,9 +97,9 @@ a:hover {
     visibility: hidden;
 }
 
-.btn.selected {
-    background-color: gold !important;
-}
+// .btn.selected {
+//     background-color: gold !important;
+// }
 
 .card:hover {
     border: 1px solid !important;
@@ -120,6 +120,10 @@ a:hover {
 #rules-modal-body .row {
     justify-content: center;
     text-align: center;
+}
+
+.w-md-50-xs-75 {
+    width: 75% !important;
 }
 
 @include media-breakpoint-up(md) {
@@ -151,4 +155,8 @@ a:hover {
     .vert-to-hor {
         flex-direction: column;
     }
+
+    .w-md-50-xs-75 {
+    width: 50% !important;
+}
 }
