@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   
   root "static_pages#root"
   match "*path" => "static_pages#root", via: :all
-end
-# Try making another namespace for :ged with a controller that only renders an 
-# index and nesting all the resources underneath it
 
-# That fails, try cutting ged/home out of it and just making that landing page part of '/' for now
+  mount ActionCable.server => '/cable'
+end
