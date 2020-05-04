@@ -13,6 +13,10 @@ class Campaign < ApplicationRecord
     has_many :characters,
         foreign_key: :campaign_id,
         class_name: :Character
+    
+    has_many :chapters,
+        foreign_key: :campaign_id,
+        class_name: :Chapter
 
     has_many :subscribing_users,
         through: :campaign_subs,
