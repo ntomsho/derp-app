@@ -27,31 +27,31 @@ class Game extends React.Component {
         // fetchChapter()
         this.cable.subscriptions.create({
             channel: "GameChannel",
-            game_id: this.props.match.params.id
+            game_id: this.props.match.params.id,
+            character_id: this.props.character_id
         },
         {
             received: (newMessage) => this.handleReceived(newMessage),
             speak: function(message) {
-                debugger
                 return this.perform("speak", message)
             }
         })
     }
 
     sendMessage() {
-        debugger
-        // broadcastToChapter({ message: this.state.testMessage, game_id: this.props.match.params.id })
         this.cable.subscriptions.subscriptions[0].speak({ message: this.state.testMessage });
     }
 
     handleReceived(response) {
-        debugger
         let newMessages = Object.assign([], this.state.game.messages);
         newMessages.push(response);
         this.setState({ game: { messages: newMessages } });
     }
 
     render() {
+        
+        //Add conditional to redirect users who aren't in the campaign
+        
         return (
             <Container>
                 <Row>

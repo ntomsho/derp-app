@@ -1,20 +1,11 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    # identified_by :current_user
+    identified_by :current_user
 
-    # def connect
-    #   self.current_user = verify_in_campaign
-    # end
-
-    # private
-
-    # def verify_in_campaign
-    #   if verified_user = Campaign.find(params[:campaign_id]).subscribed_users.includes(current_user.id)
-    #     verified_user
-    #   else
-    #     reject_unauthorized_connection
-    #   end
-    # end
+    def connect
+      session = cookies.encrypted[Rails.application.config.session_options[:key]]
+      self.current_user = User.find_by(session_token: session["session_token"])
+    end
     
   end
 end

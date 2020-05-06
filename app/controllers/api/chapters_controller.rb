@@ -30,17 +30,6 @@ class Api::ChaptersController < ApplicationController
         render json: {chapter_id: chapter_id}
     end
 
-    def broadcast
-        debugger
-        bc_params = params[:data]
-        game = Chapter.find(bc_params[:game_id])
-        message = bc_params[:message]
-        GameChannel.broadcast_to(game, {
-            game: game,
-            message: message
-        })
-    end
-
     private
 
     def chapter_params
