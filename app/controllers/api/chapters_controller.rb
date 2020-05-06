@@ -1,5 +1,10 @@
 class Api::ChaptersController < ApplicationController
 
+    def show
+        @chapter = Chapter.find(:game_id)
+        render :show
+    end
+
     def create
         @chapter = Chapter.new(chapter_params)
         if @chapter.save
@@ -23,6 +28,17 @@ class Api::ChaptersController < ApplicationController
         chapter_id = @chapter.id
         @chapter.destroy
         render json: {chapter_id: chapter_id}
+    end
+
+    def broadcast
+        debugger
+        bc_params = params[:data]
+        game = Chapter.find(bc_params[:game_id])
+        message = bc_params[:message]
+        GameChannel.broadcast_to(game, {
+            game: game,
+            message: message
+        })
     end
 
     private

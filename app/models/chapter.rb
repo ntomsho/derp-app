@@ -1,6 +1,6 @@
 class Chapter < ApplicationRecord
 
-    validates, :campaign_id, presence: true
+    validates :campaign_id, presence: true
 
     belongs_to :campaign,
         foreign_key: :campaign_id,
