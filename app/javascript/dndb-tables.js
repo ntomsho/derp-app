@@ -67,6 +67,21 @@ export const CLASS_DESCRIPTIONS = {
     "Zoomaster": "A tamer of beasts with a collection of chimeric animal companions."
 };
 
+export const CLASS_RESOURCES = {
+    "Battlebro": ["Weapon Forms"],
+    "Bowslinger": ["Special Ammo"],
+    "Hippy": ["Forms", "Gifts"],
+    "Knight of Tushuze": ["Blessings"],
+    "Minstrel": ["Songs", "Notes"],
+    "Mixologist": ["Bases", "Catalysts"],
+    "Ne'erdowell": ["Items"],
+    "Ragesmasher": ["Totems"],
+    "Runegoon": ["Runes", "Engraved Rune"],
+    "Verbpriest": ["Command Words", "Faith"],
+    "Wizcaster": ["Words of Power"],
+    "Zoomaster": ["Beasts"]
+}
+
 export const SKILLS = [
     "Believe in Yourself",
     "Brute Force",

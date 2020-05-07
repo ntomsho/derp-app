@@ -26,10 +26,6 @@ const GameCharacters = (props) => {
     const chars = props.characters
 
     return (
-        <>
-        <Row>
-            <h2>Messages</h2>
-        </Row>
         <Row>
             <Col>
                 <Accordion>
@@ -45,15 +41,21 @@ const GameCharacters = (props) => {
                                             <small className="grenze">Played by {chars[id].username}</small>
                                         </div>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-center grenze">
-                                        <div>Background: <strong>{char.background}</strong></div>
-                                        <div>Appearance: <strong>{char.appearance}</strong></div>
-                                        <div>Derp: <strong>{char.derp}</strong></div>
+                                    <div className="d-flex justify-content-between">
+                                        <Col xs={4}>
+                                        <small>Background</small><br/><strong className="grenze">{char.background}</strong>
+                                        </Col>
+                                        <Col xs={4}>
+                                        <small>Appearance</small><br/><strong className="grenze">{char.appearance}</strong>
+                                        </Col>
+                                        <Col xs={4}>
+                                        <small>Derp</small><br/><strong className="grenze">{char.derp}</strong>
+                                        </Col>
                                     </div>
                                     <Row className="my-2">
                                         <Col xs={2} sm={1}>
                                             <InputGroup>
-                                                <InputGroup.Text className="game-heart-container" style={{ border: 'none', color: char.health === char.max_health ? 'lawngreen' : 'white' }}>
+                                                <InputGroup.Text className="game-heart-container mb-1" style={{ border: 'none', color: char.health === char.max_health ? 'lawngreen' : 'white' }}>
                                                     <div>
                                                         {char.health}
                                                     </div>
@@ -71,7 +73,7 @@ const GameCharacters = (props) => {
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
-                                        <Col xs={3}>
+                                        <Col>
                                             <InputGroup>
                                                 <InputGroup.Prepend>
                                                     <Button variant="secondary">-</Button>
@@ -79,6 +81,11 @@ const GameCharacters = (props) => {
                                                 <InputGroup.Text style={{borderRadius: '50%'}}>
                                                     {char.plot_points}
                                                 </InputGroup.Text>
+                                                <InputGroup.Append className="grenze">
+                                                    <InputGroup.Text>
+                                                        Derp Points
+                                                    </InputGroup.Text>
+                                                </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
                                     </Row>
@@ -95,7 +102,6 @@ const GameCharacters = (props) => {
                 </Accordion>
             </Col>
         </Row>
-        </>
     )
 
 }
