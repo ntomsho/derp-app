@@ -23,6 +23,21 @@ const GameCharacters = (props) => {
         setHealthForms(newHealthForms);
     }
 
+    function makeChange(charId, change) {
+        let newState = Object.assign({}, props.characters);
+        const key = Object.keys(change)[0]
+        switch (key) {
+            case "health":
+            case "plot_points":
+                newState[charId].character[key] += change[key];
+                break;
+            default:
+                return;
+        }
+        change['charId'] = charId;
+        props.charChange(newState, change)
+    }
+
     const chars = props.characters
 
     return (
@@ -68,8 +83,8 @@ const GameCharacters = (props) => {
                                                     <Form.Control value={healthForms[id]} name={id} onChange={update} />
                                                 </div>
                                                 <InputGroup.Append>
-                                                    <Button variant="danger">Damage</Button>
-                                                    <Button variant="success">Healing</Button>
+                                                    <Button variant="danger" onClick={() => makeChange(id, { health: parseInt(healthForms[id]*-1) })}>Damage</Button>
+                                                    <Button variant="success" onClick={() => makeChange(id, { health: parseInt(healthForms[id]) })}>Healing</Button>
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
