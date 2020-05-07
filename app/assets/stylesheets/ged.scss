@@ -57,6 +57,14 @@ h1, h2, h3 {
     width: 100%;
 }
 
+.game-heart-container {
+    background-image: url(https://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    background-color: transparent !important;
+}
+
 .grenze {
     font-family: grenze;
 }
@@ -101,6 +109,7 @@ a:hover {
 //     background-color: gold !important;
 // }
 
+// consider changing this to a specific class just for home screen
 .card:hover {
     border: 1px solid !important;
 }

@@ -13,11 +13,13 @@ class GameChannel < ApplicationCable::Channel
         state['characters'][character_id] = { user_id: current_user.id, username: current_user.username, character: @character }
         redis.set("state", JSON.generate(state))
         stream_for @game
-        GameChannel.broadcast_to(@game, { state: state, login: { user_id: current_user.id, username: current_user.username, character: @character.name } })
+        GameChannel.broadcast_to(@game, { state: state, message: {login: { user_id: current_user.id, username: current_user.username, character: @character.name }} })
     end
 
     def speak(data)
-        GameChannel.broadcast_to(@game, { data: data })
+        state = data['state']
+        redis.set("state", JSON.generate(state))
+        GameChannel.broadcast_to(@game, { state: state, message: data['changes'] })
     end
 
     def unsubscribed
@@ -25,7 +27,7 @@ class GameChannel < ApplicationCable::Channel
         @character.update(state['characters'][@character.id]['character'])
         state['characters'].delete(@character.id.to_s)
         redis.set("state", JSON.generate(state))
-        GameChannel.broadcast_to(@game, { state: state, logout: { user_id: current_user.id, username: current_user.username } })
+        GameChannel.broadcast_to(@game, { state: state, message: {logout: { user_id: current_user.id, username: current_user.username } }})
     end
 
     private

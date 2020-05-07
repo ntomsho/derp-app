@@ -1,9 +1,10 @@
 import React from 'react';
+import GameCharacters from './game_characters';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { fetchChapter, broadcastToChapter } from '../../actions/chapter_actions';
+import { fetchChapter } from '../../actions/chapter_actions';
 import actionCable from 'actioncable';
 import { API_WS_ROOT } from '../../channels/index';
 
@@ -52,7 +53,6 @@ class Game extends React.Component {
     render() {
         
         //Add conditional to redirect users who aren't in the campaign
-        const chars = this.state.gameState.characters;
 
         return (
             <Container>
@@ -61,22 +61,7 @@ class Game extends React.Component {
                         <Button onClick={this.sendChange}>Send</Button>
                     </Col>
                 </Row>
-                <Row>
-                    <h2>Messages</h2>
-                </Row>
-                <Row>
-                    <Col>
-                        {Object.keys(chars).map(id => {
-                            return (
-                                <div key={chars[id]}>
-                                    <h3>{chars[id]['character'].name}</h3>
-                                    <div className="grenze">Played by {chars[id].username}</div>
-                                    <div>Level {chars[id]['character'].level} {chars[id]['character'].c_class}</div>
-                                </div>
-                            )
-                        })}
-                    </Col>
-                </Row>
+                <GameCharacters characters={this.state.gameState.characters} sendChange={this.sendChange} />
             </Container>
         )
     }
