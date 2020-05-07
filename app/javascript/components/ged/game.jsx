@@ -12,14 +12,16 @@ class Game extends React.Component {
         super(props);
         this.state = {
             testMessage: {"test": 1},
-            game: {
-                counter: 1,
-                messages: [],
-                characters: {}
+            gameState: {
+                characters: {},
+                clocks: {
+                    challenges: [],
+                    countdowns: []
+                }
             }
         }
         this.handleReceived = this.handleReceived.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
+        this.sendChange = this.sendChange.bind(this);
         this.cable = actionCable.createConsumer(API_WS_ROOT);
     }
 
@@ -38,25 +40,25 @@ class Game extends React.Component {
         })
     }
 
-    sendMessage() {
-        this.cable.subscriptions.subscriptions[0].speak({ message: this.state.testMessage });
+    sendChange(change) {
+        this.cable.subscriptions.subscriptions[0].speak({ change: change });
     }
 
     handleReceived(response) {
-        let newMessages = Object.assign([], this.state.game.messages);
-        newMessages.push(response);
-        this.setState({ game: { messages: newMessages } });
+        let newState = Object.assign(this.state.gameState, response.state);
+        this.setState({ gameState: newState });
     }
 
     render() {
         
         //Add conditional to redirect users who aren't in the campaign
-        
+        const chars = this.state.gameState.characters;
+
         return (
             <Container>
                 <Row>
                     <Col>
-                        <Button onClick={this.sendMessage}>Send #{this.state.game.counter}</Button>
+                        <Button onClick={this.sendChange}>Send</Button>
                     </Col>
                 </Row>
                 <Row>
@@ -64,9 +66,13 @@ class Game extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        {this.state.game.messages.map((message, i) => {
+                        {Object.keys(chars).map(id => {
                             return (
-                                <div key={i}>{JSON.stringify(message)}</div>
+                                <div key={chars[id]}>
+                                    <h3>{chars[id]['character'].name}</h3>
+                                    <div className="grenze">Played by {chars[id].username}</div>
+                                    <div>Level {chars[id]['character'].level} {chars[id]['character'].c_class}</div>
+                                </div>
                             )
                         })}
                     </Col>
