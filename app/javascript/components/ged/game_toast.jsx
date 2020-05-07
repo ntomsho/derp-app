@@ -23,7 +23,7 @@ const GameToast = (props) => {
     }
 
     return (
-        <Toast style={{ opacity: '75%', position: 'fixed', top: 0, right: 0 }} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
+        <Toast style={{ opacity: '75%', position: 'fixed', top: 0, zIndex: 1500 }} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
             <Toast.Header>
                 Notification
             </Toast.Header>
