@@ -6,7 +6,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { CLASS_COLORS } from '../../dndb-tables';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { CLASS_COLORS, CLASS_RESOURCES } from '../../dndb-tables';
+import resourceString from '../../resource_string';
 
 const GameCharacters = (props) => {
     const [healthForms, setHealthForms] = useState(createHealthForms())
@@ -36,6 +38,27 @@ const GameCharacters = (props) => {
         }
         change['charId'] = charId;
         props.charChange(newState, change)
+    }
+
+    function populateSpecials(specials, cClass) {
+        return (
+            <>
+            {Object.keys(specials).map((category, i) => {
+                return (
+                    <>
+                    <h3 key={i}>{category.toUpperCase()}</h3>
+                    <ListGroup key={i}>
+                        {specials[category].map((special, i) => {
+                            return (
+                                <ListGroup.Item key={i}>{resourceString(special, cClass)}</ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                    </>
+                )
+            })}
+            </>
+        )
     }
 
     const chars = props.characters
@@ -104,11 +127,11 @@ const GameCharacters = (props) => {
                                             </InputGroup>
                                         </Col>
                                     </Row>
-                                    <Accordion.Toggle as="Button" className="w-100" variant="secondary" size="sm" eventKey={i}>More</Accordion.Toggle>
+                                    <Accordion.Toggle as={Button} className="w-100" variant="secondary" size="sm" eventKey={i}>More</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body>
-                                        <h3>Resources</h3>
+                                        {populateSpecials(JSON.parse(char.current_specials), char.c_class)}
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>

@@ -52,7 +52,6 @@ class Game extends React.Component {
     charChange(newState, change) {
         const state = Object.assign({}, this.state.gameState);
         state.characters = newState;
-        // this.setState({ gameState: state });
         this.sendChange(state, change);
     }
 
