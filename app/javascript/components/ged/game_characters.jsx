@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { CLASS_COLORS, CLASS_RESOURCES } from '../../dndb-tables';
 import resourceString from '../../resource_string';
 
@@ -33,6 +35,16 @@ const GameCharacters = (props) => {
             case "plot_points":
                 newState[charId].character[key] += change[key];
                 break;
+            case "lose_item":
+                newState[charId].character.inventory = JSON.parse(newState[charId].character.inventory)
+                newState[charId].character.inventory[change[key].ind] = "";
+                newState[charId].character.inventory = JSON.stringify(newState[charId].character.inventory)
+                break;
+            case "lose_resource":
+                newState[charId].character.current_specials = JSON.parse(newState[charId].character.current_specials);
+                newState[charId].character.current_specials[change[key].ind[0]].splice(change[key].ind[1], 1);
+                newState[charId].character.current_specials = JSON.stringify(newState[charId].character.current_specials);
+                break;
             default:
                 return;
         }
@@ -40,7 +52,7 @@ const GameCharacters = (props) => {
         props.charChange(newState, change)
     }
 
-    function populateSpecials(specials, cClass) {
+    function populateSpecials(specials, cClass, id) {
         return (
             <>
             {Object.keys(specials).map((category, i) => {
@@ -50,8 +62,17 @@ const GameCharacters = (props) => {
                         <ListGroup>
                             {specials[category].map((special, i) => {
                                 return (
-                                    <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_resource: resourceString(special, cClass) })}>
-                                        <div>{resourceString(special, cClass)}</div>
+                                    // <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_resource: {ind: [category, i], string: resourceString(special, cClass)} })}>
+                                    //     <div>{resourceString(special, cClass)}</div>
+                                    // </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex justify-content-between align-items-center" variant="secondary" key={i}>
+                                        {resourceString(special, cClass)}
+                                        <Dropdown as={ButtonGroup}>
+                                            <Dropdown.Toggle variant="secondary" split />
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item onClick={() => makeChange(id, { lose_resource: { ind: [category, i], string: resourceString(special, cClass) } })}>Remove</Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </ListGroup.Item>
                                 )
                             })}
@@ -133,23 +154,43 @@ const GameCharacters = (props) => {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body className="d-flex">
-                                        {populateSpecials(JSON.parse(char.current_specials), char.c_class)}
+                                        {populateSpecials(JSON.parse(char.current_specials), char.c_class, id)}
                                         <Col>
-                                            <h3>Inventory</h3>
+                                            <h3>INVENTORY</h3>
                                             <div className="grenze">Carried Items</div>
                                             <ListGroup>
                                                 {JSON.parse(char.inventory).slice(0,3).map((item, i) => {
-                                                    return (
-                                                        <ListGroup.Item key={i}>{item}</ListGroup.Item>
-                                                    )
+                                                    if (item) {
+                                                        return (
+                                                            <ListGroup.Item className="d-flex justify-content-between align-items-center" variant="secondary" key={i}>
+                                                                {item}
+                                                                <Dropdown as={ButtonGroup}>
+                                                                    <Dropdown.Toggle variant="secondary" split />
+                                                                    <Dropdown.Menu>
+                                                                        <Dropdown.Item onClick={() => makeChange(id, { lose_item: { ind: i, string: item } })}>Remove</Dropdown.Item>
+                                                                    </Dropdown.Menu>
+                                                                </Dropdown>
+                                                            </ListGroup.Item>
+                                                        )
+                                                    }
                                                 })}
                                             </ListGroup>
                                             <div className="grenze">Stashed Items</div>
                                             <ListGroup>
                                                 {JSON.parse(char.inventory).slice(3).map((item, i) => {
-                                                    return (
-                                                        <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_item: i })}>{item}</ListGroup.Item>
-                                                    )
+                                                    if (item) {
+                                                        return (
+                                                            <ListGroup.Item className="d-flex justify-content-between align-items-center" variant="secondary" key={i}>
+                                                                {item}
+                                                                <Dropdown as={ButtonGroup}>
+                                                                    <Dropdown.Toggle variant="secondary" split />
+                                                                    <Dropdown.Menu>
+                                                                        <Dropdown.Item onClick={() => makeChange(id, { lose_item: { ind: i + 3, string: item } })}>Remove</Dropdown.Item>
+                                                                    </Dropdown.Menu>
+                                                                </Dropdown>
+                                                            </ListGroup.Item>
+                                                        )
+                                                    }
                                                 })}
                                             </ListGroup>
                                         </Col>
