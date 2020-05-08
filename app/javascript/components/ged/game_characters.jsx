@@ -45,16 +45,16 @@ const GameCharacters = (props) => {
             <>
             {Object.keys(specials).map((category, i) => {
                 return (
-                    <>
-                    <h3 key={i}>{category.toUpperCase()}</h3>
-                    <ListGroup key={i}>
-                        {specials[category].map((special, i) => {
-                            return (
-                                <ListGroup.Item key={i}>{resourceString(special, cClass)}</ListGroup.Item>
-                            )
-                        })}
-                    </ListGroup>
-                    </>
+                    <Col xs={12 / specials.length} key={i}>
+                        <h3>{category.toUpperCase()}</h3>
+                        <ListGroup>
+                            {specials[category].map((special, i) => {
+                                return (
+                                    <ListGroup.Item key={i}><div>{resourceString(special, cClass)}</div></ListGroup.Item>
+                                )
+                            })}
+                        </ListGroup>
+                    </Col>
                 )
             })}
             </>
@@ -132,6 +132,25 @@ const GameCharacters = (props) => {
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body>
                                         {populateSpecials(JSON.parse(char.current_specials), char.c_class)}
+                                        <Col>
+                                            <h3>Inventory</h3>
+                                            <div className="grenze">Carried Items</div>
+                                            <ListGroup>
+                                                {JSON.parse(char.inventory).slice(0,3).map((item, i) => {
+                                                    return (
+                                                        <ListGroup.Item key={i}>{item}</ListGroup.Item>
+                                                    )
+                                                })}
+                                            </ListGroup>
+                                            <div className="grenze">Stashed Items</div>
+                                            <ListGroup>
+                                                {JSON.parse(char.inventory).slice(3).map((item, i) => {
+                                                    return (
+                                                        <ListGroup.Item key={i}>{item}</ListGroup.Item>
+                                                    )
+                                                })}
+                                            </ListGroup>
+                                        </Col>
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card>

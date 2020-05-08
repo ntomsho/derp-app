@@ -13,17 +13,19 @@ const GameToast = (props) => {
                 `${props.charName} took ${message[key]} damage.`
             case 'plot_points':
                 return message[key] > 0 ?
-                    `${props.charName} gained a Derp Point` :
-                    `${props.charName} lost a Derp Point`
+                    `${props.charName} gained a Derp Point.` :
+                    `${props.charName} lost a Derp Point.`
             case 'login':
-                return `${message.login.username} has logged in as ${message.login.characterName}`
+                return `${message.login.username} has logged in as ${message.login.characterName}.`
+            case 'logout':
+                return `${message.logout.username} has logged out.`
             default:
                 return;
         }
     }
 
     return (
-        <Toast style={{ opacity: '75%', position: 'fixed', top: '40px', zIndex: 1500 }} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
+        <Toast style={{ opacity: '85%', position: 'fixed', top: '40px', zIndex: 1500 }} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
             <Toast.Header>
                 Notification
             </Toast.Header>
