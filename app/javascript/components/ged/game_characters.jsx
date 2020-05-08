@@ -62,9 +62,6 @@ const GameCharacters = (props) => {
                         <ListGroup>
                             {specials[category].map((special, i) => {
                                 return (
-                                    // <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_resource: {ind: [category, i], string: resourceString(special, cClass)} })}>
-                                    //     <div>{resourceString(special, cClass)}</div>
-                                    // </ListGroup.Item>
                                     <ListGroup.Item className="d-flex justify-content-between align-items-center" variant="secondary" key={i}>
                                         {resourceString(special, cClass)}
                                         <Dropdown as={ButtonGroup}>
@@ -153,7 +150,7 @@ const GameCharacters = (props) => {
                                     <Accordion.Toggle as={Button} className="w-100" variant="secondary" size="sm" eventKey={i}>More</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
-                                    <Card.Body className="d-flex">
+                                    <Card.Body className="d-flex flex-wrap">
                                         {populateSpecials(JSON.parse(char.current_specials), char.c_class, id)}
                                         <Col>
                                             <h3>INVENTORY</h3>

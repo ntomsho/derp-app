@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 import { fetchChapter } from '../../actions/chapter_actions';
 import actionCable from 'actioncable';
 import { API_WS_ROOT } from '../../channels/index';
@@ -85,12 +87,17 @@ class Game extends React.Component {
                         <GameToast key={i} charName={chars[note.charId].character.name} note={note} ind={i} removeNote={this.removeNote} />
                     )
                 })}
-                <Row>
-                    <Col>
-                        <Button onClick={this.sendChange}>Send</Button>
-                    </Col>
-                </Row>
-                <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
+                <Tabs defaultActiveKey="0">
+                    <Tab eventKey="0" title={<h2>Characters</h2>}>
+                        <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
+                    </Tab>
+                    <Tab eventKey="1" title={<h2>Clocks</h2>}>
+
+                    </Tab>
+                    <Tab eventKey="2" title={<h2>Tools</h2>}>
+
+                    </Tab>
+                </Tabs>
             </Container>
         )
     }
