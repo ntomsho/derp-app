@@ -45,12 +45,14 @@ const GameCharacters = (props) => {
             <>
             {Object.keys(specials).map((category, i) => {
                 return (
-                    <Col xs={12 / specials.length} key={i}>
+                    <Col xs={12 / Object.keys(specials).length} md={12 / (Object.keys(specials).length + 1)} key={i}>
                         <h3>{category.toUpperCase()}</h3>
                         <ListGroup>
                             {specials[category].map((special, i) => {
                                 return (
-                                    <ListGroup.Item key={i}><div>{resourceString(special, cClass)}</div></ListGroup.Item>
+                                    <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_resource: resourceString(special, cClass) })}>
+                                        <div>{resourceString(special, cClass)}</div>
+                                    </ListGroup.Item>
                                 )
                             })}
                         </ListGroup>
@@ -130,7 +132,7 @@ const GameCharacters = (props) => {
                                     <Accordion.Toggle as={Button} className="w-100" variant="secondary" size="sm" eventKey={i}>More</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
-                                    <Card.Body>
+                                    <Card.Body className="d-flex">
                                         {populateSpecials(JSON.parse(char.current_specials), char.c_class)}
                                         <Col>
                                             <h3>Inventory</h3>
@@ -146,7 +148,7 @@ const GameCharacters = (props) => {
                                             <ListGroup>
                                                 {JSON.parse(char.inventory).slice(3).map((item, i) => {
                                                     return (
-                                                        <ListGroup.Item key={i}>{item}</ListGroup.Item>
+                                                        <ListGroup.Item key={i} onClick={() => makeChange(id, { lose_item: i })}>{item}</ListGroup.Item>
                                                     )
                                                 })}
                                             </ListGroup>
