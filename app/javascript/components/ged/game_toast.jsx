@@ -19,6 +19,8 @@ const GameToast = (props) => {
                 return `${props.charName} lost their ${message[key].string}`
             case 'lose_resource':
                 return `${props.charName} lost one of their ${message[key].ind[0]}: ${message[key].string}`
+            case 'change_clock':
+                return `${message.clock.title} has ${message.clock.diff > 0 ? "advanced" : "decreased"} by ${message.clock.diff} to ${message.clock.progress}`
             case 'login':
                 return `${message.login.username} has logged in as ${message.login.characterName}.`
             case 'logout':

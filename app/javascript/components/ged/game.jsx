@@ -1,5 +1,6 @@
 import React from 'react';
 import GameCharacters from './game_characters';
+import GameClocks from './game_clocks';
 import GameToast from './game_toast';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -27,6 +28,7 @@ class Game extends React.Component {
         this.handleReceived = this.handleReceived.bind(this);
         this.sendChange = this.sendChange.bind(this);
         this.charChange = this.charChange.bind(this);
+        this.clockChange = this.clockChange.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.removeNote = this.removeNote.bind(this);
         this.cable = actionCable.createConsumer(API_WS_ROOT);
@@ -55,6 +57,12 @@ class Game extends React.Component {
         const state = Object.assign({}, this.state.gameState);
         state.characters = newState;
         this.sendChange(state, change);
+    }
+
+    clockChange(newState, change) {
+        const state = Object.assign({}, this.state.gameState);
+        state.clocks = newState;
+        this.sendChange(state, change)
     }
 
     handleReceived(response) {
@@ -92,7 +100,7 @@ class Game extends React.Component {
                         <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>
                     <Tab eventKey="1" title={<h2>Clocks</h2>}>
-
+                        <GameClocks clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
                     </Tab>
                     <Tab eventKey="2" title={<h2>Tools</h2>}>
 
