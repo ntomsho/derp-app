@@ -95,7 +95,7 @@ class Game extends React.Component {
                         <GameToast key={i} charName={chars[note.charId].character.name} note={note} ind={i} removeNote={this.removeNote} />
                     )
                 })}
-                <Tabs defaultActiveKey="0">
+                <Tabs className="justify-content-around" defaultActiveKey="0">
                     <Tab eventKey="0" title={<h2>Characters</h2>}>
                         <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>

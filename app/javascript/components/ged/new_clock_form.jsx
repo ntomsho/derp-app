@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const NewClockForm = (props) => {
 
@@ -34,24 +36,39 @@ const NewClockForm = (props) => {
 
     return (
         <Form>
-            <Form.Control value={title} onChange={(e) => setTitle(e.currentTarget.value)} />
-            <Form.Label value={size} onChange={(e) => setSize(e.currentTarget.value)}>Size</Form.Label>
-            <Form.Control as="select">
-                {sizes()}
-            </Form.Control>
-            <Form.Label>Starting Progress</Form.Label>
-            <InputGroup>
-                <InputGroup.Prepend>
-                    <Button variant="outline-secondary" onClick={() => setStartingProgress(startingProgress - 1)}>-</Button>
-                </InputGroup.Prepend>
-                <InputGroup.Text>
-                    {startingProgress}
-                </InputGroup.Text>
-                <InputGroup.Append>
-                    <Button variant="outline-secondary" onClick={() => setStartingProgress(startingProgress + 1)}>+</Button>
-                </InputGroup.Append>
-            </InputGroup>
-            <Button type="submit" onClick={createClock}>Create</Button>
+            <Row>
+                <Col xs={12} className="d-flex align-items-end">
+                    <InputGroup>
+                        <InputGroup.Prepend className="grenze w-25">
+                            New {props.challenge ? "Challenge" : "Countdown"}
+                        </InputGroup.Prepend>
+                        <Form.Control value={title} onChange={(e) => setTitle(e.currentTarget.value)} />
+                    </InputGroup>
+                </Col>
+                <Col xs={3}>
+                    <Form.Label className="grenze" value={size} onChange={(e) => setSize(e.currentTarget.value)}>Size</Form.Label>
+                    <Form.Control as="select">
+                        {sizes()}
+                    </Form.Control>
+                </Col>
+                <Col xs={4}>
+                    <Form.Label className="grenze">Starting Progress</Form.Label>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <Button variant="outline-secondary" onClick={() => setStartingProgress(startingProgress - 1)}>-</Button>
+                        </InputGroup.Prepend>
+                        <InputGroup.Text>
+                            {startingProgress}
+                        </InputGroup.Text>
+                        <InputGroup.Append>
+                            <Button variant="outline-secondary" onClick={() => setStartingProgress(startingProgress + 1)}>+</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Col>
+                <Col className="d-flex align-items-end justify-content-center">
+                    <Button type="submit" size="lg" onClick={createClock}>Create</Button>
+                </Col>
+            </Row>
         </Form>
     )
 
