@@ -20,7 +20,11 @@ const GameToast = (props) => {
             case 'lose_resource':
                 return `${props.charName} lost one of their ${message[key].ind[0]}: ${message[key].string}`
             case 'change_clock':
-                return `${message.clock.title} has ${message.clock.diff > 0 ? "advanced" : "decreased"} by ${message.clock.diff} to ${message.clock.progress}`
+                return `${message[key].title} has ${message[key].diff > 0 ? "advanced" : "decreased"} by ${message[key].diff} to ${message[key].progress}`
+            case 'new_clock':
+                return `New ${message[key].category} Clock: ${message[key].title} starting at ${message[key].progress} out of ${message[key].size}`
+            case 'clear_clock':
+                return `The ${message[key].category} Clock: ${message[key].title} was cleared. It was ${message[key].completed ? 'completed' : 'not completed'}`
             case 'login':
                 return `${message.login.username} has logged in as ${message.login.characterName}.`
             case 'logout':

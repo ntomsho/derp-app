@@ -16,9 +16,13 @@ const NewClockForm = (props) => {
         if (startingProgress < 0) setStartingProgress(0);
     }, [size, startingProgress])
 
-    function createClock() {
+    function createClock(e) {
+        e.preventDefault();
         const clock = { title: title, size: size, progress: startingProgress };
         props.processForm(clock, props.challenge);
+        setTitle("")
+        setSize(props.challenge ? 4 : 2);
+        setStartingProgress(0);
     }
 
     function sizes() {
@@ -35,7 +39,7 @@ const NewClockForm = (props) => {
     }
 
     return (
-        <Form>
+        <Form onSubmit={createClock}>
             <Row>
                 <Col xs={12} className="d-flex align-items-end">
                     <InputGroup>
@@ -66,7 +70,7 @@ const NewClockForm = (props) => {
                     </InputGroup>
                 </Col>
                 <Col className="d-flex align-items-end justify-content-center">
-                    <Button type="submit" size="lg" onClick={createClock}>Create</Button>
+                    <Button type="submit" size="lg">Create</Button>
                 </Col>
             </Row>
         </Form>

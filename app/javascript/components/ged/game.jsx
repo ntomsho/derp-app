@@ -92,7 +92,7 @@ class Game extends React.Component {
             <Container>
                 {this.state.notifications.map((note, i) => {
                     return (
-                        <GameToast key={i} charName={chars[note.charId].character.name} note={note} ind={i} removeNote={this.removeNote} />
+                        <GameToast key={i} charName={note.charId ? chars[note.charId].character.name : ""} note={note} ind={i} removeNote={this.removeNote} />
                     )
                 })}
                 <Tabs className="justify-content-around" defaultActiveKey="0">
