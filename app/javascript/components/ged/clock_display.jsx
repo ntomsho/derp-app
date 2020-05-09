@@ -7,7 +7,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 
 const ClockDisplay = (props) => {
 
-    const [changeForm, setChangeForm] = useState("");
+    const [changeForm, setChangeForm] = useState(0);
 
     function barVariant() {
         if (props.complete) {
@@ -23,13 +23,19 @@ const ClockDisplay = (props) => {
         setChangeForm(newValue);
     }
 
+    function processChange(value) {
+        if (value !== 0) {
+            props.sendChange(props.challenge, props.i, value)
+        }
+    }
+
     function changeButtons() {
         if (!props.complete) {
             return (
                 <InputGroup.Append>
                     <Form.Control style={{ width: '75px', textAlign: 'center' }} value={changeForm} name={props.i} onChange={update} />
-                    <Button variant="outline-success" onClick={() => props.sendChange(props.challenge, props.i, parseInt(changeForm))}>+</Button>
-                    <Button variant="outline-danger" onClick={() => props.sendChange(props.challenge, props.i, parseInt(changeForm) * -1)}>-</Button>
+                    <Button variant="outline-success" onClick={() => processChange(parseInt(changeForm))}>+</Button>
+                    <Button variant="outline-danger" onClick={() => processChange(parseInt(changeForm) * -1)}>-</Button>
                 </InputGroup.Append>
             )
         }
