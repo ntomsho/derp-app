@@ -4,8 +4,7 @@ import Toast from 'react-bootstrap/Toast';
 const GameToast = (props) => {
 
     const messageText = (message) => {
-        delete message.charId;
-        const key = Object.keys(message)[0];
+        const key = Object.keys(message).filter(x => x !== "charId")[0];
         switch (key) {
             case 'health':
                 return message[key] > 0 ?
@@ -15,6 +14,8 @@ const GameToast = (props) => {
                 return message[key] > 0 ?
                     `${props.charName} gained a Derp Point.` :
                     `${props.charName} lost a Derp Point.`
+            case 'gain_item':
+                return `${props.charName} has gained an item: ${message[key].item}`
             case 'lose_item':
                 return `${props.charName} lost their ${message[key].string}`
             case 'lose_resource':
@@ -35,7 +36,7 @@ const GameToast = (props) => {
     }
 
     return (
-        <Toast style={{ opacity: '85%', position: 'fixed', top: '40px', zIndex: 1500 }} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
+        <Toast style={{opacity: '85%'}} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
             <Toast.Header>
                 Notification
             </Toast.Header>

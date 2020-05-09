@@ -534,6 +534,48 @@ export const TRINKETS = [
     "Wig"
 ]
 
+export const COMMODITIES = [
+    "Ambergris",
+    "Dye",
+    "Finery",
+    "Honey",
+    "Magic supplies",
+    "Mercury",
+    "Oil",
+    "Quality literature",
+    "Silk",
+    "Snuff",
+    "Spices",
+    "Sulfur",
+    "Sugar",
+    "Tobaccy(normal)",
+    "Tobaccy(wacky)",
+    "Truffles",
+    "Vellum",
+    "Wine"
+]
+
+export const MATERIALS = [
+    "Amber",
+    "Crystal",
+    "Diamond",
+    "Ebony",
+    "Electrum",
+    "Emerald",
+    "Gold",
+    "Ivory",
+    "Jade",
+    "Mahogany",
+    "Marble",
+    "Pearl",
+    "Platinum",
+    "Ruby",
+    "Sapphire",
+    "Silk",
+    "Silver",
+    "Zirconium"
+]
+
 export const EQUIPMENT = [
     `${random(BACKGROUNDS)} tools`,
     `Bear trap`,
@@ -734,21 +776,6 @@ export const DOMESTICATED_CREATURES = [
     "Squirrel",
     "Turkey",
 ]
-
-// export const ALTRACES = [
-//     `${randomAnimal()}-person`,
-//     "Dwarf",
-//     "Edgy demon",
-//     "Elf (christmas)",
-//     "Elf (pretty)",
-//     "Facechanger",
-//     "Golem",
-//     "Merman",
-//     "Ogre",
-//     "Ork",
-//     "Thiefling",
-//     "Zombie"
-// ];
 
 export const RACE_TRAITS = [
     `${randomAnimal()} feature`,
@@ -998,6 +1025,23 @@ export function randomMagicItem() {
     ])
 }
 
+export function randomTreasureItem() {
+    return random([
+        `Cash money`,
+        `Cash money`,
+        `Cash money`,
+        `Cash money`,
+        `${random(COMMODITIES)}`,
+        `${random(MATERIALS)}`,
+        `${random(TRINKETS)} of historical significance`,
+        `${random(MATERIALS)} ${random(TRINKETS)}`,
+        `${random(MATERIALS)} ${random(TRINKETS)}`,
+        `${randomMagicItem()}`,
+        `${randomMagicItem()}`,
+        `${randomMagicItem()}`
+    ])
+}
+
 export function randomResourceItem(resource) {
     switch (resource) {
         case "Weapon Oil":
@@ -1020,6 +1064,7 @@ export function randomResourceItem(resource) {
             return randomResourceItem(random(RESOURCE_ITEMS))
     }
 }
+
 
 export function randomTag(cClass) {
     switch (cClass) {

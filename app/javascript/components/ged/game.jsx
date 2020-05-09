@@ -1,6 +1,7 @@
 import React from 'react';
 import GameCharacters from './game_characters';
 import GameClocks from './game_clocks';
+import DirectorTools from './director_tools';
 import GameToast from './game_toast';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -90,12 +91,14 @@ class Game extends React.Component {
 
         return (
             <Container>
-                {this.state.notifications.map((note, i) => {
-                    return (
-                        <GameToast key={i} charName={note.charId ? chars[note.charId].character.name : ""} note={note} ind={i} removeNote={this.removeNote} />
-                    )
-                })}
-                <Tabs className="justify-content-around" defaultActiveKey="0">
+                <div style={{ position: 'fixed', top: '40px', zIndex: 1500 }}>
+                    {this.state.notifications.map((note, i) => {
+                        return (
+                            <GameToast key={i} charName={note.charId ? chars[note.charId].character.name : ""} note={note} ind={i} removeNote={this.removeNote} />
+                        )
+                    })}
+                </div>
+                <Tabs className="justify-content-around" defaultActiveKey="2">
                     <Tab eventKey="0" title={<h2>Characters</h2>}>
                         <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>
@@ -103,7 +106,7 @@ class Game extends React.Component {
                         <GameClocks clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
                     </Tab>
                     <Tab eventKey="2" title={<h2>Tools</h2>}>
-
+                        <DirectorTools characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>
                 </Tabs>
             </Container>
