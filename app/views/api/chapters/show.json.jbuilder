@@ -1,0 +1,1 @@
+json.partial! "api/chapters/chapter", chapter: @chapter

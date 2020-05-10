@@ -38,7 +38,7 @@ const GameToast = (props) => {
     return (
         <Toast style={{opacity: '85%'}} onClose={() => props.removeNote(props.ind)} show delay={5000} autohide>
             <Toast.Header>
-                Notification
+                <div className="grenze">Notification</div>
             </Toast.Header>
             <Toast.Body>
                 {messageText(props.note)}

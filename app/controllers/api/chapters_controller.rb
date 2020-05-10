@@ -1,7 +1,7 @@
 class Api::ChaptersController < ApplicationController
 
     def show
-        @chapter = Chapter.find(:game_id)
+        @chapter = Chapter.find(params[:id])
         render :show
     end
 

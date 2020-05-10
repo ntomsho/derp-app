@@ -17,7 +17,9 @@ class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            game: props.game,
             notifications: [],
+            currentPlayerCharacter: null,
             gameState: {
                 characters: {},
                 clocks: {
@@ -36,7 +38,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        // fetchChapter()
+        if (!this.state.game) fetchChapter(this.props.match.params.id, (game) => this.setState({game: game}))
         this.cable.subscriptions.create({
             channel: "GameChannel",
             game_id: this.props.match.params.id,
