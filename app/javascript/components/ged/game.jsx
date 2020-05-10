@@ -98,7 +98,7 @@ class Game extends React.Component {
                         )
                     })}
                 </div>
-                <Tabs className="justify-content-around" defaultActiveKey="2">
+                <Tabs className="justify-content-around" defaultActiveKey="0">
                     <Tab eventKey="0" title={<h2>Characters</h2>}>
                         <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>

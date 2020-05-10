@@ -55,9 +55,10 @@ const GameCharacters = (props) => {
     function populateSpecials(specials, cClass, id) {
         return (
             <>
-            {Object.keys(specials).map((category, i) => {
-                return (
-                    <Col xs={12 / Object.keys(specials).length} md={12 / (Object.keys(specials).length + 1)} key={i}>
+            <Col xs={12} md={6}>
+                {Object.keys(specials).map((category, i) => {
+                    return (
+                        <div key={i}>
                         <h3>{category.toUpperCase()}</h3>
                         <ListGroup>
                             {specials[category].map((special, i) => {
@@ -74,9 +75,10 @@ const GameCharacters = (props) => {
                                 )
                             })}
                         </ListGroup>
-                    </Col>
-                )
-            })}
+                        </div>
+                    )
+                })}
+            </Col>
             </>
         )
     }
@@ -152,7 +154,7 @@ const GameCharacters = (props) => {
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body className="d-flex flex-wrap">
                                         {populateSpecials(JSON.parse(char.current_specials), char.c_class, id)}
-                                        <Col>
+                                        <Col xs={12} md={6}>
                                             <h3>INVENTORY</h3>
                                             <div className="grenze">Carried Items</div>
                                             <ListGroup>

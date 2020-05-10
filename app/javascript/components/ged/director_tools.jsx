@@ -235,7 +235,7 @@ class DirectorTools extends React.Component {
                             {this.numberOptions()}
                         </Form.Control>
                     </Col>
-                    <Col>
+                    <Col xs={6} md={3}>
                         <Form.Label className="grenze">Race</Form.Label>
                         <Form.Control as="select" name="npcs-race" value={this.state.npcs.options['race']} onChange={this.update}>
                             <option value="random">Random</option>

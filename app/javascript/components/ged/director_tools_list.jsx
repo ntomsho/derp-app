@@ -8,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const DirectorToolsList = (props) => {
 
-    function dropdown() {
+    function dropdown(item) {
         if (props.give) {
             return (
                 <Dropdown as={ButtonGroup}>
@@ -35,7 +35,7 @@ const DirectorToolsList = (props) => {
                         return (
                             <ListGroup.Item className="d-flex justify-content-between align-items-center" variant="secondary" key={i}>
                                 {item}
-                                {dropdown()}
+                                {dropdown(item)}
                             </ListGroup.Item>
                         )
                     })}
