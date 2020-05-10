@@ -1030,13 +1030,13 @@ export function randomTreasureItem() {
         `Cash money`,
         `Cash money`,
         `Cash money`,
-        `Cash money`,
         `${random(COMMODITIES)}`,
         `${random(MATERIALS)}`,
         `${random(TRINKETS)} of historical significance`,
         `${random(MATERIALS)} ${random(TRINKETS)}`,
         `${random(MATERIALS)} ${random(TRINKETS)}`,
-        `${randomMagicItem()}`,
+        `${randomResourceItem()}`,
+        `${randomResourceItem()}`,
         `${randomMagicItem()}`,
         `${randomMagicItem()}`
     ])
