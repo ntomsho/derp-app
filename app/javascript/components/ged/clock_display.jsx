@@ -51,7 +51,7 @@ const ClockDisplay = (props) => {
             </div>
             <InputGroup className="mb-2">
                 <InputGroup.Prepend className="w-25">
-                    <Button disabled={(props.challenge === "derp" && !props.complete)} variant={props.complete ? barVariant() : "secondary"} onClick={() => props.clearClock(props.challenge, props.i)}>{props.challenge === "derp" ? "Distribute" : "Clear"}</Button>
+                    <Button disabled={(props.challenge === "derp" && !props.complete)} variant={props.challenge === "derp" ? "outline-warning" : props.complete ? barVariant() : "secondary"} onClick={() => props.clearClock(props.challenge, props.i)}>{props.challenge === "derp" ? "Distribute" : "Clear"}</Button>
                 </InputGroup.Prepend>
                 <ProgressBar className="w-75" style={{ height: '38px' }} variant={barVariant()} now={Math.floor((props.clock.progress / props.clock.size) * 100)} />
                 <span style={{ left: '25%' }} className="position-absolute w-75 text-center"><h3>{props.clock.progress} / {props.clock.size}</h3></span>

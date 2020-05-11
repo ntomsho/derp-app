@@ -77,7 +77,7 @@ class Game extends React.Component {
                 let charPoints = state.characters[charId].character.plot_points;
                 if (charPoints < 3) state.characters[charId].character.plot_points++;
                 let charExp = state.characters[charId].character.experience;
-                if (charExp < state.characters[charId].character.level + 2) charExp++;
+                if (charExp < state.characters[charId].character.level + 2) state.characters[charId].character.experience++;
             })
         }
         this.sendChange(state, change)

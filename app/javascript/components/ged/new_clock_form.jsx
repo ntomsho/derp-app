@@ -50,8 +50,8 @@ const NewClockForm = (props) => {
                     </InputGroup>
                 </Col>
                 <Col xs={3}>
-                    <Form.Label className="grenze" value={size} onChange={(e) => setSize(e.currentTarget.value)}>Size</Form.Label>
-                    <Form.Control as="select">
+                    <Form.Label className="grenze">Size</Form.Label>
+                    <Form.Control as="select" value={size} onChange={(e) => setSize(e.currentTarget.value)}>
                         {sizes()}
                     </Form.Control>
                 </Col>

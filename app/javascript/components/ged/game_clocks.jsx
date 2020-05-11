@@ -46,10 +46,9 @@ const GameClocks = (props) => {
     function clearClock(challenge, ind) {
         let newClocks = Object.assign({}, props.clocks);
         let change;
-        if (challenge = "derp") {
+        if (challenge === "derp") {
             change = { derp_fill: true }
             newClocks['derp'] = 0
-            props.clockChange(newClocks, change)
         } else {
             const category = challenge ? "challenges" : "countdowns";
             const completed = newClocks[category][ind].progress >= newClocks[category][ind].size;
