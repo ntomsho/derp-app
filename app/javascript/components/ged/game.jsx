@@ -117,6 +117,7 @@ class Game extends React.Component {
     }
 
     processMessage(message) {
+        if (message.no_op) return;
         let newNotes = Object.assign([], this.state.notifications);
         newNotes.push(message);
         this.setState({ notifications: newNotes });

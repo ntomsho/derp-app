@@ -137,14 +137,14 @@ class CharacterMain extends React.Component {
         localStorage.removeItem(this.charSource().id);
     }
 
-    updateState(key, val, rest) {
+    updateState(key, val, change) {
         let newState = Object.assign({}, this.charSource());
         newState[key] = val;
-        debugger
-        if (rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
+        if (change) change.charId = this.props.loadedChar.id;
+        if (change.rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
         if (this.props.charChange) {
             this.props.charChange(newState, this.props.loadedChar.id, 
-                createChangeObj(this.props.loadedChar.id, rest ? 'rest' : key, val, this.props.loadedChar[key]));
+                change || createChangeObj(this.props.loadedChar.id, key, val, this.props.loadedChar[key]));
         } else {
             this.setState({ changesMade: true, char: newState });
             localStorage.setItem(this.charSource().id, JSON.stringify(newState));
