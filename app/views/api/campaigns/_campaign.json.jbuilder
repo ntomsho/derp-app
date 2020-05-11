@@ -24,7 +24,7 @@ campaign.campaign_subs.each do |sub|
 end
 
 games = []
-campaign.chapters.each do {|game| games.push(game)}
+campaign.chapters.each {|game| games.push(game)}
 
 json.extract! campaign, :id, :title, :description
 json.sent_invites sent_invites

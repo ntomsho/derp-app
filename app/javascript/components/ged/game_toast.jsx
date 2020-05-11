@@ -14,6 +14,10 @@ const GameToast = (props) => {
                 return message[key] > 0 ?
                     `${props.charName} gained a Derp Point.` :
                     `${props.charName} lost a Derp Point.`
+            case 'experience':
+                return message[key] > 0 ?
+                    `${props.charName} marked 1 Experience` :
+                    `${props.charName} lost 1 Experience. Wow, somebody messed up.`
             case 'gain_item':
                 return `${props.charName} has gained an item: ${message[key].item}`
             case 'lose_item':

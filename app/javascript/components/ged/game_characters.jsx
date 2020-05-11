@@ -9,7 +9,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { CLASS_COLORS, CLASS_RESOURCES } from '../../dndb-tables';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import { CLASS_COLORS, FIGHTING_SKILLS } from '../../dndb-tables';
 import resourceString from '../../resource_string';
 
 const GameCharacters = (props) => {
@@ -33,6 +34,7 @@ const GameCharacters = (props) => {
         switch (key) {
             case "health":
             case "plot_points":
+            case "experience":
                 newState[charId].character[key] += change[key];
                 break;
             case "lose_item":
@@ -50,6 +52,22 @@ const GameCharacters = (props) => {
         }
         change['charId'] = charId;
         props.charChange(newState, change)
+    }
+
+    function raceTraitsPreview(traits) {
+        if (traits !== "Human") {
+            return (
+                <Col xs={12} sm={6}>
+                    <ButtonGroup>
+                        {traits.map((trait, i) => {
+                            return (
+                                <Button key={i} variant="outline-dark">{trait}</Button>
+                            )
+                        })}
+                    </ButtonGroup>
+                </Col>
+            )
+        }
     }
 
     function populateSpecials(specials, cClass, id) {
@@ -115,7 +133,7 @@ const GameCharacters = (props) => {
                                     <Row className="my-2">
                                         <Col xs={2} sm={1}>
                                             <InputGroup>
-                                                <InputGroup.Text className="game-heart-container mb-1" style={{ border: 'none', color: char.health === char.max_health ? 'lawngreen' : 'white' }}>
+                                                <InputGroup.Text className="game-heart-container mb-2" style={{ border: 'none', color: char.health === char.max_health ? 'lawngreen' : 'white' }}>
                                                     <div>
                                                         {char.health}
                                                     </div>
@@ -133,26 +151,55 @@ const GameCharacters = (props) => {
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
-                                        <Col>
+                                        <Col xs={2} sm={1} className="mb-2">
                                             <InputGroup>
-                                                <InputGroup.Prepend>
-                                                    <Button variant="secondary">-</Button>
-                                                </InputGroup.Prepend>
-                                                <InputGroup.Text style={{borderRadius: '50%'}}>
+                                                <InputGroup.Text className="rounded-circle">
                                                     {char.plot_points}
                                                 </InputGroup.Text>
-                                                <InputGroup.Append className="grenze">
-                                                    <InputGroup.Text>
-                                                        Derp Points
-                                                    </InputGroup.Text>
+                                            </InputGroup>
+                                        </Col>
+                                        <Col xs={7} sm={5}>
+                                            <InputGroup>
+                                                <InputGroup.Prepend>
+                                                    <Button variant="secondary" onClick={() => makeChange(id, { plot_points: -1 })}>-</Button>
+                                                </InputGroup.Prepend>
+                                                <InputGroup.Text>
+                                                    Derp Points
+                                                </InputGroup.Text>
+                                                <InputGroup.Append>
+                                                    <Button variant="secondary" onClick={() => makeChange(id, { plot_points: 1 })}>+</Button>
                                                 </InputGroup.Append>
                                             </InputGroup>
                                         </Col>
+                                        <Col xs={12} sm={char.race_traits === "Human" ? 12 : 6}>
+                                            <ButtonGroup>
+                                            {char.selected_fighting_skill ? 
+                                                <Button disabled variant="warning">{char.selectedFightingSkill}</Button> :
+                                                null
+                                            }
+                                            {JSON.parse(char.trained_skills).map((skill, i) => {
+                                                return (
+                                                    <Button key={i} variant={FIGHTING_SKILLS.includes(skill) ? "warning": "info"}>{skill}</Button>
+                                                )
+                                            })}
+                                            </ButtonGroup>
+                                        </Col>
+                                        {raceTraitsPreview(JSON.parse(char.race_traits))}
                                     </Row>
                                     <Accordion.Toggle as={Button} className="w-100" variant="secondary" size="sm" eventKey={i}>More</Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={i}>
                                     <Card.Body className="d-flex flex-wrap">
+                                        <InputGroup className="mb-2">
+                                            <InputGroup.Prepend style={{ width: '10%' }}>
+                                                <Button block variant="outline-secondary" onClick={() => makeChange(id, { experience: -1 })}>-</Button>
+                                            </InputGroup.Prepend>
+                                            <ProgressBar style={{ height: '38px' }} variant="warning" className="w-75" now={Math.floor((char.experience / (char.level + 2)) * 100)} />
+                                            <span className="position-absolute w-100 text-center"><h3>Experience: {char.experience} / {char.level + 2}</h3></span>
+                                            <InputGroup.Append style={{ width: '10%' }}>
+                                                <Button block variant="outline-secondary" onClick={() => makeChange(id, { experience: 1 })}>+</Button>
+                                            </InputGroup.Append>
+                                        </InputGroup>
                                         {populateSpecials(JSON.parse(char.current_specials), char.c_class, id)}
                                         <Col xs={12} md={6}>
                                             <h3>INVENTORY</h3>
