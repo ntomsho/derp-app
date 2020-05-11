@@ -9,7 +9,6 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Errors from '../errors';
 import RulesModal from './rules_modal';
@@ -49,10 +48,19 @@ class CharacterMain extends React.Component {
         this.saveCharacter = this.saveCharacter.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleDeath = this.handleDeath.bind(this);
+
+        this.mainRef = React.createRef();
+        this.classRef = React.createRef();
+        this.skillsRef = React.createRef();
+        this.inventoryRef = React.createRef();
+        this.advancementRef = React.createRef();
     }
 
     componentDidMount() {
-        if (this.props.loadedChar) return;
+        if (this.props.loadedChar) {
+            fetchCampaign(this.props.loadedChar.campaignId, (campaign) => this.setState({ campaignTitle: campaign.title }));
+            return;
+        }
         if (localStorage.getItem(this.props.match.params.id)) {
             const character = (JSON.parse(localStorage.getItem(this.props.match.params.id)))
             if (character.campaignId) {
@@ -278,16 +286,16 @@ class CharacterMain extends React.Component {
         return (
             <>
             <Navbar style={{zIndex: '999'}} sticky="top" bg="light">
-                <Nav className="flex-row justify-content-between">
-                    <Nav.Link className="grenze" href="#main-section">Main</Nav.Link>
-                    <Nav.Link className="grenze" href="#class-section">Class</Nav.Link>
-                    <Nav.Link className="grenze" href="#skills-section">Skills</Nav.Link>
-                    <Nav.Link className="grenze" href="#inventory-section">Inventory</Nav.Link>
-                    <Nav.Link className="grenze" href="#advancement-section">Advancement</Nav.Link>
+                <Nav className="flex-row justify-content-between w-100">
+                    <Nav.Link onClick={() => this.mainRef.current.scrollIntoView({behavior: 'smooth'})} className="grenze">Main</Nav.Link>
+                    <Nav.Link onClick={() => this.classRef.current.scrollIntoView({behavior: 'smooth'})} className="grenze">Class</Nav.Link>
+                    <Nav.Link onClick={() => this.skillsRef.current.scrollIntoView({ behavior: 'smooth' })} className="grenze">Skills</Nav.Link>
+                    <Nav.Link onClick={() => this.inventoryRef.current.scrollIntoView({ behavior: 'smooth' })} className="grenze">Inventory</Nav.Link>
+                    <Nav.Link onClick={() => this.advancementRef.current.scrollIntoView({ behavior: 'smooth' })} className="grenze">Advancement</Nav.Link>
                     <NavDropdown alignRight className="grenze" title="Options">
                         {this.saveCharacterButton()}
                         <NavDropdown.Divider />
-                        <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ campaignModal: true })}>
+                        <NavDropdown.Item disabled={!!this.props.loadedChar} as="button" className="mx-1" variant="dark" onClick={() => this.setState({ campaignModal: true })}>
                             Campaign: {this.state.campaignTitle || "None"}
                         </NavDropdown.Item>
                         <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={() => this.setState({ rulesModal: true })}>
@@ -297,7 +305,7 @@ class CharacterMain extends React.Component {
                             Roll Dice
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item as="button" className="mx-1" variant="danger" onClick={() => this.setState({ deleteModal: true })}>
+                        <NavDropdown.Item disabled={!!this.props.loadedChar} as="button" className="mx-1" variant="danger" onClick={() => this.setState({ deleteModal: true })}>
                             Delete Character
                         </NavDropdown.Item>
                     </NavDropdown>
@@ -321,7 +329,7 @@ class CharacterMain extends React.Component {
                 <Row className="mx-1">
                 <Form>
                     <Errors errors={this.state.errors} />
-                    <Row id="main-section" className="mb-3">
+                    <Row id="main-section" ref={this.mainRef} className="mb-3">
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Name</Form.Label>
                             <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.charSource().name} />
@@ -382,16 +390,16 @@ class CharacterMain extends React.Component {
                     </Col>
                 </Row>
 
-                <Row id="class-section">
+                <Row id="class-section" ref={this.classRef}>
                     <ClassMain {...this.charSource()} updateState={this.updateState} />
                 </Row>
-                <Row id="skills-section">
+                <Row id="skills-section" ref={this.skillsRef}>
                     <Skills {...this.charSource()} updateState={this.updateState} />
                 </Row>
-                <Row id="inventory-section">
+                <Row id="inventory-section" ref={this.inventoryRef}>
                     <Inventory {...this.charSource()} updateState={this.updateState} />
                 </Row>
-                <Row id="advancement-section">
+                <Row id="advancement-section" ref={this.advancementRef}>
                     <Advancement {...this.charSource()} updateState={this.updateState} levelUp={this.levelUp} />
                 </Row>
             </Container>
