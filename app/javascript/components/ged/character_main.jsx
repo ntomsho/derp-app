@@ -21,6 +21,7 @@ import Skills from './skills';
 import ClassMain from './class_main';
 import Inventory from './inventory';
 import Advancement from './advancement';
+import createChangeObj from '../../create_change';
 import { snakeToCamel, camelToSnake } from '../../case_converter';
 import { fetchCharacter, updateCharacter } from '../../actions/character_actions';
 import { fetchCampaign } from '../../actions/campaign_actions';
@@ -39,6 +40,7 @@ class CharacterMain extends React.Component {
             deleteModal: false,
             char: null
         }
+        this.charSource = this.charSource.bind(this);
         this.updateState = this.updateState.bind(this);
         this.updateCampaign = this.updateCampaign.bind(this);
         this.loadCharacter = this.loadCharacter.bind(this);
@@ -50,6 +52,7 @@ class CharacterMain extends React.Component {
     }
 
     componentDidMount() {
+        if (this.props.loadedChar) return;
         if (localStorage.getItem(this.props.match.params.id)) {
             const character = (JSON.parse(localStorage.getItem(this.props.match.params.id)))
             if (character.campaignId) {
@@ -60,6 +63,10 @@ class CharacterMain extends React.Component {
         } else {
             fetchCharacter(this.props.match.params.id, this.loadCharacter);
         }
+    }
+
+    charSource() {
+        return this.props.loadedChar ? this.props.loadedChar : this.state.char()
     }
 
     loadCharacter(character) {
@@ -85,7 +92,7 @@ class CharacterMain extends React.Component {
     }
 
     levelUp(advancement) {
-        let newState = Object.assign({}, this.state.char)
+        let newState = Object.assign({}, this.charSource())
         newState.experience = 0;
         newState.level++;
         newState.advancements.push(advancement);
@@ -102,28 +109,38 @@ class CharacterMain extends React.Component {
             default:
                 newState.trainedSkills.push(advancement[adv]);
         }
-        this.setState({ changesMade: true, char: newState });
-        localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
+        if (this.props.loadedChar) {
+            this.props.charChange(newState, this.props.loadedChar.id, createChangeObj(this.charSource().id, 'level_up', newState.level, newState.advancement))
+        } else {
+            this.setState({ changesMade: true, char: newState });
+            localStorage.setItem(this.charSource().id, JSON.stringify(newState));
+        }
     }
 
     saveCharacter() {
         const JSONValues = ["raceTraits", "trainedSkills", "currentSpecials", "inventory", "advancements", "favoriteTags"];
         let newState = {};
-        Object.keys(this.state.char).forEach(key => {
+        Object.keys(this.charSource()).forEach(key => {
             newState[camelToSnake(key)] = JSONValues.includes(key) ? 
-                JSON.stringify(this.state.char[key]) : 
-                this.state.char[key]
+                JSON.stringify(this.charSource()[key]) : 
+                this.charSource()[key]
         });
         updateCharacter(newState, this.setErrors);
-        localStorage.removeItem(this.props.match.params.id);
+        localStorage.removeItem(this.charSource().id);
     }
 
     updateState(key, val, rest) {
-        let newState = Object.assign({}, this.state.char);
+        let newState = Object.assign({}, this.charSource());
         newState[key] = val;
+        debugger
         if (rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
-        this.setState({ changesMade: true, char: newState });
-        localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
+        if (this.props.charChange) {
+            this.props.charChange(newState, this.props.loadedChar.id, 
+                createChangeObj(this.props.loadedChar.id, rest ? 'rest' : key, val, this.props.loadedChar[key]));
+        } else {
+            this.setState({ changesMade: true, char: newState });
+            localStorage.setItem(this.charSource().id, JSON.stringify(newState));
+        }
     }
 
     handleChange(event) {
@@ -132,14 +149,14 @@ class CharacterMain extends React.Component {
             newState['currentSpecials'] = {};
             newState['cClass'] = event.target.value
             this.setState({ char: newState });
-            localStorage.setItem(this.props.match.params.id, JSON.stringify(newState));
+            localStorage.setItem(this.charSource().id, JSON.stringify(newState));
         } else {
             this.updateState(event.target.name, event.target.value)
         }
     }
 
     updateCampaign(campaignId) {
-        let newState = Object.assign({}, this.state.char);
+        let newState = Object.assign({}, this.charSource());
         if (campaignId === null) {
             newState['campaignId'] = null;
             this.setState({ campaignTitle: "", char: newState }, this.saveCharacter);
@@ -152,14 +169,18 @@ class CharacterMain extends React.Component {
     }
 
     handleDeath() {
-        let newState = Object.assign({}, this.state.char)
+        let newState = Object.assign({}, this.charSource())
         newState['dead'] = true;
-        this.setState({ deathModal: false, char: newState }, this.saveCharacter());
-        localStorage.removeItem(this.props.match.params.id);
+        if (this.props.charChange) {
+            this.props.charChange(newState, this.props.loadedChar.id, createChangeObj(this.props.loadedChar.id, 'dead'));
+        } else {
+            this.setState({ deathModal: false, char: newState }, this.saveCharacter());
+            localStorage.removeItem(this.charSource().id);
+        }
     }
 
     updateHealth(num) {
-        this.updateState('health', this.state.char.health === num ? num - 1 : num);
+        this.updateState('health', this.charSource().health === num ? num - 1 : num);
     }
 
     healthTrackerDisp() {
@@ -169,14 +190,14 @@ class CharacterMain extends React.Component {
                     id="heart-0"
                     className="heart-container"
                     alt="0 Health"
-                    disabled={this.state.char.dead}
+                    disabled={this.charSource().dead}
                     fluid
                     onClick={() => this.setState({ deathModal: true })}
                     src={"https://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
                 />
             </Col>
         ];
-        for (let i = 0; i < this.state.char.maxHealth; i++) {
+        for (let i = 0; i < this.charSource().maxHealth; i++) {
             hearts.push(
                 <Col xs={3} md={2} lg={1} key={i + 1}>
                     <Image 
@@ -185,7 +206,7 @@ class CharacterMain extends React.Component {
                         alt={`${i + 1} Health`}
                         fluid
                         onClick={() => this.updateHealth(i + 1)}
-                        src={this.state.char.health >= i + 1 ?
+                        src={this.charSource().health >= i + 1 ?
                             "https://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
                             "https://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
                     />
@@ -200,7 +221,7 @@ class CharacterMain extends React.Component {
     }
 
     updatePlotPoints(num) {
-        this.updateState('plotPoints', this.state.char.plotPoints === num ? num - 1 : num);
+        this.updateState('plotPoints', this.charSource().plotPoints === num ? num - 1 : num);
     }
 
     plotPointsTrackerDisp() {
@@ -210,7 +231,7 @@ class CharacterMain extends React.Component {
                 <Col lg={2} md={3} xs={4} key={i} className="plot-point d-flex justify-content-center align-items-center" onClick={() => this.updatePlotPoints(i + 1)}>
                     <h1 key={i} id={`pp-${i + 1}`}
                     >
-                        {this.state.char.plotPoints >= i + 1 ? "⦿" : "⦾"}
+                        {this.charSource().plotPoints >= i + 1 ? "⦿" : "⦾"}
                     </h1>
                 </Col>
             )
@@ -231,7 +252,7 @@ class CharacterMain extends React.Component {
     }
 
     saveCharacterButton() {
-        if (!this.state.char.dead && this.props.loggedInUser.id === this.state.char.userId) {
+        if (!this.charSource().dead && this.props.loggedInUser.id === this.charSource().userId) {
             return (
                 <NavDropdown.Item as="button" className="mx-1" variant="dark" onClick={this.saveCharacter}>Save Character</NavDropdown.Item>
             )
@@ -239,13 +260,13 @@ class CharacterMain extends React.Component {
     }
 
     deathHeader() {
-        if (this.state.char.dead) {
+        if (this.charSource().dead) {
             return <Row className="justify-content-center"><h3>This character is dead. Changes cannot be saved.</h3></Row>
         }
     }
 
     render() {
-        if (!this.state.char) {
+        if (!this.charSource()) {
             return (
                 <Container style={{height: '92vh'}} className="d-flex bg-light w-100 justify-content-center align-items-center">
                     <h1>Loading Character...</h1>
@@ -285,10 +306,10 @@ class CharacterMain extends React.Component {
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
             <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
-            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.state.char.campaignId} campaignTitle={this.state.campaignTitle} 
+            <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.charSource().campaignId} campaignTitle={this.state.campaignTitle} 
                 update={this.updateCampaign} loggedInUser={this.props.loggedInUser} errors={this.state.errors} />
             <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
-            <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.props.match.params.id} charName={this.state.char.name} campaignId={this.state.char.campaignId} />
+            <DeleteModal show={this.state.deleteModal} onHide={() => this.setState({ deleteModal: false })} charId={this.charSource().id} charName={this.charSource().name} campaignId={this.charSource().campaignId} />
             <Container className="bg-light">
                 <Row className="justify-content-center">
                     <h1 className="text-center ged-color mb-0">GED:</h1>
@@ -303,12 +324,12 @@ class CharacterMain extends React.Component {
                     <Row id="main-section" className="mb-3">
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Name</Form.Label>
-                            <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.state.char.name} />
+                            <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.charSource().name} />
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Class</Form.Label>
                             <InputGroup>
-                                <Form.Control as="select" name="cClass" onChange={this.handleChange} value={this.state.char.cClass}>
+                                <Form.Control as="select" name="cClass" onChange={this.handleChange} value={this.charSource().cClass}>
                                     <option value="" disabled>Select Class</option>
                                     {CLASSES.map((c, i) => {
                                         return (
@@ -321,25 +342,25 @@ class CharacterMain extends React.Component {
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="raceString" id="race-input" value={this.state.char.raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
+                                <Form.Control type="text" name="raceString" id="race-input" value={this.charSource().raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Background</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="background" onChange={this.handleChange} value={this.state.char.background} id="background-input"></Form.Control>
+                                <Form.Control type="text" name="background" onChange={this.handleChange} value={this.charSource().background} id="background-input"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Appearance</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.state.char.appearance} id="appearance-input"></Form.Control>
+                                <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.charSource().appearance} id="appearance-input"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Derp</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.state.char.derp} id="derp-input"></Form.Control>
+                                <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.charSource().derp} id="derp-input"></Form.Control>
                             </InputGroup>
                         </Col>
                     </Row>
@@ -362,16 +383,16 @@ class CharacterMain extends React.Component {
                 </Row>
 
                 <Row id="class-section">
-                    <ClassMain {...this.state.char} updateState={this.updateState} />
+                    <ClassMain {...this.charSource()} updateState={this.updateState} />
                 </Row>
                 <Row id="skills-section">
-                    <Skills {...this.state.char} updateState={this.updateState} />
+                    <Skills {...this.charSource()} updateState={this.updateState} />
                 </Row>
                 <Row id="inventory-section">
-                    <Inventory {...this.state.char} updateState={this.updateState} />
+                    <Inventory {...this.charSource()} updateState={this.updateState} />
                 </Row>
                 <Row id="advancement-section">
-                    <Advancement {...this.state.char} updateState={this.updateState} levelUp={this.levelUp} />
+                    <Advancement {...this.charSource()} updateState={this.updateState} levelUp={this.levelUp} />
                 </Row>
             </Container>
             </>

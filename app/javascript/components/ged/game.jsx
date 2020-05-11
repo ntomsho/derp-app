@@ -11,6 +11,7 @@ import Tab from 'react-bootstrap/Tab';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import { fetchChapter } from '../../actions/chapter_actions';
+import { snakeToCamel, camelToSnake } from '../../case_converter';
 import actionCable from 'actioncable';
 import { API_WS_ROOT } from '../../channels/index';
 
@@ -35,6 +36,7 @@ class Game extends React.Component {
         this.sendChange = this.sendChange.bind(this);
         this.charChange = this.charChange.bind(this);
         this.directorCharChange = this.directorCharChange.bind(this);
+        this.setPlayerChar = this.setPlayerChar.bind(this);
         this.clockChange = this.clockChange.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.removeNote = this.removeNote.bind(this);
@@ -65,7 +67,14 @@ class Game extends React.Component {
 
     charChange(newCharState, charId, change) {
         let state = Object.assign({}, this.state.gameState);
-        state.characters[charId].character = newCharState;
+        const JSONValues = ["raceTraits", "trainedSkills", "currentSpecials", "inventory", "advancements", "favoriteTags"];
+        let newState = {};
+        Object.keys(newCharState).forEach(key => {
+            newState[camelToSnake(key)] = JSONValues.includes(key) ?
+                JSON.stringify(newCharState[key]) :
+                newCharState[key]
+        });
+        state.characters[charId].character = newState;
         this.sendChange(state, change);
     }
 
@@ -73,6 +82,18 @@ class Game extends React.Component {
         let state = Object.assign({}, this.state.gameState);
         state.characters = newState;
         this.sendChange(state, change);
+    }
+
+    setPlayerChar(char) {
+        const JSONValues = ["race_traits", "trained_skills", "current_specials", "inventory", "advancements", "favorite_tags"];
+        let newState = {};
+        Object.keys(char).forEach(key => {
+            if (key === "race_traits" && char[key] === "Human") return newState["raceTraits"] = "Human";
+            JSONValues.includes(key) ?
+                newState[snakeToCamel(key)] = JSON.parse(char[key]) :
+                newState[snakeToCamel(key)] = char[key];
+        });
+        return newState;
     }
 
     clockChange(newState, change) {
@@ -178,7 +199,7 @@ class Game extends React.Component {
                         <Tab eventKey="0" title={<h2>Characters</h2>}>
                             <CharacterMain loggedInUser={this.props.loggedInUser} 
                                 charChange={this.charChange}
-                                loadedCharacter={this.state.gameState.characters[this.state.currentPlayerCharacter].character}
+                                loadedChar={this.setPlayerChar(this.state.gameState.characters[this.state.currentPlayerCharacter].character)}
                             />
                         </Tab>
                         <Tab eventKey="1" title={<h2>Clocks</h2>}>

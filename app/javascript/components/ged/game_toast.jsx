@@ -24,6 +24,13 @@ const GameToast = (props) => {
                 return `${props.charName} lost their ${message[key].string}`
             case 'lose_resource':
                 return `${props.charName} lost one of their ${message[key].ind[0]}: ${message[key].string}`
+            case 'rest':
+                return `${props.charName} rested, regaining one Health and refreshing class features.`
+            case 'level_up':
+                const adv = Object.keys(message[key].advancement)[0]
+                return `${props.charName} levelled up to level ${message[key].new_level}. They chose ${message[key].advancement[adv]} for their advancement.`
+            case 'dead':
+                return `${props.charName} has died. A moment of silence, please.`
             case 'change_clock':
                 return `${message[key].title} has ${message[key].diff > 0 ? "advanced" : "decreased"} by ${message[key].diff} to ${message[key].progress}`
             case 'new_clock':
