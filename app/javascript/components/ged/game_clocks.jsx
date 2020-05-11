@@ -31,19 +31,31 @@ const GameClocks = (props) => {
 
     function sendChange(challenge, ind, change) {
         let newClocks = Object.assign({}, props.clocks);
-        const category = challenge ? "challenges" : "countdowns";
-        newClocks[category][ind].progress = newClocks[category][ind].progress + change;
-        if (newClocks[category][ind].progress < 0) newClocks[category][ind].progress = 0;
-        if (newClocks[category][ind].progress > newClocks[category][ind].size) newClocks[category][ind].progress = newClocks[category][ind].size;
-        props.clockChange(newClocks, { change_clock: { diff: change, title: newClocks[category][ind].title, progress: newClocks[category][ind].progress } })
+        if (challenge === "derp") {
+            newClocks['derp'] = newClocks['derp'] + change;
+            props.clockChange(newClocks, { derp_clock: { diff: change, progress: newClocks['derp'], size: props.numPlayers }})
+        } else {
+            const category = challenge ? "challenges" : "countdowns";
+            newClocks[category][ind].progress = newClocks[category][ind].progress + change;
+            if (newClocks[category][ind].progress < 0) newClocks[category][ind].progress = 0;
+            if (newClocks[category][ind].progress > newClocks[category][ind].size) newClocks[category][ind].progress = newClocks[category][ind].size;
+            props.clockChange(newClocks, { change_clock: { diff: change, title: newClocks[category][ind].title, progress: newClocks[category][ind].progress } })
+        }
     }
 
     function clearClock(challenge, ind) {
         let newClocks = Object.assign({}, props.clocks);
-        const category = challenge ? "challenges" : "countdowns";
-        const completed = newClocks[category][ind].progress >= newClocks[category][ind].size;
-        const change = { clear_clock: { category: challenge ? "Challenge" : "Countdown", title: newClocks[category][ind].title, completed: completed } }
-        newClocks[category].splice(ind, 1);
+        let change;
+        if (challenge = "derp") {
+            change = { derp_fill: true }
+            newClocks['derp'] = 0
+            props.clockChange(newClocks, change)
+        } else {
+            const category = challenge ? "challenges" : "countdowns";
+            const completed = newClocks[category][ind].progress >= newClocks[category][ind].size;
+            change = { clear_clock: { category: challenge ? "Challenge" : "Countdown", title: newClocks[category][ind].title, completed: completed } }
+            newClocks[category].splice(ind, 1);
+        }
         props.clockChange(newClocks, change)
     }
 
@@ -67,8 +79,15 @@ const GameClocks = (props) => {
         }
     }
 
+    function derpClock() {
+        return { title: "Derp Pool", progress: props.clocks.derp, size: props.numPlayers }
+    }
+
     return (
         <>
+        <ListGroup className="w-100">
+            <ClockDisplay complete={props.clocks.derp >= props.numPlayers} challenge="derp" clock={derpClock()} i="0" clearClock={clearClock} sendChange={sendChange} />
+        </ListGroup>
         {completedClocksDisp()}
         <Row><h2>Challenges</h2></Row>
         <Row>

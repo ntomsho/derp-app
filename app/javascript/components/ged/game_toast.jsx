@@ -26,6 +26,11 @@ const GameToast = (props) => {
                 return `New ${message[key].category} Clock: ${message[key].title} starting at ${message[key].progress} out of ${message[key].size}`
             case 'clear_clock':
                 return `The ${message[key].category} Clock: ${message[key].title} was cleared. It was ${message[key].completed ? 'completed' : 'not completed'}`
+            case 'derp_clock':
+                return `${message[key].diff === 1 ? "A" : message[key].diff} token${message[key].diff > 1 ? "s" : ""} ${message[key].diff > 1 ? "have" : "has"} been added to the Derp Pool, 
+                    bringing it to ${message[key].progress}. When it reaches ${message[key].size}, every character gets 1 Derp Point and 1 Experience.`
+            case 'derp_fill':
+                return `The Derp Pool has been emptied and every character gains 1 Derp Point and 1 Experience!`
             case 'login':
                 return `${message.login.username} has logged in as ${message.login.characterName}.`
             case 'logout':

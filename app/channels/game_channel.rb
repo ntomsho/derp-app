@@ -8,7 +8,7 @@ class GameChannel < ApplicationCable::Channel
         if redis.get("state")
             state = JSON.parse(redis.get("state"))
         else
-            state = {'characters': {}, 'clocks': { 'challenges': [], 'countdowns': [] }}.with_indifferent_access
+            state = {'characters': {}, 'clocks': { 'challenges': [], 'countdowns': [], 'derp': 0 }}.with_indifferent_access
         end
         state['characters'][character_id] = { user_id: current_user.id, username: current_user.username, character: @character.as_json }
         redis.set("state", JSON.generate(state))

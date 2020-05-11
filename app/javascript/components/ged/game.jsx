@@ -26,6 +26,7 @@ class Game extends React.Component {
             gameState: {
                 characters: {},
                 clocks: {
+                    derp: 0,
                     challenges: [],
                     countdowns: []
                 }
@@ -69,8 +70,16 @@ class Game extends React.Component {
     }
 
     clockChange(newState, change) {
-        const state = Object.assign({}, this.state.gameState);
+        let state = Object.assign({}, this.state.gameState);
         state.clocks = newState;
+        if (change.derp_fill) {
+            Object.keys(state.characters).forEach(charId => {
+                let charPoints = state.characters[charId].character.plot_points;
+                if (charPoints < 3) state.characters[charId].character.plot_points++;
+                let charExp = state.characters[charId].character.experience;
+                if (charExp < state.characters[charId].character.level + 2) charExp++;
+            })
+        }
         this.sendChange(state, change)
     }
 
@@ -164,7 +173,7 @@ class Game extends React.Component {
                             <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                         </Tab>
                         <Tab eventKey="1" title={<h2>Clocks</h2>}>
-                            <GameClocks clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
+                            <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
                         </Tab>
                         <Tab eventKey="2" title={<h2>Tools</h2>}>
                             <DirectorTools characters={this.state.gameState.characters} charChange={this.charChange} />
@@ -188,7 +197,7 @@ class Game extends React.Component {
                         <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
                     </Tab>
                     <Tab eventKey="1" title={<h2>Clocks</h2>}>
-                        <GameClocks clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
+                        <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
                     </Tab>
                     <Tab eventKey="2" title={<h2>Tools</h2>}>
                         <DirectorTools characters={this.state.gameState.characters} charChange={this.charChange} />
