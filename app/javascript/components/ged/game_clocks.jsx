@@ -65,15 +65,36 @@ const GameClocks = (props) => {
                     <Row><h2>Completed Clocks</h2></Row>
                     <ListGroup className="w-100">
                         {completedClocks.challenges.map((clock, i) => {
-                            return <ClockDisplay key={i} complete={true} challenge={true} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
+                            return <ClockDisplay key={i} player={props.player} complete={true} challenge={true} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
                         })}
                     </ListGroup>
                     <ListGroup className="w-100">
                         {completedClocks.countdowns.map((clock, i) => {
-                            return <ClockDisplay key={i} complete={true} challenge={false} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
+                            return <ClockDisplay key={i} player={props.player} complete={true} challenge={false} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
                         })}
                     </ListGroup>
                 </>
+            )
+        }
+    }
+
+    function createClockButton(challenge) {
+        if (!props.player) {
+            return (
+                <Row className="my-3 justify-content-center">
+                    <Accordion>
+                        <Card>
+                            <Accordion.Toggle as={Button} variant={challenge ? 'info' : 'warning'} className="w-100" eventKey="0">
+                                Create {props.challenge ? 'Challenge' : 'Countdown'}
+                            </Accordion.Toggle>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    <NewClockForm challenge={challenge} processForm={createClock} />
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+                </Row>
             )
         }
     }
@@ -85,7 +106,7 @@ const GameClocks = (props) => {
     return (
         <>
         <ListGroup className="w-100">
-            <ClockDisplay complete={props.clocks.derp >= props.numPlayers} challenge="derp" clock={derpClock()} i="0" clearClock={clearClock} sendChange={sendChange} />
+            <ClockDisplay player={props.player} complete={props.clocks.derp >= props.numPlayers} challenge="derp" clock={derpClock()} i="0" clearClock={clearClock} sendChange={sendChange} />
         </ListGroup>
         {completedClocksDisp()}
         <Row><h2>Challenges</h2></Row>
@@ -93,49 +114,23 @@ const GameClocks = (props) => {
             <ListGroup className="w-100">
                 {props.clocks.challenges.map((clock, i) => {
                     if (clock.progress < clock.size) {
-                        return <ClockDisplay key={i} complete={false} challenge={true} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
+                        return <ClockDisplay key={i} player={props.player} complete={false} challenge={true} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
                     }
                 })}
             </ListGroup>
         </Row>
-        <Row className="my-3 justify-content-center">
-            <Accordion>
-                <Card>
-                    <Accordion.Toggle as={Button} variant="info" className="w-100" eventKey="0">
-                        Create Challenge
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <NewClockForm challenge={true} processForm={createClock} />
-                        </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-            </Accordion>
-        </Row>
+        {createClockButton(true)}
         <Row><h2>Countdowns</h2></Row>
         <Row>
             <ListGroup className="w-100">
                 {props.clocks.countdowns.map((clock, i) => {
                     if (clock.progress < clock.size) {
-                        return <ClockDisplay key={i} complete={false} challenge={false} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
+                        return <ClockDisplay key={i} player={props.player} complete={false} challenge={false} clock={clock} i={i} clearClock={clearClock} sendChange={sendChange} />
                     }
                 })}
             </ListGroup>
         </Row>
-        <Row className="my-3 justify-content-center">
-            <Accordion>
-                <Card>
-                    <Accordion.Toggle as={Button} variant="warning" className="w-100" eventKey="0">
-                        Create Countdown
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <NewClockForm challenge={false} processForm={createClock} />
-                        </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-            </Accordion>
-        </Row>
+        {createClockButton(false)}
         </>
     )
 

@@ -203,7 +203,10 @@ class Game extends React.Component {
                             />
                         </Tab>
                         <Tab eventKey="1" title={<h2>Clocks</h2>}>
-                            <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
+                            <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} 
+                                clocks={this.state.gameState.clocks} clockChange={this.clockChange} 
+                                player={true}
+                            />
                         </Tab>
                     </Tabs>
                 </Container>
