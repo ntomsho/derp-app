@@ -2,10 +2,9 @@ import React from 'react';
 import GameCharacters from './game_characters';
 import GameClocks from './game_clocks';
 import DirectorTools from './director_tools';
+import CharacterMain from './character_main';
 import GameToast from './game_toast';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
@@ -35,6 +34,7 @@ class Game extends React.Component {
         this.handleReceived = this.handleReceived.bind(this);
         this.sendChange = this.sendChange.bind(this);
         this.charChange = this.charChange.bind(this);
+        this.directorCharChange = this.directorCharChange.bind(this);
         this.clockChange = this.clockChange.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.removeNote = this.removeNote.bind(this);
@@ -63,8 +63,14 @@ class Game extends React.Component {
         this.cable.subscriptions.subscriptions[0].speak({ state: newState, change: change });
     }
 
-    charChange(newState, change) {
-        const state = Object.assign({}, this.state.gameState);
+    charChange(newCharState, charId, change) {
+        let state = Object.assign({}, this.state.gameState);
+        state.characters[charId].character = newCharState;
+        this.sendChange(state, change);
+    }
+
+    directorCharChange(newState, change) {
+        let state = Object.assign({}, this.state.gameState);
         state.characters = newState;
         this.sendChange(state, change);
     }
@@ -170,13 +176,13 @@ class Game extends React.Component {
                     </div>
                     <Tabs className="justify-content-around" defaultActiveKey="0">
                         <Tab eventKey="0" title={<h2>Characters</h2>}>
-                            <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
+                            <CharacterMain loggedInUser={this.props.loggedInUser} 
+                                charChange={this.charChange}
+                                loadedCharacter={this.state.gameState.characters[this.state.currentPlayerCharacter].character}
+                            />
                         </Tab>
                         <Tab eventKey="1" title={<h2>Clocks</h2>}>
                             <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
-                        </Tab>
-                        <Tab eventKey="2" title={<h2>Tools</h2>}>
-                            <DirectorTools characters={this.state.gameState.characters} charChange={this.charChange} />
                         </Tab>
                     </Tabs>
                 </Container>
@@ -194,13 +200,13 @@ class Game extends React.Component {
                 </div>
                 <Tabs className="justify-content-around" defaultActiveKey="0">
                     <Tab eventKey="0" title={<h2>Characters</h2>}>
-                        <GameCharacters characters={this.state.gameState.characters} charChange={this.charChange} />
+                        <GameCharacters characters={this.state.gameState.characters} charChange={this.directorCharChange} />
                     </Tab>
                     <Tab eventKey="1" title={<h2>Clocks</h2>}>
                         <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} clocks={this.state.gameState.clocks} clockChange={this.clockChange} />
                     </Tab>
                     <Tab eventKey="2" title={<h2>Tools</h2>}>
-                        <DirectorTools characters={this.state.gameState.characters} charChange={this.charChange} />
+                        <DirectorTools characters={this.state.gameState.characters} charChange={this.directorCharChange} />
                     </Tab>
                 </Tabs>
             </Container>

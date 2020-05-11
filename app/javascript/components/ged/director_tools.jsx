@@ -152,7 +152,7 @@ class DirectorTools extends React.Component {
             if (!inv[i]) inv[i] = item
         }
         newState[charId].character.inventory = JSON.stringify(inv);
-        this.props.charChange(newState, { 'charId': charId, 'gain_item': { item: item } });
+        this.props.charChange(newState, charId, { 'charId': charId, 'gain_item': { item: item } });
     }
 
     render() {

@@ -35,6 +35,7 @@ const GameCharacters = (props) => {
             case "health":
             case "plot_points":
             case "experience":
+                //Needs limits to prevent < 0 || > max
                 newState[charId].character[key] += change[key];
                 break;
             case "lose_item":
@@ -143,7 +144,7 @@ const GameCharacters = (props) => {
                                         <Col xs={10} sm={5}>
                                             <InputGroup>
                                                 <div style={{width: '50px'}}>
-                                                    <Form.Control value={healthForms[id]} name={id} onChange={update} />
+                                                    <Form.Control value={healthForms[id]} name={id} onChange={update} onFocus={(e) => e.target.select()} />
                                                 </div>
                                                 <InputGroup.Append>
                                                     <Button variant="danger" onClick={() => makeChange(id, { health: parseInt(healthForms[id]*-1) })}>Damage</Button>
