@@ -9,7 +9,7 @@ const GameToast = (props) => {
             case 'health':
                 return message[key] > 0 ?
                 `${props.charName} regained ${message[key]} health.` :
-                `${props.charName} took ${message[key]} damage.`
+                `${props.charName} took ${message[key]} damage. Ow.`
             case 'plot_points':
                 return message[key] > 0 ?
                     `${props.charName} gained a Derp Point.` :

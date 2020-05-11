@@ -26,8 +26,11 @@ const ClockDisplay = (props) => {
     }
 
     function processChange(value) {
-        if (value !== 0) {
-            props.sendChange(props.challenge, props.i, value)
+        let diff = value;
+        if (props.clock.progress + diff < 0) diff = props.clock.progress;
+        if (props.clock.progress + diff > props.clock.size) diff = props.clock.size - props.clock.progress;
+        if (diff !== 0) {
+            props.sendChange(props.challenge, props.i, diff)
         }
     }
 
@@ -35,7 +38,7 @@ const ClockDisplay = (props) => {
         if (!props.complete) {
             return (
                 <InputGroup.Append>
-                    <Form.Control style={{ width: '75px', textAlign: 'center' }} value={changeForm} name={props.i} onChange={update} />
+                    <Form.Control style={{ width: '75px', textAlign: 'center' }} value={changeForm} name={props.i} onChange={update} onFocus={(e) => e.target.select()} />
                     <Button variant="outline-success" onClick={() => processChange(parseInt(changeForm))}>+</Button>
                     <Button variant="outline-danger" onClick={() => processChange(parseInt(changeForm) * -1)}>-</Button>
                 </InputGroup.Append>
