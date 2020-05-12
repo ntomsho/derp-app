@@ -50,7 +50,7 @@ export default function Zoomaster(props) {
         let newBeasts = Object.assign([], currentSpecials.beasts);
         setCurrentBeast(currentSpecials.beasts[beastIndex]);
         newBeasts.splice(beastIndex, 1);
-        props.updateState('currentSpecials', { 'beasts': newBeasts }, { lose_resource: { ind: ['beasts', beastIndex], string: beastString(currentSpecials.beasts[beastIndex]) } });
+        props.updateState('currentSpecials', { 'beasts': newBeasts }, { lose_resource: { ind: ['beasts'], string: beastString(currentSpecials.beasts[beastIndex]) } });
     }
 
     function currentBeastDisp() {

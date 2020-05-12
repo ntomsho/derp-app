@@ -38,9 +38,9 @@ export default function Hippy(props) {
 
     function sacrificeForm(formInd) {
         let newResources = Object.assign({}, currentSpecials);
-        newResources.forms.splice(formInd, 1);
+        lostResource = newResources.forms.splice(formInd, 1);
         newResources.gifts.push(random(MUTATIONS));
-        props.updateState('currentSpecials', newResources);
+        props.updateState('currentSpecials', newResources, { lose_resource: { ind: ['forms'], string: lostResource } });
     }
 
     function mutationDisp() {
@@ -64,8 +64,8 @@ export default function Hippy(props) {
     function consumeGift(giftInd, goodberry) {
         if (goodberry) setGoodberries(goodberries + Math.floor(Math.random() * 6) + 1);
         let newResources = Object.assign({}, currentSpecials);
-        newResources.gifts.splice(giftInd, 1);
-        props.updateState('currentSpecials', newResources)
+        const lostGift = newResources.gifts.splice(giftInd, 1);
+        props.updateState('currentSpecials', newResources, { lose_resource: { ind: ['gifts'], string: lostGift } })
     }
 
     function activateGift(giftInd) {
@@ -75,14 +75,16 @@ export default function Hippy(props) {
 
     function addCustomForm(randomize) {
         let newResources = currentSpecials;
-        newResources.forms.push(randomize ? randomAnimal() : input1.current.value);
-        props.updateState('currentSpecials', newResources)
+        const newForm = randomize ? randomAnimal() : input1.current.value
+        newResources.forms.push(newForm);
+        props.updateState('currentSpecials', newResources, { gain_resource: { category: "Form", string: newForm } })
     }
 
     function addCustomGift(randomize) {
         let newResources = currentSpecials;
-        newResources.gifts.push(randomize ? random(MUTATIONS) : input2.current.value);
-        props.updateState('currentSpecials', newResources)
+        const newGift = randomize ? random(MUTATIONS) : input2.current.value
+        newResources.gifts.push(newGift);
+        props.updateState('currentSpecials', newResources, { gain_resource: { category: "Gift", string: newGift } })
     }
 
     function formsDisp() {

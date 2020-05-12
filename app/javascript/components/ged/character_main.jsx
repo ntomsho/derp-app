@@ -74,7 +74,7 @@ class CharacterMain extends React.Component {
     }
 
     charSource() {
-        return this.props.loadedChar ? this.props.loadedChar : this.state.char()
+        return this.props.loadedChar ? this.props.loadedChar : this.state.char
     }
 
     loadCharacter(character) {
@@ -140,11 +140,11 @@ class CharacterMain extends React.Component {
     updateState(key, val, change) {
         let newState = Object.assign({}, this.charSource());
         newState[key] = val;
-        if (change) change.charId = this.props.loadedChar.id;
-        if (change.rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
         if (this.props.charChange) {
-            this.props.charChange(newState, this.props.loadedChar.id, 
-                change || createChangeObj(this.props.loadedChar.id, key, val, this.props.loadedChar[key]));
+            if (change) change.charId = this.props.loadedChar.id;
+            if (change.rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
+                this.props.charChange(newState, this.props.loadedChar.id, 
+                    change || createChangeObj(this.props.loadedChar.id, key, val, this.props.loadedChar[key]));
         } else {
             this.setState({ changesMade: true, char: newState });
             localStorage.setItem(this.charSource().id, JSON.stringify(newState));

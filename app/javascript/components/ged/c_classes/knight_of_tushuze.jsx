@@ -34,14 +34,15 @@ export default function KnightOfTushuze(props) {
 
     function consumeBlessing(blessingInd) {
         let newBlessings = currentSpecials.blessings;
-        newBlessings.splice(blessingInd, 1);
-        props.updateState('currentSpecials', { 'blessings': newBlessings });
+        const lostBlessing = newBlessings.splice(blessingInd, 1);
+        props.updateState('currentSpecials', { 'blessings': newBlessings }, { lose_resource: { ind: ['blessings'], string: lostBlessing } });
     }
 
     function addCustomBlessing(randomize) {
         let newBlessings = currentSpecials.blessings;
-        newBlessings.push(randomize ? randomBlessing() : input.current.value);
-        props.updateState('currentSpecials', { 'blessings': newBlessings });
+        const newBlessing = randomize ? randomBlessing() : input.current.value
+        newBlessings.push(newBlessing);
+        props.updateState('currentSpecials', { 'blessings': newBlessings }, { gain_resource: { category: "Blessing", string: newBlessing } });
     }
 
     function blessingVirtues(blessing, i) {

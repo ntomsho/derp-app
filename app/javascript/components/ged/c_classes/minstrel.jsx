@@ -53,8 +53,8 @@ export default function Minstrel(props) {
 
     function spendNote(noteInd) {
         let newNotes = currentSpecials.notes;
-        newNotes.splice(noteInd, 1);
-        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes });
+        const lostNote = newNotes.splice(noteInd, 1);
+        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes }, { lose_resource: { ind: ['notes'], string: lostNote } });
     }
 
     function songEffects(song) {
@@ -74,8 +74,11 @@ export default function Minstrel(props) {
             case "Power Chord":
             case "Solo":
                 return "Create a blast of sound and force";
-            default:
+            case "Limerick":
+            case "Rap Battle":
                 return "Challenge or enrage listener";
+            default:
+                return "Custom Song";
         }
     }
 
@@ -137,14 +140,16 @@ export default function Minstrel(props) {
     function addCustomSong(randomize) {
         if (currentSpecials.songs.length >= 6) return;
         let newSongs = currentSpecials.songs;
-        newSongs.push(randomize ? randomSong() : input1.current.value);
-        props.updateState('currentSpecials', { 'songs': newSongs, 'notes': currentSpecials.notes });
+        const newSong = randomize ? randomSong() : input1.current.value
+        newSongs.push(newSong);
+        props.updateState('currentSpecials', { 'songs': newSongs, 'notes': currentSpecials.notes }, { gain_resource: { category: 'Song', string: newSong } });
     }
 
     function addCustomNote(randomize) {
         let newNotes = currentSpecials.notes;
-        newNotes.push(randomize ? randomNote() : input2.current.value);
-        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes });
+        const newNote = randomize ? randomNote() : input2.current.value
+        newNotes.push(newNote);
+        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes }, { gain_resource: { category: 'Note', string: newNote } });
     }
     
     return (

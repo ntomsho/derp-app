@@ -40,14 +40,14 @@ export default function Bowslinger(props) {
             setSavableAmmo(newSavable);
         }
         let newAmmo = currentSpecials.ammo;
-        newAmmo.splice(ammoInd, 1);
-        props.updateState('currentSpecials', {'ammo': newAmmo});
+        const lostAmmo = newAmmo.splice(ammoInd, 1);
+        props.updateState('currentSpecials', {'ammo': newAmmo}, { lose_resource: { ind: ['ammo'], string: lostAmmo } });
     }
 
     function recoverAmmo(ammo, ind) {
-        let newAmmo = currentSpecials.ammo;
-        newAmmo.push(ammo);
-        props.updateState(newAmmo);
+        let newAmmo = Object.assign({}, currentSpecials);
+        newAmmo.ammo.push(ammo);
+        props.updateState('currentSpecials', newAmmo, { gain_resource: { category: "Ammo", string: ammo } });
         loseAmmo(ind);
     }
 

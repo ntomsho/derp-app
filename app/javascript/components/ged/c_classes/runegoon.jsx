@@ -26,12 +26,14 @@ export default function Runegoon(props) {
 
     function addCustomRune(randomize) {
         let newRunes = currentSpecials.runes;
+        let newRune;
         if (randomize) {
-            newRunes.push(randomRune());
+            newRune = randomRune()
         } else {
-            newRunes.push({'rune': random(RUNES), 'word': input.current.value});
+            newRune = { 'rune': random(RUNES), 'word': input.current.value }
         }
-        props.updateState('currentSpecials', { 'runes': newRunes })
+        newRunes.push(newRune);
+        props.updateState('currentSpecials', { 'runes': newRunes }, { gain_resource: { category: "Rune", string: newRune.word } })
     }
 
     function createRunes() {
@@ -52,8 +54,8 @@ export default function Runegoon(props) {
             activeRunes.push(currentSpecials.runes[runeInd]);
             setActiveRunes(newActiveRunes);
         }
-        newRunes.splice(runeInd, 1);
-        props.updateState('currentSpecials', {'runes': newRunes});
+        const lostRune = newRunes.splice(runeInd, 1);
+        props.updateState('currentSpecials', {'runes': newRunes}, engrave ? {no_op: true} : {lose_resource: { int: ["runes"], string: lostRune.word }});
     }
 
     function runesDisp() {

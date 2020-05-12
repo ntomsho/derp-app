@@ -28,14 +28,15 @@ export default function Neerdowell(props) {
 
     function consumeItem(itemInd) {
         let newItems = currentSpecials.items;
-        newItems.splice(itemInd, 1);
-        props.updateState('currentSpecials', { 'items': newItems });
+        const lostItem = newItems.splice(itemInd, 1);
+        props.updateState('currentSpecials', { 'items': newItems }, { lose_resource: { ind: ["items"], string: lostItem } });
     }
 
     function addCustomItem(randomize) {
         let newItems = currentSpecials.items;
-        newItems.push(randomize ? randomMagicItem() : input.current.value);
-        props.updateState('currentSpecials', { 'items': newItems })
+        const newItem = randomize ? randomMagicItem() : input.current.value;
+        newItems.push(newItem);
+        props.updateState('currentSpecials', { 'items': newItems }, { gain_resource: { category: "Stolen Item", string: newItem } })
     }
 
     function itemsDisp() {

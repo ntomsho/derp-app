@@ -37,16 +37,17 @@ export default function Verbpriest(props) {
 
     function addCustomWord(randomize) {
         let newWords = currentSpecials.words;
-        newWords.push(randomize ? randomWord() : input.current.value);
-        props.updateState('currentSpecials', { 'words': newWords });
+        let newWord = randomize ? randomWord() : input.current.value
+        newWords.push(newWord);
+        props.updateState('currentSpecials', { 'words': newWords }, { gain_resource: { category: "Command Word", string: newWord } });
     }
 
     function consumeCommand(wordInd) {
         if (faith < 3) {
             setFaith(3);
             let newWords = currentSpecials.words;
-            newWords.splice(wordInd, 1);
-            props.updateState('currentSpecials', { 'words': newWords });
+            let lostWord = newWords.splice(wordInd, 1);
+            props.updateState('currentSpecials', { 'words': newWords }, { lose_resource: { ind: ['words'], string: lostWord } });
         }
     }
 

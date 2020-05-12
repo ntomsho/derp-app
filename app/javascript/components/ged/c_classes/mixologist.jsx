@@ -52,18 +52,21 @@ export default function Mixologist(props) {
     }
 
     function addCustomComponent(randomize, compCat) {
+        let newComp;
         if (compCat === "base") {
             let newBases = bases;
-            newBases.push(randomize ? randomBase() : input1.current.value);
-            props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': catalysts });
+            newComp = randomize ? randomBase() : input1.current.value;
+            newBases.push(newComp);
+            props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': catalysts }, { gain_resource: { ind: "bases", string: newComp } });
         } else {
             let newCatalysts = catalysts;
             if (randomize) {
-                newCatalysts.push(randomCatalyst());
+                newComp = randomCatalyst();
             } else {
-                newCatalysts.push({'comp': input2.current.value, 'compCat': input3.current.value});
+                newComp = {'comp': input2.current.value, 'compCat': input3.current.value};
             }
-            props.updateState('currentSpecials', { 'bases': bases, 'catalysts': newCatalysts });
+            newCatalysts.push(newComp);
+            props.updateState('currentSpecials', { 'bases': bases, 'catalysts': newCatalysts }, { gain_resource: { ind: "catalysts", string: newComp.comp } });
         }
     }
 
@@ -86,14 +89,15 @@ export default function Mixologist(props) {
     function consumeCurrentConcoction() {
         const newBases = bases;
         const newCatalysts = catalysts;
-        keepComp === "Base" ?
-            newCatalysts.splice(selectedCatalyst, 1) : 
+        let lostComp = {ind: keepComp === "Base" ? ["catalysts"] : ["bases"]}
+        lostComp[string] = keepComp === "Base" ?
+            newCatalysts.splice(selectedCatalyst, 1).comp : 
             newBases.splice(selectedBase, 1);
         setKeepComp(null);
         setSelectedBase(null);
         setSelectedCatalyst(null);
         setLastClicked(null);
-        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts });
+        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts }, { lose_resource: lostComp });
     }
 
     function consumeButton() {

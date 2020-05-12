@@ -29,8 +29,9 @@ export default function Ragesmasher(props) {
 
     function addCustomTotem(randomize) {
         let newTotems = currentSpecials.totems;
-        newTotems.push(randomize ? randomAnimal() : input.current.value);
-        props.updateState('currentSpecials', { 'totems': newTotems });
+        let newTotem = randomize ? randomAnimal() : input.current.value
+        newTotems.push(newTotem);
+        props.updateState('currentSpecials', { 'totems': newTotems }, { gain_resource: { category: "Animal Totem", string: newTotem } });
     }
 
     function activateTotem(totemInd, rage) {

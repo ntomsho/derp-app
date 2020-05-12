@@ -35,12 +35,15 @@ export default function Battlebro(props) {
     function addCustomWeapon(randomize) {
         if (!randomize && (!input1.current.value || !input2.current.value || !input3.current.value)) return;
         let newWeapons = Object.assign([], currentSpecials.weapons);
+        let newWeapon;
         if (randomize) {
-            newWeapons.push(randomWeapon());
+            newWeapon = randomWeapon()
+            newWeapons.push(newWeapon);
         } else {
-            newWeapons.push({ 'category': input1.current.value, 'special': input2.current.value, 'type': input3.current.value });
+            newWeapon = { 'category': input1.current.value, 'special': input2.current.value, 'type': input3.current.value }
+            newWeapons.push(newWeapon);
         }
-        props.updateState('currentSpecials', { 'weapons': newWeapons });
+        props.updateState('currentSpecials', { 'weapons': newWeapons }, { gain_resource: { category: "Weapon Form", string: weaponString(newWeapon) } });
     }
 
     function weaponString(weapon) {
@@ -58,8 +61,8 @@ export default function Battlebro(props) {
         const newWeapon = currentSpecials.weapons[weaponInd]
         setCurrentWeapon({ 'category': newWeapon.category, 'special': newWeapon.special, 'type': newWeapon.type });
         let newWeapons = currentSpecials.weapons;
-        newWeapons.splice(weaponInd, 1);
-        props.updateState('currentSpecials', { 'weapons': newWeapons });
+        const lostWeapon = newWeapons.splice(weaponInd, 1);
+        props.updateState('currentSpecials', { 'weapons': newWeapons }, { lose_resource: { ind: ["weapons"], string: weaponString(lostWeapon) } });
     }
 
     function createWeaponForms() {
