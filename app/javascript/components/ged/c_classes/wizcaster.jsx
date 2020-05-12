@@ -64,7 +64,7 @@ export default function Wizcaster(props) {
         }
         setMissileUsed(false);
         setCurrentSpell([]);
-        props.updateState('currentSpecials', { 'words': newWords }, true);
+        props.updateState('currentSpecials', { 'words': newWords }, { rest: true });
     }
 
     function addWordToSpell(start, wordInd) {

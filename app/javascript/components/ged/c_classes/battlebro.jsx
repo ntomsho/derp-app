@@ -68,7 +68,7 @@ export default function Battlebro(props) {
         for (let i = 0; i < 3; i++) {
             weapons.push(randomWeapon());
         }
-        props.updateState('currentSpecials', { 'weapons': weapons }, true);
+        props.updateState('currentSpecials', { 'weapons': weapons }, {rest: true});
     }
 
     function currentWeaponDisp() {

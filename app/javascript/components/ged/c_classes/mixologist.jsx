@@ -48,7 +48,7 @@ export default function Mixologist(props) {
             newBases.push(randomBase());
             newCatalysts.push(randomCatalyst());
         }
-        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts }, true);
+        props.updateState('currentSpecials', { 'bases': newBases, 'catalysts': newCatalysts }, { rest: true });
     }
 
     function addCustomComponent(randomize, compCat) {

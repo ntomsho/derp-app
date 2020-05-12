@@ -48,7 +48,7 @@ export default function Minstrel(props) {
         for (let i = 0; i < 6; i++) {
             notes.push(randomNote());
         };
-        props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes }, true);
+        props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes }, { rest: true });
     }
 
     function spendNote(noteInd) {

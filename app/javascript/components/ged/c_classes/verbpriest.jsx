@@ -32,7 +32,7 @@ export default function Verbpriest(props) {
             }
             words.push(randomWord());
         }
-        props.updateState('currentSpecials', { 'words': words }, true);
+        props.updateState('currentSpecials', { 'words': words }, { rest: true });
     }
 
     function addCustomWord(randomize) {

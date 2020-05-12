@@ -30,7 +30,7 @@ export default function Bowslinger(props) {
             ammo.push(randomAmmo());
         };
         setSavableAmmo([]);
-        props.updateState('currentSpecials', {'ammo': ammo}, true)
+        props.updateState('currentSpecials', {'ammo': ammo}, {rest: true})
     }
 
     function consumeAmmo(ammoInd) {    

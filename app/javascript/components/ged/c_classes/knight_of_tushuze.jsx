@@ -29,7 +29,7 @@ export default function KnightOfTushuze(props) {
         for (let i = 0; i < 4; i++) {
             blessings.push(randomBlessing());
         };
-        props.updateState('currentSpecials', { 'blessings': blessings }, true)
+        props.updateState('currentSpecials', { 'blessings': blessings }, { rest: true })
     }
 
     function consumeBlessing(blessingInd) {

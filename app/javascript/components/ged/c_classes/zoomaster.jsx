@@ -36,7 +36,7 @@ export default function Zoomaster(props) {
         for (let i = 0; i < 3; i++) {
             beasts.push(randomBeast());
         }
-        props.updateState('currentSpecials', { 'beasts': beasts }, true);
+        props.updateState('currentSpecials', { 'beasts': beasts }, { rest: true });
     }
 
     function addCustomBeast(randomize) {

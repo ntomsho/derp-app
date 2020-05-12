@@ -23,7 +23,7 @@ export default function Neerdowell(props) {
         for (let i = 0; i < 4; i++) {
             items.push(randomMagicItem());
         };
-        props.updateState('currentSpecials', { 'items': items }, true)
+        props.updateState('currentSpecials', { 'items': items }, { rest: true })
     }
 
     function consumeItem(itemInd) {

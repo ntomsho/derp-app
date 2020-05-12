@@ -40,7 +40,7 @@ export default function Runegoon(props) {
         for(let i = 0; i < 5; i++) {
             runes.push(randomRune());
         }
-        props.updateState('currentSpecials', {'runes': runes}, true)
+        props.updateState('currentSpecials', { 'runes': runes }, { rest: true })
     }
 
     function activateRune(runeInd, engrave) {

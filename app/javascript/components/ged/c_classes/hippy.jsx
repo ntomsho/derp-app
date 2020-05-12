@@ -33,7 +33,7 @@ export default function Hippy(props) {
             forms.push(newForm);
             gifts.push(random(MUTATIONS));
         };
-        props.updateState('currentSpecials', { 'forms': forms, 'gifts': gifts }, true);
+        props.updateState('currentSpecials', { 'forms': forms, 'gifts': gifts }, { rest: true });
     }
 
     function sacrificeForm(formInd) {
