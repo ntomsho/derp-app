@@ -212,7 +212,8 @@ export default function Wizcaster(props) {
                 {spellAddButtonLeft()}
                 {currentSpell.map((wordInd, spellInd) => {
                     let keepButton;
-                    if (words[wordInd].word !== "Missile") keepButton = <Button variant="outline-secondary" className={`keepword${keepWordInd === spellInd ? ' selected' : ''}`} onClick={() => setKeepWordInd(spellInd)}>Keep?</Button>
+                    const selected = keepWordInd === spellInd;
+                    if (words[wordInd].word !== "Missile") keepButton = <Button variant={selected ? "secondary" : "outline-secondary"} onClick={() => setKeepWordInd(spellInd)}>Keep</Button>
                     return (
                         <Col xs={xsCol[spellInd]} md={mdCol[spellInd]} key={spellInd} className="text-center">
                             <Row className="justify-content-center">
@@ -235,7 +236,7 @@ export default function Wizcaster(props) {
     function castSpellButton() {
         if (currentSpell.length > 1 && keepWordInd !== null) {
             return (
-                <Button size="lg" variant="secondary" className="mb-3" onClick={castSpell}>Cast Spell</Button>
+                <Button size="lg" variant="success" className="my-2" onClick={castSpell}>Cast Spell</Button>
             )
         }
     }

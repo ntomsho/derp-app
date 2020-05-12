@@ -78,6 +78,7 @@ export default function DiceRoller(props) {
         const rolls = [...rollHistory];
         rolls.push({ 'result': result, 'difficulty': difficulty, 'dice': [mainRoll, ...newDice], 'disadvantage': disadvantage ? mod : false });
         setRollHistory(rolls);
+        if (props.updateState) props.updateState("", "", { roll_dice: { result: result, resultString: resultString(result, mainRoll).main } })
     }
 
     function resultString(total, mainDie) {

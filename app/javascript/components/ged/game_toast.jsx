@@ -6,6 +6,8 @@ const GameToast = (props) => {
     const messageText = (message) => {
         const key = Object.keys(message).filter(x => x !== "charId")[0];
         switch (key) {
+            case 'roll_dice':
+                return `${props.charName} rolled a ${message[key].result}, a ${message[key].resultString}`
             case 'health':
                 return message[key] > 0 ?
                 `${props.charName} regained ${message[key]} health.` :

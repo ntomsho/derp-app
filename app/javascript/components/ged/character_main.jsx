@@ -1,5 +1,5 @@
 import React from 'react';
-import { CLASSES, random, randomRace, BACKGROUNDS, APPEARANCES, DERPS } from '../../dndb-tables';
+import { CLASSES } from '../../dndb-tables';
 import Spinner from 'react-bootstrap/Spinner';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -313,7 +313,7 @@ class CharacterMain extends React.Component {
                 </Nav>
             </Navbar>
             <RulesModal show={this.state.rulesModal} onHide={() => this.setState({ rulesModal: false })} />
-            <DiceRoller show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
+            <DiceRoller updateState={this.props.loadedChar ? this.updateState : null} show={this.state.diceRoller} onHide={() => this.setState({ diceRoller: false })} />
             <CampaignModal show={this.state.campaignModal} onHide={() => this.setState({ campaignModal: false })} campaignId={this.charSource().campaignId} campaignTitle={this.state.campaignTitle} 
                 update={this.updateCampaign} loggedInUser={this.props.loggedInUser} errors={this.state.errors} />
             <DeathModal show={this.state.deathModal} onHide={() => this.setState({ deathModal: false })} handleDeath={this.handleDeath} />
