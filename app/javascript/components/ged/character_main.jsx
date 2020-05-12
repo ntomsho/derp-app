@@ -180,7 +180,7 @@ class CharacterMain extends React.Component {
         let newState = Object.assign({}, this.charSource())
         newState['dead'] = true;
         if (this.props.charChange) {
-            this.props.charChange(newState, this.props.loadedChar.id, createChangeObj(this.props.loadedChar.id, 'dead'));
+            this.props.charChange(newState, this.props.loadedChar.id, createChangeObj(this.props.loadedChar.id, 'dead', true));
         } else {
             this.setState({ deathModal: false, char: newState }, this.saveCharacter());
             localStorage.removeItem(this.charSource().id);
