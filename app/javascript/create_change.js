@@ -9,12 +9,6 @@ const createChangeObj = (charId, key, newValue, oldValue) => {
         case 'plotPoints':
             changeObj['plot_points'] = newValue - oldValue;
             break;
-        case 'inventory':
-            //Needs work
-            break;
-        case 'currentSpecials':
-            //Needs work
-            break;
         case 'rest':
             changeObj[key] = true;
             break;

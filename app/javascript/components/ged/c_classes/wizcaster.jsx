@@ -44,15 +44,19 @@ export default function Wizcaster(props) {
 
     function addCustomWord(randomize, missile) {
         let newWords = [...currentSpecials.words];
+        let newWord;
         if (randomize) {
-            newWords.push(randomWord());
+            newWord = randomWord()
+            newWords.push(newWord);
         } else if (missile) {
             setMissileUsed(false);
-            newWords.unshift({'word': "Missile", 'wordCat': "Form"});
+            newWord = { 'word': "Missile", 'wordCat': "Form" };
+            newWords.unshift(newWord);
         } else {
-            newWords.push({ 'word': input2.current.value, 'wordCat': input1.current.value })
+            newWord = { 'word': input2.current.value, 'wordCat': input1.current.value }
+            newWords.push(newWord)
         }
-        props.updateState('currentSpecials', {'words': newWords});
+        props.updateState('currentSpecials', {'words': newWords}, { gain_resource: { category: "Word of Power", string: `${newWord.word} (${newWord.wordCat})` } });
     }
 
     function createWords() {

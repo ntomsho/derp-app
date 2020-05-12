@@ -41,15 +41,16 @@ export default function Zoomaster(props) {
 
     function addCustomBeast(randomize) {
         let newBeasts = currentSpecials.beasts;
-        newBeasts.push(randomize ? randomBeast() : {'beast': beastString(input1.current.value, input2.current.value), 'name': ""})
-        props.updateState('currentSpecials', {'beasts': newBeasts});
+        const newBeast = randomize ? randomBeast() : { 'beast': beastString(input1.current.value, input2.current.value), 'name': "" }
+        newBeasts.push(newBeast)
+        props.updateState('currentSpecials', {'beasts': newBeasts}, { gain_resource: { category: "Beast", string: newBeast.beast } });
     }
 
     function releaseBeast(beastIndex) {
         let newBeasts = Object.assign([], currentSpecials.beasts);
         setCurrentBeast(currentSpecials.beasts[beastIndex]);
         newBeasts.splice(beastIndex, 1);
-        props.updateState('currentSpecials', {'beasts': newBeasts});
+        props.updateState('currentSpecials', { 'beasts': newBeasts }, { lose_resource: { ind: ['beasts', beastIndex], string: beastString(currentSpecials.beasts[beastIndex]) } });
     }
 
     function currentBeastDisp() {

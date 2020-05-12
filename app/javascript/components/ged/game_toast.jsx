@@ -22,6 +22,8 @@ const GameToast = (props) => {
                 return `${props.charName} has gained an item: ${message[key].item}`
             case 'lose_item':
                 return `${props.charName} lost their ${message[key].string}`
+            case 'gain_resource':
+                return `${props.charName} gained a ${message[key].category}: ${message[key].string}`
             case 'lose_resource':
                 return `${props.charName} lost one of their ${message[key].ind[0]}: ${message[key].string}`
             case 'rest':

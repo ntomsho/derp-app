@@ -13,6 +13,28 @@ export default function Inventory(props) {
 
     const [newItemForm, setNewItemForm] = useState("");
 
+    function compressInv(inv, section) {
+        const start = section === "stashed" ? 2 : 0;
+        const end = section === "carried" ? 2 : 11;
+        let changed = false;
+        for (let i = start; i < end; i++) {
+            if (!inv[i]) {
+                let looped = false;
+                for (let j = i + 1; j < end + 1; j++) {
+                    if (!!inv[j]) {
+                        inv[i] = inv[j]
+                        inv[j] = "";
+                        changed = true;
+                        looped = true;
+                        break;
+                    }
+                }
+                if (!looped) break;
+            }
+        }
+        return inv;
+    }
+
     function freeSpace(section) {
         //Checks section: returns index of first free space or false
         const start = section === "stashed" ? 3 : 0
@@ -23,24 +45,14 @@ export default function Inventory(props) {
         return false;
     }
 
-    function moveToStash(num) {
+    function moveItem(num, destination) {
         if (props.inventory[num] === "") return;
         let newInventory = Object.assign({}, props.inventory);
-        const space = freeSpace("stashed");
+        const space = freeSpace(destination);
         if (space) {
             newInventory[space] = props.inventory[num];
             newInventory[num] = "";
-            props.updateState("inventory", newInventory, { no_op: true })
-        }
-    }
-
-    function moveToCarried(num) {
-        if (props.inventory[num] === "") return;
-        let newInventory = Object.assign({}, props.inventory);
-        const space = freeSpace("carried");
-        if (space) {
-            newInventory[space] = props.inventory[num];
-            newInventory[num] = "";
+            newInventory = compressInv(newInventory, destination === "stashed" ? "carried" : "stashed");
             props.updateState("inventory", newInventory, { no_op: true })
         }
     }
@@ -60,7 +72,29 @@ export default function Inventory(props) {
         let newInventory = props.inventory;
         const itemString = props.inventory[ind];
         newInventory[ind] = "";
+        newInventory = compressInv(newInventory, ind < 3 ? "carried" : "stashed");
         props.updateState('inventory', newInventory, { lose_item: { ind: ind, string: itemString } });
+    }
+
+    function itemDropdownDisp(stashed, ind) {
+        if (props.inventory[ind]) {
+            return (
+                <InputGroup.Append>
+                    <Dropdown as={ButtonGroup}>
+                        <Dropdown.Toggle split variant="secondary" />
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={() => moveItem(ind, stashed ? "carried" : "stashed")}>
+                                {stashed ? "Carry" : "Stash"}
+                            </Dropdown.Item>
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={() => discardItem(ind)}>
+                                Discard
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </InputGroup.Append>
+            )
+        }
     }
 
     function createInventoryRow(stashed, startingInd) {
@@ -70,23 +104,11 @@ export default function Inventory(props) {
                 <Col xs={12} md={4} key={i}>
                     <InputGroup>
                         <Form.Control
+                            readOnly
                             name={startingInd + i} 
                             id={stashed ? `stashed-${startingInd + i - 3}` : `carried-${i}`}
                             value={props.inventory[startingInd + i] || ""} />
-                        <InputGroup.Append>
-                            <Dropdown as={ButtonGroup}>
-                                <Dropdown.Toggle split variant="secondary" />
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={stashed ? () => moveToCarried(startingInd + i) : () => moveToStash(i)}>
-                                        {stashed ? "Carry" : "Stash"}
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item onClick={() => discardItem(startingInd + i)}>
-                                        Discard
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </InputGroup.Append>
+                        {itemDropdownDisp(stashed, startingInd + i)}
                     </InputGroup>
                 </Col>
             )
