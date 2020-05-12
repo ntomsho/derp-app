@@ -16,7 +16,7 @@ export default function Wizcaster(props) {
     const [currentSpell, setCurrentSpell] = useState([]);
     const [keepWordInd, setKeepWordInd] = useState(null);
     const [selectedWordInd, setSelectedWordInd] = useState(null);
-    const [missileUsed, setMissileUsed] = useState(false);
+    const [missileUsed, setMissileUsed] = useState(props.currentSpecials.words[0].word !== "Missile");
     const input1 = React.createRef();
     const input2 = React.createRef();
 
@@ -97,14 +97,18 @@ export default function Wizcaster(props) {
 
     function castSpell() {
         let newWords = Object.assign([], words);
+        let lostWords = []
         for (let i = 0; i < currentSpell.length; i++) {
             if (words[currentSpell[i]].word === "Missile") setMissileUsed(true);
-            if (currentSpell[i] !== currentSpell[keepWordInd]) newWords.splice(currentSpell[i], 1);
+            if (currentSpell[i] !== currentSpell[keepWordInd]){
+                lostWords.push(words[currentSpell[i]].word);
+                newWords.splice(currentSpell[i], 1);
+            }
         }
         setKeepWordInd(null);
         setSelectedWordInd(null);
         setCurrentSpell([]);
-        props.updateState('currentSpecials', {'words': newWords});
+        props.updateState('currentSpecials', {'words': newWords}, { lose_resource: { ind: ['words'] , string: lostWords.join(" and ") } });
     }
 
     function endSceneButton() {
