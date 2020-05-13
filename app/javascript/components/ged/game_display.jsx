@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -102,7 +103,7 @@ const GameDisplay = (props) => {
                 {nextGameDisp()}
             </Col>
             <Col className="d-flex align-items-center">
-                {props.currentGame ? <Button size="lg"><Link to={`/ged/games/${props.props.currentGame.id}`}>Join Game</Link></Button> : null}
+                {props.currentGame ? <Button size="lg"><Link to={`/ged/games/${props.currentGame.id}`}>Join Game</Link></Button> : null}
             </Col>
         </Row>
         {createGameForm()}

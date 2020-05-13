@@ -152,6 +152,7 @@ class CharacterMain extends React.Component {
     }
 
     handleChange(event) {
+        if (this.props.loadedChar) return;
         if (event.target.name === "cClass") {
             let newState = Object.assign({}, char);
             newState['currentSpecials'] = {};
@@ -332,12 +333,12 @@ class CharacterMain extends React.Component {
                     <Row id="main-section" ref={this.mainRef} className="mb-3">
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Name</Form.Label>
-                            <Form.Control type="text" name="name" id="name-input" onChange={this.handleChange} value={this.charSource().name} />
+                            <Form.Control readOnly={this.props.loadedChar} type="text" name="name" id="name-input" onChange={this.handleChange} value={this.charSource().name} />
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Class</Form.Label>
                             <InputGroup>
-                                <Form.Control as="select" name="cClass" onChange={this.handleChange} value={this.charSource().cClass}>
+                                <Form.Control readOnly={this.props.loadedChar} as="select" name="cClass" onChange={this.handleChange} value={this.charSource().cClass}>
                                     <option value="" disabled>Select Class</option>
                                     {CLASSES.map((c, i) => {
                                         return (
@@ -350,25 +351,25 @@ class CharacterMain extends React.Component {
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Race <span style={{ fontSize: '9px' }}>(but not in like a racist way)</span></Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="raceString" id="race-input" value={this.charSource().raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
+                                <Form.Control readOnly={this.props.loadedChar} type="text" name="raceString" id="race-input" value={this.charSource().raceString} onChange={this.handleChange} placeholder="Name your race"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Background</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="background" onChange={this.handleChange} value={this.charSource().background} id="background-input"></Form.Control>
+                                <Form.Control readOnly={this.props.loadedChar} type="text" name="background" onChange={this.handleChange} value={this.charSource().background} id="background-input"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Appearance</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="appearance" onChange={this.handleChange} value={this.charSource().appearance} id="appearance-input"></Form.Control>
+                                <Form.Control readOnly={this.props.loadedChar} type="text" name="appearance" onChange={this.handleChange} value={this.charSource().appearance} id="appearance-input"></Form.Control>
                             </InputGroup>
                         </Col>
                         <Col xs={6} md={4} className="my-1">
                             <Form.Label className="grenze mb-0">Derp</Form.Label>
                             <InputGroup>
-                                <Form.Control type="text" name="derp" onChange={this.handleChange} value={this.charSource().derp} id="derp-input"></Form.Control>
+                                <Form.Control readOnly={this.props.loadedChar} type="text" name="derp" onChange={this.handleChange} value={this.charSource().derp} id="derp-input"></Form.Control>
                             </InputGroup>
                         </Col>
                     </Row>
