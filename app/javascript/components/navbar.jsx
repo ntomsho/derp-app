@@ -38,6 +38,12 @@ const NavbarComp = (props) => {
         setNotifications(newState);
     }
 
+    const CustomItem = React.forwardRef(({ children }, ref) => (
+        <span className="dropdown-item" ref={ref} style={{whiteSpace: 'normal'}}>
+            {children}
+        </span>
+    ))
+
     if (props.loggedInUser) {
         return (
             <>
@@ -50,15 +56,14 @@ const NavbarComp = (props) => {
                     {notifications.map(notification => {
                         return (
                             <NavDropdown.Item key={notification.id} 
-                                style={{whiteSpace: 'normal'}}
-                                href={notification.requester_type === "Campaign" ? `/ged/campaigns/${notification.requester_id}` : `/ged/campaigns/${notification.requested_id}`}
+                                as={CustomItem}
                             >
-                                <div>
+                                <Link to={notification.requester_type === "Campaign" ? `/ged/campaigns/${notification.requester_id}` : `/ged/campaigns/${notification.requested_id}`}>
                                     {notification.requester_type === "Campaign" ? 
                                         <small><strong>{notification.requester_director.username}</strong> has invited you to join their campaign <strong>{notification.requester_title}</strong></small> :
                                         <small><strong>{notification.requester_username}</strong> has requested to join your campaign <strong>{notification.requested_title}</strong></small>
                                     }
-                                </div>
+                                </Link>
                                 <div>
                                     <Button variant="success" onClick={() => deleteInvite(notification.id, true, clearNotification)}>Accept</Button>
                                     <Button variant="danger" onClick={() => deleteInvite(notification.id, false, clearNotification)}>Reject</Button>
