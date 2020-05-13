@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,11 +13,27 @@ const GameDisplay = (props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
+    const [endingDate, setEndingDate] = useState(new Date());
+
+    useEffect(() => {
+        if (startDate.getTime() > endingDate.getTime()) {
+            setEndingDate(new Date(startDate));
+        }
+    }, [startDate])
 
     function scheduleGame() {
-        if (startDate && endDate.getTime() > startDate.getTime()) {
-            createChapter({title, description, start_date: startDate, end_date: endDate}, props.addNewGame)
+        if (startDate && endingDate.getTime() > startDate.getTime()) {
+            const newGame = { title, description, campaign_id: props.campaignId, start_time: startDate, end_time: endingDate };
+            createChapter(newGame, props.addNewGame);
+            setScheduling(false);
+        }
+    }
+
+    function dateObj(date) {
+        return {
+            'date': date.toDateString(),
+            'timeZone': date.toTimeString().slice(18),
+            'time': date.toLocaleTimeString().replace(":00", "")
         }
     }
 
@@ -25,15 +41,19 @@ const GameDisplay = (props) => {
         const today = new Date();
         let gameDisp;
         if (props.currentGame) {
-            const startTime = new Date(props.currentGame.start_time);
-            const endTime = new Date(props.currentGame.end_time);
+            let startTime;
+            let endTime;
+            if (props.currentGame.start_time) startTime = dateObj(new Date(props.currentGame.start_time));
+            if (props.currentGame.end_time) endTime = dateObj(new Date(props.currentGame.end_time));
             gameDisp = (
                 <>
-                    <div className="grenze">{endTime.getTime() < today.getTime() ? "Next Game:" : "Current Game:"}</div>
+                    <div className="grenze">{new Date(props.currentGame.end_time).getTime() < today.getTime() ? "Next Game:" : "Current Game:"}</div>
                     <h3>{props.currentGame.title}</h3>
                     <em>{props.currentGame.description}</em>
-                    <div>{startTime.toDateString()}</div>
-                    <div>{startTime.toTimeString()}</div>
+                    {startTime ? <div><strong>From </strong>{startTime.date}</div> : null}
+                    {startTime ? <div>{startTime.time + " " + startTime.timeZone}</div> : null}
+                    {endTime ? <div><strong>To </strong>{endTime.date}</div> : null}
+                    {endTime ? <div>{endTime.time}</div> : null}
                 </>
             )
         } else {
@@ -48,9 +68,10 @@ const GameDisplay = (props) => {
         if (props.director) {
             if (!scheduling) {
                 return (
-                    <Button onClick={() => setScheduling(true)}>Schedule Next Game</Button>
+                    <Button className="mb-3" onClick={() => setScheduling(true)}>Schedule Next Game</Button>
                 )
             }
+            const today = new Date();
             return (
                 <Row className="mb-3">
                     <Col xs={12}>
@@ -67,7 +88,8 @@ const GameDisplay = (props) => {
                             selected={startDate}
                             onChange={date => setStartDate(date)}
                             showTimeSelect
-                            minTime={new Date()}
+                            minDate={today}
+                            maxDate={new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())}
                             timeFormat="h:mm aa"
                             timeIntervals={5}
                             timeCaption="Time"
@@ -77,10 +99,11 @@ const GameDisplay = (props) => {
                     <Col xs={6}>
                         <Form.Label className="grenze">Expected End Time</Form.Label>
                         <DatePicker
-                            selected={startDate}
-                            onChange={date => setEndDate(date)}
+                            selected={endingDate}
+                            onChange={date => setEndingDate(date)}
                             showTimeSelect
-                            minTime={startDate}
+                            minDate={startDate}
+                            maxDate={new Date(startDate.getFullYear() + 1, startDate.getMonth(), startDate.getDate())}
                             timeFormat="h:mm aa"
                             timeIntervals={5}
                             timeCaption="Time"
