@@ -46,6 +46,7 @@ class Campaign extends React.Component {
         this.subRequested = this.subRequested.bind(this);
         this.requestSub = this.requestSub.bind(this);
         this.inviteUser = this.inviteUser.bind(this);
+        this.addNewGame = this.addNewGame.bind(this);
         this.addInvite = this.addInvite.bind(this);
         this.findMyInviteId = this.findMyInviteId.bind(this);
         this.cancelInvite = this.cancelInvite.bind(this);
@@ -91,6 +92,12 @@ class Campaign extends React.Component {
         for (let i = 0; i < this.state.campaign.subs.length; i++) {
             if (this.state.campaign.subs[i].user_id === user.id) this.state.campaign.subs.splice(i, 1);
         }
+        this.setState({ campaign: newState });
+    }
+
+    addNewGame(game) {
+        let newState = this.state.campaign;
+        newState.games.push(game);
         this.setState({ campaign: newState });
     }
     
@@ -347,7 +354,7 @@ class Campaign extends React.Component {
                 <Row>
                     {this.descriptionDisp()}
                 </Row>
-                <GameDisplay currentGame={this.state.campaign.games[this.state.campaign.games.length - 1]} director={userDirecting} />
+                <GameDisplay currentGame={this.state.campaign.games[this.state.campaign.games.length - 1]} director={userDirecting} addNewGame={this.addNewGame} />
                 <Row>
                     {this.joinButton()}
                 </Row>
