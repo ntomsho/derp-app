@@ -354,7 +354,7 @@ class Campaign extends React.Component {
                 <Row>
                     {this.descriptionDisp()}
                 </Row>
-                <GameDisplay currentGame={this.state.campaign.games[this.state.campaign.games.length - 1]} director={userDirecting} addNewGame={this.addNewGame} />
+                <GameDisplay currentGame={this.state.campaign.games[this.state.campaign.games.length - 1]} subbed={this.userSubbed(this.props.loggedInUser.id)} director={userDirecting} addNewGame={this.addNewGame} />
                 <Row>
                     {this.joinButton()}
                 </Row>

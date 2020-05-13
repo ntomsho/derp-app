@@ -96,6 +96,12 @@ const GameDisplay = (props) => {
         }
     }
 
+    function joinButton() {
+        if (props.currentGame && props.subbed) {
+            return <Button size="lg"><Link to={`/ged/games/${props.currentGame.id}`}>Join Game</Link></Button>
+        }
+    }
+
     return (
         <>
         <Row className="mb-3">
@@ -103,7 +109,7 @@ const GameDisplay = (props) => {
                 {nextGameDisp()}
             </Col>
             <Col className="d-flex align-items-center">
-                {props.currentGame ? <Button size="lg"><Link to={`/ged/games/${props.currentGame.id}`}>Join Game</Link></Button> : null}
+                {joinButton()}
             </Col>
         </Row>
         {createGameForm()}
