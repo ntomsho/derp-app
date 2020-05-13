@@ -10,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import DeleteCampaignModal from './delete_campaign_modal';
 import InviteComponent from './invite_component';
+import GameDisplay from './game_display';
 import { fetchCampaign, updateCampaign } from '../../actions/campaign_actions';
 import { fetchUsers } from '../../actions/user_actions';
 import { createInvite, deleteInvite } from '../../actions/invite_actions';
@@ -35,7 +36,8 @@ class Campaign extends React.Component {
                 dead_chars: [],
                 subs: [],
                 sent_invites: [],
-                requested_invites: []
+                requested_invites: [],
+                games: []
             }
         }
         this.loadCampaign = this.loadCampaign.bind(this);
@@ -345,6 +347,7 @@ class Campaign extends React.Component {
                 <Row>
                     {this.descriptionDisp()}
                 </Row>
+                <GameDisplay currentGame={this.state.campaign.games[this.state.campaign.games.length - 1]} director={userDirecting} />
                 <Row>
                     {this.joinButton()}
                 </Row>
