@@ -10,7 +10,7 @@ class GameChannel < ApplicationCable::Channel
             state = {'characters': {}, 'clocks': { 'challenges': [], 'countdowns': [], 'derp': 0 }}.with_indifferent_access
         end
         unless @character == "Director"
-            state['characters'][character.id] = { user_id: current_user.id, username: current_user.username, character: @character.as_json }
+            state['characters'][character_id] = { user_id: current_user.id, username: current_user.username, character: @character.as_json }
         end
         redis.set("state", JSON.generate(state))
         stream_for @game

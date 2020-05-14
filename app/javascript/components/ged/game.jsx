@@ -57,7 +57,7 @@ class Game extends React.Component {
         this.cable.subscriptions.create({
             channel: "GameChannel",
             game_id: this.props.match.params.id,
-            character_id: character === "Director" ? character : character.id
+            character_id: character === "Director" ? character : character
         },
         {
             received: (response) => this.handleReceived(response),
@@ -194,31 +194,40 @@ class Game extends React.Component {
         const chars = this.state.gameState.characters;
 
         if (this.state.currentPlayerCharacter !== "Director") {
-            return (
-                <Container>
-                    <div style={{ position: 'fixed', top: '40px', zIndex: 1500 }}>
-                        {this.state.notifications.map((note, i) => {
-                            return (
-                                <GameToast key={i} charName={note.charId ? chars[note.charId].character.name : ""} note={note} ind={i} removeNote={this.removeNote} />
-                            )
-                        })}
+            if (this.state.gameState.characters[this.state.currentPlayerCharacter]) {
+                return (
+                    <Container>
+                        <div style={{ position: 'fixed', top: '40px', zIndex: 1500 }}>
+                            {this.state.notifications.map((note, i) => {
+                                return (
+                                    <GameToast key={i} charName={note.charId ? chars[note.charId].character.name : ""} note={note} ind={i} removeNote={this.removeNote} />
+                                )
+                            })}
+                        </div>
+                        <Tabs className="justify-content-around" defaultActiveKey="0">
+                            <Tab eventKey="0" title={<h2>Characters</h2>}>
+                                <CharacterMain loggedInUser={this.props.loggedInUser} 
+                                    charChange={this.charChange}
+                                    loadedChar={this.setPlayerChar(this.state.gameState.characters[this.state.currentPlayerCharacter].character)}
+                                />
+                            </Tab>
+                            <Tab eventKey="1" title={<h2>Clocks</h2>}>
+                                <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} 
+                                    clocks={this.state.gameState.clocks} clockChange={this.clockChange} 
+                                    player={true}
+                                />
+                            </Tab>
+                        </Tabs>
+                    </Container>
+                )
+            } else {
+                return (
+                    <div style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">
+                        <h1>Logging In...</h1>
+                        <Spinner animation="grow" role="status" variant="dark" />
                     </div>
-                    <Tabs className="justify-content-around" defaultActiveKey="0">
-                        <Tab eventKey="0" title={<h2>Characters</h2>}>
-                            <CharacterMain loggedInUser={this.props.loggedInUser} 
-                                charChange={this.charChange}
-                                loadedChar={this.setPlayerChar(this.state.gameState.characters[this.state.currentPlayerCharacter].character)}
-                            />
-                        </Tab>
-                        <Tab eventKey="1" title={<h2>Clocks</h2>}>
-                            <GameClocks numPlayers={Object.keys(this.state.gameState.characters).length} 
-                                clocks={this.state.gameState.clocks} clockChange={this.clockChange} 
-                                player={true}
-                            />
-                        </Tab>
-                    </Tabs>
-                </Container>
-            )
+                )
+            }
         }
 
         return (
