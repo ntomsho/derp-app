@@ -46,7 +46,7 @@ export default function Inventory(props) {
 
     function moveItem(num, destination) {
         if (props.inventory[num] === "") return;
-        let newInventory = Object.assign({}, props.inventory);
+        let newInventory = Object.assign([], props.inventory);
         const space = freeSpace(destination);
         if (space) {
             newInventory[space] = props.inventory[num];

@@ -4,4 +4,4 @@
 const channels = require.context('.', true, /_channel\.js$/)
 channels.keys().forEach(channels)
 
-export const API_WS_ROOT = 'ws://derp-game-app.herokuapp.com/cable'
+export const API_WS_ROOT = '/cable'

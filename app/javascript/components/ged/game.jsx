@@ -32,6 +32,7 @@ class Game extends React.Component {
                 }
             }
         }
+        this.login = this.login.bind(this);
         this.handleReceived = this.handleReceived.bind(this);
         this.sendChange = this.sendChange.bind(this);
         this.charChange = this.charChange.bind(this);
@@ -47,15 +48,20 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        fetchChapter(this.props.match.params.id, (game) => this.setState({game: game}))
+        fetchChapter(this.props.match.params.id, (game) => this.setState({game: game})).then(() => {
+        if (this.props.loggedInUser.id === this.state.game.director_id) this.login("Director")})
+    }
+
+    login(character) {
+        this.setState({ characterSelection: "", currentPlayerCharacter: character })
         this.cable.subscriptions.create({
             channel: "GameChannel",
             game_id: this.props.match.params.id,
-            character_id: this.props.character_id
+            character_id: character === "Director" ? character : character.id
         },
         {
             received: (response) => this.handleReceived(response),
-            speak: function(message) {
+            speak: function (message) {
                 return this.perform("speak", message)
             }
         })
@@ -136,12 +142,13 @@ class Game extends React.Component {
     setCharacter(e) {
         e.preventDefault();
         const character = this.state.characterSelection;
-        this.setState({ characterSelection: null, currentPlayerCharacter: character });
+        this.login(character)
+        // this.setState({ characterSelection: null, currentPlayerCharacter: character });
     }
 
     characterSelect() {
         if (this.props.loggedInUser.id === this.state.game.director_id) {
-            this.setState({ currentPlayerCharacter: "Director" })
+            // this.setState({ currentPlayerCharacter: "Director" })
             return (
                 <div style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">
                     <h1>Logging In...</h1>
@@ -170,7 +177,7 @@ class Game extends React.Component {
     }
 
     render() {
-        
+
         if (!this.state.game) {
             return (
                 <div style={{ height: '92vh' }} className="d-flex bg-light w-100 justify-content-center align-items-center">

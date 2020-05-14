@@ -2,15 +2,17 @@ class GameChannel < ApplicationCable::Channel
 
     def subscribed
         @game = Chapter.find(params[:game_id])
-        # character = Character.find(params[:character_id])
-        @character = current_user.characters.first
-        character_id = @character.id
+        character = params[:character_id] == "Director" ? Character.find(params[:character_id])
+        # character_id = @character.id
+        debugger
         if redis.get("state")
             state = JSON.parse(redis.get("state"))
         else
             state = {'characters': {}, 'clocks': { 'challenges': [], 'countdowns': [], 'derp': 0 }}.with_indifferent_access
         end
-        state['characters'][character_id] = { user_id: current_user.id, username: current_user.username, character: @character.as_json }
+        unless character == "Director"
+            state['characters'][character.id] = { user_id: current_user.id, username: current_user.username, character: @character.as_json }
+        end
         redis.set("state", JSON.generate(state))
         stream_for @game
         GameChannel.broadcast_to(@game, { state: state, message: {charId: @character.id, login: { username: current_user.username, characterName: @character.name }} })
