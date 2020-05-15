@@ -24,13 +24,14 @@ class GameChannel < ApplicationCable::Channel
     end
 
     def unsubscribed
-        if @character.id
         state = JSON.parse(redis.get("state"))
+        if @character.id
         @character.update(state['characters'][@character.id.to_s]['character'])
         state['characters'].delete(@character.id.to_s)
         redis.set("state", JSON.generate(state))
         GameChannel.broadcast_to(@game, { state: state, message: { logout: { username: current_user.username } } })
         end
+        redis.del("state") if state['characters'].keys.length == 0
     end
 
     private
