@@ -86,6 +86,9 @@ test:
 
 production:
   <<: *default
+  
+  headers:
+      'Access-Control-Allow-Origin': 'https://derp-game-app.herokuapp.com/'
 
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false
