@@ -1,3 +1,5 @@
+var token = $('meta[name=csrf-token]').attr('content');
+
 export const fetchCharacters = (user_id, callback) => {
     return $.ajax({
         method: "GET",
@@ -22,6 +24,7 @@ export const createCharacter = (character, callback, setErrors) => {
         method: "POST",
         url: "/api/characters",
         data: { character },
+        headers: { 'X-CSRF-Token': token },
         success: callback,
         error: (errors) => setErrors(errors.responseJSON)
     })
@@ -32,6 +35,7 @@ export const updateCharacter = (character, setErrors) => {
         method: "PATCH",
         url: `/api/characters/${character.id}`,
         data: { character },
+        headers: { 'X-CSRF-Token': token },
         error: (errors) => setErrors(errors.responseJSON)
     });
 }
@@ -39,6 +43,7 @@ export const updateCharacter = (character, setErrors) => {
 export const deleteCharacter = (character_id, callback) => {
     return $.ajax({
         method: "DELETE",
-        url: `/api/characters/${character_id}`
+        url: `/api/characters/${character_id}`,
+        headers: { 'X-CSRF-Token': token }
     }).then(() => callback())
 }

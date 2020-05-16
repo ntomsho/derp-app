@@ -1,3 +1,5 @@
+var token = $('meta[name=csrf-token]').attr('content');
+
 export const fetchCampaigns = (search_params, callback) => {
     return $.ajax({
         method: "GET",
@@ -18,6 +20,7 @@ export const createCampaign = (campaign, callback, setErrors) => {
         method: "POST",
         url: "/api/campaigns",
         data: { campaign },
+        headers: { 'X-CSRF-Token': token },
         success: callback,
         error: (errors) => setErrors(errors.responseJSON)
     })
@@ -28,6 +31,7 @@ export const updateCampaign = (campaign, callback, setErrors) => {
         method: "PATCH",
         url: `/api/campaigns/${campaign.id}`,
         data: { campaign },
+        headers: { 'X-CSRF-Token': token },
         success: callback,
         error: (errors) => setErrors(errors.responseJSON)
     })
@@ -37,6 +41,7 @@ export const quitCampaign = (campaign_id, user_id, callback) => {
     return $.ajax({
         method: "DELETE",
         url: "/api/campaign_subs",
+        headers: { 'X-CSRF-Token': token },
         data: { campaign_id, user_id }
     }).then((subId) => callback(subId));
 }
@@ -44,6 +49,7 @@ export const quitCampaign = (campaign_id, user_id, callback) => {
 export const deleteCampaign = (campaign_id, callback) => {
     return $.ajax({
         method: "DELETE",
-        url: `/api/campaigns/${campaign_id}`
+        url: `/api/campaigns/${campaign_id}`,
+        headers: { 'X-CSRF-Token': token }
     }).then(() => callback());
 };
