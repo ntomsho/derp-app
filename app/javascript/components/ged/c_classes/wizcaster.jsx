@@ -16,7 +16,7 @@ export default function Wizcaster(props) {
     const [currentSpell, setCurrentSpell] = useState([]);
     const [keepWordInd, setKeepWordInd] = useState(null);
     const [selectedWordInd, setSelectedWordInd] = useState(null);
-    const [missileUsed, setMissileUsed] = useState(props.currentSpecials.words[0].word !== "Missile");
+    const [missileUsed, setMissileUsed] = useState(props.currentSpecials.words ? props.currentSpecials.words[0].word !== "Missile" : false);
     const input1 = React.createRef();
     const input2 = React.createRef();
 
