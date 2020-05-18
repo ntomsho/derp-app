@@ -88,7 +88,7 @@ production:
   <<: *default
   
   headers:
-      'Access-Control-Allow-Origin': 'https://derp-game-app.herokuapp.com/'
+      'Access-Control-Allow-Origin': ['http://derp-game-app.herokuapp.com/', 'https://derp-game-app.herokuapp.com/']
 
   # Production depends on precompilation of packs prior to booting for performance.
   compile: false
