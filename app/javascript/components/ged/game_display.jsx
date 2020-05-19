@@ -22,7 +22,7 @@ const GameDisplay = (props) => {
     }, [startDate])
 
     function scheduleGame() {
-        if (startDate && endingDate.getTime() > startDate.getTime()) {
+        if (startDate && endingDate.getTime() >= startDate.getTime()) {
             const newGame = { title, description, campaign_id: props.campaignId, start_time: startDate, end_time: endingDate };
             createChapter(newGame, props.addNewGame);
             setScheduling(false);
