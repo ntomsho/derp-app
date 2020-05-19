@@ -1,1 +1,1 @@
-REDIS = Redis.new(url: (ENV['REDISTOGO_URL'] || 'redis://localhost:3001' ))
+REDIS = Redis.new(url: URI.parse(ENV['REDISTOGO_URL'] || 'redis://localhost:6379'))

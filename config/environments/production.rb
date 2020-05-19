@@ -43,6 +43,7 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   config.web_socket_server_url = "ws://derp-game-app.herokuapp.com/cable"
   config.action_cable.allowed_request_origins = [ 'https://derp-game-app.herokuapp.com', 'http://derp-game-app.herokuapp.com']
+  ENV["REDISTOGO_URL"] = 'redis://redistogo:e437144b2323b0f2250b22b1cfc68dc0@pike.redistogo.com:10788/'
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
