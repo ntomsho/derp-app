@@ -37,7 +37,7 @@ class GameChannel < ApplicationCable::Channel
     private
 
     def redis
-        Redis.new
+        REDIS
     end
 
 end
