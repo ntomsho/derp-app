@@ -1,1 +1,7 @@
-REDIS = Redis.new(url: (ENV['REDISTOGO_URL'] || 'redis://localhost:6379'))
+if Rails.env.production?
+    uri = URI.parse(ENV['REDISTOGO_URL'])
+else
+    uri = 'redis://localhost:6379'
+end
+
+REDIS = Redis.new(url: uri)
