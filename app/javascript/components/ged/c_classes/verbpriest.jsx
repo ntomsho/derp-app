@@ -64,6 +64,7 @@ export default function Verbpriest(props) {
                     <h1 key={i}
                     id={`faith-${i + 1}`}
                     className="faith-container"
+                    style={{cursor: 'pointer'}}
                     onClick={() => updateFaith(i + 1)}
                     >
                         {faith >= i + 1 ? "⦿" : "⦾"}
