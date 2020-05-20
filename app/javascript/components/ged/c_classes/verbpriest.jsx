@@ -27,10 +27,10 @@ export default function Verbpriest(props) {
         let words = [];
         for (let i = 0; i < 4; i++) {
             let newWord = randomWord();
-            while (currentSpecials.words.includes(newWord)) {
+            while (words.includes(newWord)) {
                 newWord = randomWord();
             }
-            words.push(randomWord());
+            words.push(newWord);
         }
         props.updateState('currentSpecials', { 'words': words }, { rest: true });
     }
@@ -38,6 +38,7 @@ export default function Verbpriest(props) {
     function addCustomWord(randomize) {
         let newWords = currentSpecials.words;
         let newWord = randomize ? randomWord() : input.current.value
+        while (randomize && props.currentSpecials.words.includes(newWord)) newWord = randomWord();
         newWords.push(newWord);
         props.updateState('currentSpecials', { 'words': newWords }, { gain_resource: { category: "Command Word", string: newWord } });
     }
