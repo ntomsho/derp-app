@@ -95,13 +95,13 @@ export default function Hippy(props) {
                 {currentSpecials.forms.map((form, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <Button variant="success" onClick={() => setCurrentForm(form)} className={`w-75 form${currentForm === form ? ' selected' : ''}`}><div><strong>{form}</strong> Form</div></Button>
+                            <Button variant={currentForm === form ? "success" : "outline-success"} onClick={() => setCurrentForm(form)} className="w-75"><div><strong>{form}</strong> Form</div></Button>
                             <Button variant="danger" onClick={() => sacrificeForm(i)}>X</Button>
                         </InputGroup>
                     )
                 })}
                 <InputGroup className="my-1">
-                    <Button variant="success" onClick={() => setCurrentForm(null)} className={`form${currentForm === null ? ' selected' : ''}`}><div><strong>Human</strong> Form</div></Button>
+                    <Button variant={currentForm ? "outline-success" : "success"} onClick={() => setCurrentForm(null)}><div><strong>Human</strong> Form</div></Button>
                 </InputGroup>
                 </>
             )
