@@ -90,7 +90,7 @@ export default function Mixologist(props) {
         const newBases = bases;
         const newCatalysts = catalysts;
         let lostComp = {ind: keepComp === "Base" ? ["catalysts"] : ["bases"]}
-        lostComp[string] = keepComp === "Base" ?
+        lostComp['string'] = keepComp === "Base" ?
             newCatalysts.splice(selectedCatalyst, 1).comp : 
             newBases.splice(selectedBase, 1);
         setKeepComp(null);
@@ -176,7 +176,7 @@ export default function Mixologist(props) {
                     <ButtonGroup vertical>
                         {bases.map((b, i) => {
                             return (
-                                <Button block variant="info" key={i} className={`my-1 comp${selectedBase === i ? ' selected' : ''}`} onClick={() => selectComponent("Base", i)}>{b}</Button>
+                                <Button block variant={selectedBase === i ? 'info' : 'outline-info'} key={i} className="my-1" onClick={() => selectComponent("Base", i)}>{b}</Button>
                             )
                         })}
                     </ButtonGroup>
@@ -186,7 +186,7 @@ export default function Mixologist(props) {
                     <ButtonGroup vertical>
                         {catalysts.map((c, i) => {
                             return (
-                                <Button block variant="warning" key={i} className={`my-1 comp${selectedCatalyst === i ? ' selected' : ''}`} onClick={() => selectComponent("Catalyst", i)}>{c.comp}</Button>
+                                <Button block variant={selectedCatalyst === i ? 'warning' : 'outline-warning'} key={i} className="my-1" onClick={() => selectComponent("Catalyst", i)}>{c.comp}</Button>
                             )
                         })}
                     </ButtonGroup>
