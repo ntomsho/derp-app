@@ -58,11 +58,18 @@ export default function Zoomaster(props) {
             return (
                 <>
                 <Row className="justify-content-center">
-                    <h3>{currentBeast.name}</h3>
-                    <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentBeast(null)}>End Scene</Button>
+                    <div className="grenze">Current Beast</div>
                 </Row>
-                <Row className="justify-content-center">
-                    <h2>{currentBeast.beast}</h2>
+                <Row>
+                    <Col className="justify-content-center">
+                        <Row className="justify-content-center">
+                            <h3>{currentBeast.name}</h3>
+                            <Button size="sm" className="absolute-button-right" variant="secondary" onClick={() => setCurrentBeast(null)}>End Scene</Button>
+                        </Row>
+                        <Row className="justify-content-center">
+                            <h2>{currentBeast.beast}</h2>
+                        </Row>
+                    </Col>
                 </Row>
                 </>
             )
@@ -119,14 +126,7 @@ export default function Zoomaster(props) {
                     </ClassDescription>
                 </Col>
                 <Col xs={12} md={7} className="mt-3">
-                    <Row className="justify-content-center">
-                        <div className="grenze">Current Beast</div>
-                    </Row>
-                    <Row>
-                        <Col className="justify-content-center">
-                        {currentBeastDisp()}
-                        </Col>
-                    </Row>
+                    {currentBeastDisp()}
                     {beastsDisp()}
                     <Form>
                         <Form.Label>Add Beast</Form.Label>
