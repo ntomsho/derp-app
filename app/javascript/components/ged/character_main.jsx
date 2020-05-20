@@ -392,7 +392,7 @@ class CharacterMain extends React.Component {
                 </Row>
 
                 <Row id="class-section" ref={this.classRef}>
-                    <ClassMain {...this.charSource()} updateState={this.updateState} />
+                    <ClassMain {...this.charSource()} updateState={this.updateState} liveGame={!!this.props.loadedChar} />
                 </Row>
                 <Row id="skills-section" ref={this.skillsRef}>
                     <Skills {...this.charSource()} updateState={this.updateState} />

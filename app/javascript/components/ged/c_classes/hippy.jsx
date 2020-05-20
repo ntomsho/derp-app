@@ -38,7 +38,7 @@ export default function Hippy(props) {
 
     function sacrificeForm(formInd) {
         let newResources = Object.assign({}, currentSpecials);
-        lostResource = newResources.forms.splice(formInd, 1);
+        const lostResource = newResources.forms.splice(formInd, 1);
         newResources.gifts.push(random(MUTATIONS));
         props.updateState('currentSpecials', newResources, { lose_resource: { ind: ['forms'], string: lostResource } });
     }

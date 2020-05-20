@@ -69,7 +69,7 @@ export default function ClassMain(props) {
         </div>
         <br/>
         {classComp()}
-        <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} />
+        <RaceTraits raceString={props.raceString} raceTraits={props.raceTraits} updateState={props.updateState} liveGame={props.liveGame} />
         </>
     )
 }

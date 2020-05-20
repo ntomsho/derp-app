@@ -27,17 +27,17 @@ export default function RaceTraits(props) {
                 <Row className="justify-content-center">
                     <Col>
                     <InputGroup>
-                        <Form.Control name="0" onChange={updateTraits} value={props.raceTraits[0] || ""}></Form.Control>
+                        <Form.Control readOnly={props.liveGame} name="0" onChange={updateTraits} value={props.raceTraits[0] || ""}></Form.Control>
                         <InputGroup.Append>
-                            <Button variant="dark" onClick={() => props.updateState('raceTraits', [random(RACE_TRAITS), props.raceTraits[1] || ""])}>🎲</Button>
+                            <Button disabled={props.liveGame} variant="dark" onClick={() => props.updateState('raceTraits', [random(RACE_TRAITS), props.raceTraits[1] || ""])}>🎲</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     </Col>
                     <Col>
                     <InputGroup>
-                        <Form.Control name="1" onChange={updateTraits} value={props.raceTraits[1] || ""}></Form.Control>
+                        <Form.Control readOnly={props.liveGame} name="1" onChange={updateTraits} value={props.raceTraits[1] || ""}></Form.Control>
                         <InputGroup.Append>
-                            <Button variant="dark" onClick={() => props.updateState('raceTraits', [props.raceTraits[0] || "", random(RACE_TRAITS)])}>🎲</Button>
+                            <Button disabled={props.liveGame} variant="dark" onClick={() => props.updateState('raceTraits', [props.raceTraits[0] || "", random(RACE_TRAITS)])}>🎲</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     </Col>
