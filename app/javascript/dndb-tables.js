@@ -936,6 +936,27 @@ export const COMMANDS = [
     "Wallop"
 ]
 
+export const ROGUE_TRICKS = [
+    `${random(ELEMENTS)} caltrops`,
+    `${random(ELEMENTS)} weapon enhancement`,
+    `${random(GERUNDS)} weapon enhancement`,
+    "Amnesia draught",
+    "Counterfeit coins",
+    "Decoy dummy",
+    "Fake mustache",
+    "Featherfall cape",
+    "Firecrackers",
+    "Flash charge",
+    "Living rope",
+    "Paralytic poison",
+    "Shadow cloak",
+    "Silence oil",
+    "Sleep dust",
+    "Smoke bomb",
+    "Spiderclimb shoes",
+    "Telekinesis gloves"
+]
+
 export const RESOURCE_ITEMS = [
     "Weapon Oil",
     "Animal Totem",
