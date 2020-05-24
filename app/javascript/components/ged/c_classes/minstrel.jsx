@@ -165,6 +165,10 @@ export default function Minstrel(props) {
                         <div>Spend one of your notes to play a song, performing the song's effect modified by the effect of the note used.</div>
                         <div>You can also use your Skill Harmony once per scene to borrow a nearby ally's Skill Training, gaining Skill Advantage on an action using that Skill.</div>
                         <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Believe in Yourself:</strong> Rolls for arias, ballads, jigs, shanties, power chords, and solos</div>
+                        <div><strong>Creepin':</strong> Rolls for grooves, hoedowns, dirges, lullabies, limericks, and rap battles</div>
+                        <br />
                         <div>Resource Item:<br/><strong>Songbooks</strong></div>
                         <div>Spend a songbook to add its song or note to your day's repertoire.</div>
                     </ClassDescription>

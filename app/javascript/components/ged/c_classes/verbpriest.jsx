@@ -118,6 +118,10 @@ export default function Verbpriest(props) {
                             <li>Commanding something particularly large, powerful, complex, or magical</li>
                             <li>Making the Command last for the duration of the scene</li>
                         </ul>
+                        <br />
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Believe in Yourself:</strong> Rolls to command people</div>
+                        <div><strong>Thinkiness:</strong> Rolls to command beasts and objects</div>
                         <br/>
                         <div>Resource Item:<br/><strong>Command Scrolls</strong></div>
                         <div>Spend a Command Scroll to gain a Command with that word.</div>

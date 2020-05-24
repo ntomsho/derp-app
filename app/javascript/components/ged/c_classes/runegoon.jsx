@@ -129,6 +129,10 @@ export default function Runegoon(props) {
                         <div>Whatever (or whoever) you draw the rune on is infused with the property of the runic word for the rest of the scene.</div>
                         <div>You can have one rune at a time engraved, imbuing the target with its property until the next time you rest. You spend a rune to engrave it, cancelling out any current engraving you might have.</div>
                         <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Cardio:</strong> Rolls for Element Runes</div>
+                        <div><strong>Macgyver:</strong> Rolls for Verb Runes</div>
+                        <br />
                         <div>Resource Item:<br/><strong>Scrolls of Power</strong></div>
                         <div>Spend a Scroll of Power to gain a rune for its word.</div>
                     </ClassDescription>

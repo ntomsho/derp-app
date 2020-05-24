@@ -171,7 +171,7 @@ export default function Hippy(props) {
                         </ul>
                         <br/>
                         <strong className="grenze">Casting Skills</strong>
-                        <div><strong>Cardio:</strong> Any roll in animal form that would use Brute Force or Rad Moves.</div>
+                        <div><strong>Cardio:</strong> Any roll in animal form that would use Brute Force or Rad Moves</div>
                         <div><strong>Man vs. Wild:</strong> Any roll in animal form that wouldn't use Brute Force or Rad Moves</div>
                         <br/>
                         <div>Resource Item:<br/><strong>Animal Totems</strong></div>

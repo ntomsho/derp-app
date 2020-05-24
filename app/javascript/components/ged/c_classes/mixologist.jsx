@@ -209,6 +209,10 @@ export default function Mixologist(props) {
                         <div>Combine a Base and a Catalyst to create a Concoction (a process you have practiced well and can perform quickly). Select one of those components to keep, the other is expended.</div>
                         <div>Concoctions you create are inherently unstable and have to be used immediately or they will become inert. Anyone besides you who tries to use one of your Concoctions takes additional Difficulty on the roll.</div>
                         <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Macgyver:</strong> Rolls for bombs, brews, emulsions, grenades, infusions, and oils</div>
+                        <div><strong>Man vs. Wild:</strong> Rolls for decoctions, elixirs, poisons, potions, powders, and resins</div>
+                        <br />
                         <div>Resource Item:<br/><strong>Alchemical Ingredients</strong></div>
                         <div>Spend an alchemical ingredient to add it your current list of Bases or Catalysts.</div>
                     </ClassDescription>
