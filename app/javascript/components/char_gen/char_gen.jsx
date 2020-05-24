@@ -106,7 +106,7 @@ class CharGen extends React.Component {
             case 3:
                 return "Follow the directions in both columns. Select Skills by clicking on Skill buttons or the Roll Skill button."
             case 4:
-                return "Click on one equipment option in each row, then click Generate Starting Equipment get your stating inventory."
+                return "Click on one equipment option in each row, then click Generate Starting Equipment get your starting inventory."
             case 5:
                 return "Click Reroll on any category you'd like to change."
             case 6:
