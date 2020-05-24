@@ -170,6 +170,10 @@ export default function Hippy(props) {
                             <li>Produce 1d6 healing Goodberries. Eating one within a day of its creation restores 1 Health.</li>
                         </ul>
                         <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Cardio:</strong> Any roll in animal form that would use Brute Force or Rad Moves.</div>
+                        <div><strong>Man vs. Wild:</strong> Any roll in animal form that wouldn't use Brute Force or Rad Moves</div>
+                        <br/>
                         <div>Resource Item:<br/><strong>Animal Totems</strong></div>
                         <div>Spend an Animal Totem to gain a form that is the totem's animal.</div>
                     </ClassDescription>

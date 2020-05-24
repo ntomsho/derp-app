@@ -19,12 +19,12 @@ export const CLASS_SKILLS = {
     "Hippy": ["Cardio", "Man vs. Wild"],
     "Knight of Tushuze": ["Believe in Yourself"],
     "Minstrel": ["Believe in Yourself", "Creepin'"],
-    "Mixologist": ["Macgyver", "Thinkiness"],
+    "Mixologist": ["Macgyver", "Man vs. Wild"],
     "Ne'erdowell": ["Creepin'"],
     "Ragesmasher": ["Man vs. Wild"],
     "Runegoon": ["Cardio", "Macgyver"],
     "Verbpriest": ["Believe in Yourself", "Thinkiness"],
-    "Wizcaster": ["Macgyver", "Thinkiness"],
+    "Wizcaster": ["Creepin'", "Thinkiness"],
     "Zoomaster": ["Man vs. Wild"]
 };
 
