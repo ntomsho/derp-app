@@ -59,7 +59,7 @@ export default function KnightOfTushuze(props) {
                 )
             case "Brute Force":
             case "Rad Moves":
-            case "Shootin'":
+            case "Ocular Prowess":
                 return (
                     <>
                     <Dropdown.Item as="button" onClick={() => consumeBlessing(i)}>Magic Advantage</Dropdown.Item>
@@ -133,7 +133,7 @@ export default function KnightOfTushuze(props) {
                                 <option value="Man vs. Wild">Man vs. Wild (Honor)</option>
                                 <option value="Macgyver">Macgyver (Honor)</option>
                                 <option value="Rad Moves">Rad Moves (Compassion) </option>
-                                <option value="Shootin'">Shootin' (Compassion)</option>
+                                <option value="Ocular Prowess">Ocular Prowess (Compassion)</option>
                                 <option value="Thinkiness">Thinkiness (Honor)</option>
                             </Form.Control>
                         </InputGroup>

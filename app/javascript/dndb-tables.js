@@ -30,11 +30,11 @@ export const CLASS_SKILLS = {
 
 export const CLASS_FIGHTING_SKILLS = {
     "Battlebro": ["Brute Force", "Rad Moves"],
-    "Bowslinger": ["Shootin'"],
+    "Bowslinger": ["Ocular Prowess"],
     "Knight of Tushuze": ["Brute Force"],
-    "Ne'erdowell": ["Rad Moves", "Shootin'"],
+    "Ne'erdowell": ["Rad Moves", "Ocular Prowess"],
     "Ragesmasher": ["Brute Force"],
-    "Zoomaster": ["Rad Moves", "Shootin'"]
+    "Zoomaster": ["Rad Moves", "Ocular Prowess"]
 }
 
 export const CLASS_CASTING_SKILLS = {
@@ -83,15 +83,15 @@ export const SKILLS = [
     "Creepin'",
     "Macgyver",
     "Man vs. Wild",
+    "Ocular Prowess",
     "Rad Moves",
-    "Shootin'",
     "Thinkiness"
 ];
 
 export const FIGHTING_SKILLS = [
     "Brute Force",
-    "Rad Moves",
-    "Shootin'"
+    "Ocular Prowess",
+    "Rad Moves"
 ];
 
 export const CIVILIZED_SKILLS = [
@@ -111,7 +111,7 @@ export const SKILL_USES = {
     "Macgyver": "Crafting, building, forging, making stuff",
     "Man vs. Wild": "Surviving, foraging, riding, animal handling, nature knowledge",
     "Rad Moves": "Dodging, running, jumping, acrobatics, balance",
-    "Shootin'": "Shooting, looking, noticing, awareness, precision",
+    "Ocular Prowess": "Shooting, looking, noticing, awareness, precision",
     "Thinkiness": "Knowing, remembering, wits, historical, scientific, and arcane knowledge"
 }
 
