@@ -37,6 +37,15 @@ export const CLASS_FIGHTING_SKILLS = {
     "Zoomaster": ["Rad Moves", "Shootin'"]
 }
 
+export const CLASS_CASTING_SKILLS = {
+    "Hippy": { "Cardio": "Any roll in animal form that would use Brute Force or Rad Moves", "Man vs. Wild": "Any roll in animal form that wouldn't use Brute Force or Rad Moves" },
+    "Minstrel": { "Believe in Yourself": "Rolls for arias, ballads, jigs, shanties, power chords, and solos", "Creepin'": "Rolls for grooves, hoedowns, dirges, lullabies, limericks, and rap battles" },
+    "Mixologist": { "Macgyver": "Rolls for bombs, brews, emulsions, grenades, infusions, and oils", "Man vs. Wild": "Rolls for decoctions, elixirs, poisons, potions, powders, and resins" },
+    "Runegoon": { "Cardio": "Rolls for Element Runes", "Macgyver": "Rolls for Verb Runes" },
+    "Verbpriest": { "Believe in Yourself": "Rolls to command people", "Thinkiness": "Rolls to command beasts and objects" },
+    "Wizcaster": { "Creepin'": "Rolls for non-attack, non-destructive spells", "Thinkiness": "Rolls for attack and destructive spells" }
+}
+
 export const CLASS_COLORS = {
     "Battlebro": "darkorange",
     "Bowslinger": "darkolivegreen",
