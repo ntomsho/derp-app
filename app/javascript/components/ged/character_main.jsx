@@ -142,7 +142,7 @@ class CharacterMain extends React.Component {
         newState[key] = val;
         if (this.props.charChange) {
             if (change) change.charId = this.props.loadedChar.id;
-            if (change.rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
+            if (change && change.rest && newState.health < newState.maxHealth) newState.health = newState.health + 1;
                 this.props.charChange(newState, this.props.loadedChar.id, 
                     change || createChangeObj(this.props.loadedChar.id, key, val, this.props.loadedChar[key]));
         } else {

@@ -60,7 +60,8 @@ export default function Inventory(props) {
         e.preventDefault();
         const space = freeSpace("all")
         if (space) {
-            let newInventory = props.inventory;
+            debugger
+            let newInventory = Object.assign([], props.inventory);
             newInventory[space] = newItemForm;
             props.updateState('inventory', newInventory, { gain_item: { item: newInventory[space] } });
             setNewItemForm("");
