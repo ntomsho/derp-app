@@ -122,7 +122,9 @@ export default function Minstrel(props) {
                 {currentSpecials.songs.map((song, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <InputGroup.Prepend className="w-25"><InputGroup.Text className="w-100 grenze"><strong>{song}</strong></InputGroup.Text></InputGroup.Prepend>
+                            <InputGroup.Prepend className="w-25">
+                                <InputGroup.Text className="w-100 grenze justify-content-center"><strong>{song}</strong></InputGroup.Text>
+                            </InputGroup.Prepend>
                             <InputGroup.Text className="w-50">
                                 <small>{songEffects(song)}</small>
                             </InputGroup.Text>
