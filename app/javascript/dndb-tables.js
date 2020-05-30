@@ -608,7 +608,7 @@ export const EQUIPMENT = [
     `Medicine`,
     `${random(WEAPONS.slice(0,18))}`,
     `Mirror`,
-    `Musical instrument`,
+    `${random(MUSICAL_INSTRUMENTS)}`,
     `Net`,
     `Spare ammo`,
     `${random(WEAPONS.slice(19,36))}`,
@@ -623,6 +623,45 @@ export const EQUIPMENT = [
     `Vial of acid`,
     `Vial of poison`
 ];
+
+export const EQUIPMENT_BASE = [
+    `${random(BACKGROUNDS)} tools`,
+    `Trap`,
+    `Bomb`,
+    `Caltrops`,
+    `Chain`,
+    `Crowbar`,
+    `Disguise`,
+    `Food`,
+    `Oil`,
+    `Glue`,
+    `Grappling hook`,
+    `Chisel`,
+    `Horn`,
+    `Hourglass`,
+    `Ladder`,
+    `Lantern`,
+    `Lockpicks`,
+    `Stick`,
+    `Manacles`,
+    `Medicine`,
+    `${random(WEAPONS.slice(0, 18))}`,
+    `Mirror`,
+    `${random(MUSICAL_INSTRUMENTS)}`,
+    `Net`,
+    `Ammo`,
+    `${random(WEAPONS.slice(19, 36))}`,
+    `Rope`,
+    `Sack`,
+    `Shield`,
+    `Shovel`,
+    `Spyglass`,
+    `Torch`,
+    `${random(TRINKETS)}`,
+    `Tripwire`,
+    `Acid`,
+    `Poison`
+]
 
 export const AERIAL_CREATURES = [
     "Albatross",
@@ -1061,11 +1100,11 @@ export function randomAnimal() {
 
 export function randomMagicItem() {
     return random([
-        `${random(ELEMENTS)} ${random(EQUIPMENT)}`,
+        `${random(ELEMENTS)} ${random(EQUIPMENT_BASE)}`,
         `${random(ELEMENTS)} ${random(TRINKETS)}`,
-        `${random(GERUNDS)} ${random(EQUIPMENT)}`,
+        `${random(GERUNDS)} ${random(EQUIPMENT_BASE)}`,
         `${random(GERUNDS)} ${random(TRINKETS)}`,
-        `${random(EQUIPMENT)} of ${random(GERUNDS)}`,
+        `${random(EQUIPMENT_BASE)} of ${random(GERUNDS)}`,
         `${random(TRINKETS)} of ${random(GERUNDS)}`,
         `${random(GERUNDS)} ${random(WEAPONS)}`,
         `${random(ELEMENTS)} ${random(WEAPONS)}`,
