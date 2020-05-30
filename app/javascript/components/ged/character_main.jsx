@@ -202,7 +202,7 @@ class CharacterMain extends React.Component {
                     disabled={this.charSource().dead}
                     fluid
                     onClick={() => this.setState({ deathModal: true })}
-                    src={"https://icons.iconarchive.com/icons/icons8/ios7/256/Healthcare-Skull-icon.png"}
+                    src={"/assets/skull-icon.png"}
                 />
             </Col>
         ];
@@ -216,8 +216,8 @@ class CharacterMain extends React.Component {
                         fluid
                         onClick={() => this.updateHealth(i + 1)}
                         src={this.charSource().health >= i + 1 ?
-                            "https://icons.iconarchive.com/icons/designbolts/free-valentine-heart/256/Heart-icon.png" : 
-                            "https://icons.iconarchive.com/icons/icons8/windows-8/256/Gaming-Hearts-icon.png"}
+                            "/assets/Heart-icon.png" : 
+                            "/assets/empty-heart-icon.png"}
                     />
                 </Col>
             )
