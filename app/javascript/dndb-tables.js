@@ -937,12 +937,18 @@ export const ADJECTIVE_MUTATIONS = [
 ]
 
 export const SONGS = [
-    random(["Aria", "Ballad"]),
-    random(["Groove", "Hoedown"]),
-    random(["Jig", "Shanty"]),
-    random(["Dirge", "Lullaby"]),
-    random(["Power Chord", "Solo"]),
-    random(["Limerick", "Rap Battle"])
+    "Aria",
+    "Ballad",
+    "Groove",
+    "Hoedown",
+    "Jig",
+    "Shanty",
+    "Dirge",
+    "Lullaby",
+    "Power Chord",
+    "Solo",
+    "Limerick",
+    "Rap Battle"
 ]
 
 export const BASES = [

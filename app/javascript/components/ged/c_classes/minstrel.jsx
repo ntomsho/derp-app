@@ -7,8 +7,6 @@ import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function Minstrel(props) {
     const { currentSpecials } = props;
@@ -31,12 +29,12 @@ export default function Minstrel(props) {
     }
     
     function randomInstrument() {
-        return random([
-            <div>${random(MUSICAL_INSTRUMENTS)} of <strong>${random(ELEMENTS_OF)}</strong></div>,
-            <div><strong>${random(ELEMENTS)}</strong> ${random(MUSICAL_INSTRUMENTS)}</div>,
-            <div><strong>${random(GERUNDS)}</strong> ${random(MUSICAL_INSTRUMENTS)}</div>,
-            <div>${random(MUSICAL_INSTRUMENTS)} of <strong>${random(GERUNDS)}</strong></div>
-        ])
+        const category = random(["element", "verb"]);
+        return {
+            category: category,
+            special: category === "element" ? random(ELEMENTS_OF) : random(GERUNDS),
+            instrument: random(MUSICAL_INSTRUMENTS)
+        }
     }
 
     function createSongsAndInstruments() {
@@ -45,7 +43,7 @@ export default function Minstrel(props) {
         for (let i = 0; i < 5; i++) {
             let song = randomSong();
             while (songs.includes(song)) {
-                song = Math.floor(Math.random() * 6);
+                song = randomSong();
             }
             songs.push(song);
         };
@@ -65,7 +63,7 @@ export default function Minstrel(props) {
         switch (song) {
             case "Aria":
             case "Ballad":
-                return "Infuse with strength/inspiration";
+                return "Inspire or infuse with power";
             case "Groove":
             case "Hoedown":
                 return "Enthrall or mesmerize";
@@ -86,6 +84,12 @@ export default function Minstrel(props) {
         }
     }
 
+    function instrumentString(instrument) {
+        return instrument.category === "element" ?
+            <div>{instrument.instrument} of <strong>{instrument.special}</strong></div> :
+            <div><strong>{instrument.special}</strong> {instrument.instrument}</div>
+    }
+
     function instrumentsDisp() {
         if (currentSpecials.instruments && currentSpecials.instruments.length > 0) {
             
@@ -95,7 +99,7 @@ export default function Minstrel(props) {
                     {currentSpecials.instruments.map((instrument, i) => {
                         return (
                             <InputGroup key={i} className="my-1">
-                                <InputGroup.Text className="w-75"><div>{instrument}</div></InputGroup.Text>
+                                <InputGroup.Text className="w-75">{instrumentString(instrument)}</InputGroup.Text>
                             </InputGroup>
                         )
                     })}
@@ -118,11 +122,12 @@ export default function Minstrel(props) {
                 {currentSpecials.songs.map((song, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <InputGroup.Text className="w-75">
-                                <strong className="grenze">{song} </strong> - {songEffects(song)}
+                            <InputGroup.Prepend className="w-25"><InputGroup.Text className="w-100 grenze"><strong>{song}</strong></InputGroup.Text></InputGroup.Prepend>
+                            <InputGroup.Text className="w-50">
+                                <small>{songEffects(song)}</small>
                             </InputGroup.Text>
                             <InputGroup.Append>
-                                <Button variant="secondary"></Button>
+                                <Button onClick={() => spendSong(i)} variant="secondary">🎵</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     )
@@ -174,7 +179,13 @@ export default function Minstrel(props) {
                     <Form>
                         <InputGroup>
                             <InputGroup.Prepend><InputGroup.Text>Add Song</InputGroup.Text></InputGroup.Prepend>
-                            <Form.Control ref={input1} />
+                            <Form.Control as="select" ref={input1}>
+                                {SONGS.map((song, i) => {
+                                    return (
+                                        <option key={i} value={song}>{song} - {songEffects(song)}</option>
+                                    )
+                                })}
+                            </Form.Control>
                         </InputGroup>
                         <Form.Group className="d-flex justify-content-around">
                             <Button size="lg" variant="dark" onClick={() => addCustomSong(false)}>+</Button>
