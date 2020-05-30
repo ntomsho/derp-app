@@ -966,6 +966,27 @@ export const ROGUE_TRICKS = [
     "Telekinesis gloves"
 ]
 
+export const MUSICAL_INSTRUMENTS = [
+    "Accordion",
+    "Bagpipes",
+    "Bass Guitar",
+    "Fiddle",
+    "Flute",
+    "Glockenspiel",
+    "Guitar",
+    "Horn",
+    "Keytar",
+    "Lute",
+    "Oboe",
+    "Snare Drum",
+    "Taiko",
+    "Tampourine",
+    "Theramin",
+    "Tuba",
+    "Trumpet",
+    "Vuvuzela"
+]
+
 export const RESOURCE_ITEMS = [
     "Weapon Oil",
     "Animal Totem",
