@@ -161,16 +161,16 @@ export default function Minstrel(props) {
                 <Col xs={12} md={5} className="mt-3">
                     <ClassDescription>
                         <div>Magic Ability:<br /><strong>Bard Songs</strong></div>
-                        <div>Your music is magic! Whenever you rest, you recall a selection of three song genres and six magic notes.</div>
-                        <div>Spend one of your notes to play a song, performing the song's effect modified by the effect of the note used.</div>
-                        <div>You can also use your Skill Harmony once per scene to borrow a nearby ally's Skill Training, gaining Skill Advantage on an action using that Skill.</div>
+                        <div>Your music is magic! Whenever you rest, you conjure three magical instruments and prepare a selection of five song genres.</div>
+                        <div>Spend one of your songs to perform it with one of your instruments, creating the song's effect modified by the instrument's special quality.</div>
+                        <div>Once per scene, you can sing one of your songs, creating the song's unmodified effect without spending it.</div>
                         <br/>
                         <strong className="grenze">Casting Skills</strong>
                         <div><strong>Believe in Yourself:</strong> Rolls for arias, ballads, jigs, shanties, power chords, and solos</div>
                         <div><strong>Creepin':</strong> Rolls for grooves, hoedowns, dirges, lullabies, limericks, and rap battles</div>
                         <br />
                         <div>Resource Item:<br/><strong>Songbooks</strong></div>
-                        <div>Spend a songbook to add its song or note to your day's repertoire.</div>
+                        <div>Spend a songbook to add its song to your day's repertoire.</div>
                     </ClassDescription>
                 </Col>
                 <Col xs={12} md={7} className="mt-3">
