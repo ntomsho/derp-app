@@ -85,7 +85,7 @@ const GameClocks = (props) => {
                     <Accordion>
                         <Card>
                             <Accordion.Toggle as={Button} variant={challenge ? 'info' : 'warning'} className="w-100" eventKey="0">
-                                Create {props.challenge ? 'Challenge' : 'Countdown'}
+                                Create {challenge ? 'Challenge' : 'Countdown'}
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey="0">
                                 <Card.Body>
