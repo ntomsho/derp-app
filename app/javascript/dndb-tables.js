@@ -585,6 +585,27 @@ export const MATERIALS = [
     "Zirconium"
 ]
 
+export const MUSICAL_INSTRUMENTS = [
+    "Accordion",
+    "Bagpipes",
+    "Bass Guitar",
+    "Fiddle",
+    "Flute",
+    "Glockenspiel",
+    "Guitar",
+    "Horn",
+    "Keytar",
+    "Lute",
+    "Oboe",
+    "Snare Drum",
+    "Taiko",
+    "Tampourine",
+    "Theramin",
+    "Tuba",
+    "Trumpet",
+    "Vuvuzela"
+]
+
 export const EQUIPMENT = [
     `${random(BACKGROUNDS)} tools`,
     `Bear trap`,
@@ -661,7 +682,7 @@ export const EQUIPMENT_BASE = [
     `Tripwire`,
     `Acid`,
     `Poison`
-]
+];
 
 export const AERIAL_CREATURES = [
     "Albatross",
@@ -1003,27 +1024,6 @@ export const ROGUE_TRICKS = [
     "Smoke bomb",
     "Spiderclimb shoes",
     "Telekinesis gloves"
-]
-
-export const MUSICAL_INSTRUMENTS = [
-    "Accordion",
-    "Bagpipes",
-    "Bass Guitar",
-    "Fiddle",
-    "Flute",
-    "Glockenspiel",
-    "Guitar",
-    "Horn",
-    "Keytar",
-    "Lute",
-    "Oboe",
-    "Snare Drum",
-    "Taiko",
-    "Tampourine",
-    "Theramin",
-    "Tuba",
-    "Trumpet",
-    "Vuvuzela"
 ]
 
 export const RESOURCE_ITEMS = [

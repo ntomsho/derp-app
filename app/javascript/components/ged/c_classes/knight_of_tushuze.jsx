@@ -46,7 +46,6 @@ export default function KnightOfTushuze(props) {
     }
 
     function blessingVirtues(blessing, i) {
-        //Formatting looks bad on desktop, but so does a lot of it
         switch (blessing) {
             case "Believe in Yourself":
             case "Cardio":

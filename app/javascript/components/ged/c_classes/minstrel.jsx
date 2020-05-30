@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { random, SONGS, ELEMENTS, GERUNDS } from '../../../dndb-tables';
+import { random, SONGS, ELEMENTS, ELEMENTS_OF, GERUNDS, MUSICAL_INSTRUMENTS } from '../../../dndb-tables';
 import ClassDescription from '../class_description';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,13 +12,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function Minstrel(props) {
     const { currentSpecials } = props;
-    const [skillBorrowed, setSkillBorrowed] = useState(false);
+    const [canSing, setCanSing] = useState(true);
     const input1 = React.createRef();
     const input2 = React.createRef();
 
     useEffect(() => {
         if (!currentSpecials.songs) {
-            createSongsAndNotes();
+            createSongsAndInstruments();
         }
     })
 
@@ -30,31 +30,35 @@ export default function Minstrel(props) {
         return song;
     }
     
-    function randomNote() {
-        return random([random(ELEMENTS), random(GERUNDS)])
+    function randomInstrument() {
+        return random([
+            <div>${random(MUSICAL_INSTRUMENTS)} of <strong>${random(ELEMENTS_OF)}</strong></div>,
+            <div><strong>${random(ELEMENTS)}</strong> ${random(MUSICAL_INSTRUMENTS)}</div>,
+            <div><strong>${random(GERUNDS)}</strong> ${random(MUSICAL_INSTRUMENTS)}</div>,
+            <div>${random(MUSICAL_INSTRUMENTS)} of <strong>${random(GERUNDS)}</strong></div>
+        ])
     }
 
-    function createSongsAndNotes() {
+    function createSongsAndInstruments() {
         let songs = [];
-        let notes = [];
-        for (let i = 0; i < 3; i++) {
-            let ind = Math.floor(Math.random() * 6);
-            while (songs.includes(ind)) {
-                ind = Math.floor(Math.random() * 6);
+        let instruments = [];
+        for (let i = 0; i < 5; i++) {
+            let song = randomSong();
+            while (songs.includes(song)) {
+                song = Math.floor(Math.random() * 6);
             }
-            songs.push(ind);
+            songs.push(song);
         };
-        songs = songs.map(ind => SONGS[ind]);
-        for (let i = 0; i < 6; i++) {
-            notes.push(randomNote());
+        for (let i = 0; i < 3; i++) {
+            instruments.push(randomInstrument());
         };
-        props.updateState('currentSpecials', { 'songs': songs.sort(), 'notes': notes }, { rest: true });
+        props.updateState('currentSpecials', { 'songs': songs.sort(), 'instruments': instruments }, { rest: true });
     }
 
-    function spendNote(noteInd) {
-        let newNotes = currentSpecials.notes;
-        const lostNote = newNotes.splice(noteInd, 1);
-        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes }, { lose_resource: { ind: ['notes'], string: lostNote } });
+    function spendSong(songInd) {
+        let newSongs = currentSpecials.songs;
+        const lostSong = newSongs.splice(songInd, 1);
+        props.updateState('currentSpecials', { 'songs': newSongs, 'instruments': currentSpecials.instruments }, { lose_resource: { ind: ['songs'], string: lostSong } });
     }
 
     function songEffects(song) {
@@ -70,27 +74,40 @@ export default function Minstrel(props) {
                 return "Speed up movement";
             case "Dirge":
             case "Lullaby":
-                return "Pacify or put listeners to sleep";
+                return "Pacify or put to sleep";
             case "Power Chord":
             case "Solo":
-                return "Create a blast of sound and force";
+                return "Blast of sound and force";
             case "Limerick":
             case "Rap Battle":
-                return "Challenge or enrage listener";
+                return "Challenge or enrage";
             default:
                 return "Custom Song";
         }
     }
 
-    function skillHarmonyDisp() {
-        return (
-            <>
-            <h3 className="text-center">Skill Harmony<br/>{skillBorrowed ? "Expended" : "Available"}</h3>
-            <Button className="absolute-button-right" variant={skillBorrowed ? "warning" : "success"} onClick={() => setSkillBorrowed(skillBorrowed ? false : true)}>
-                {skillBorrowed ? "End Scene" : "Borrow Skill"}
-            </Button>
-            </>
-        )
+    function instrumentsDisp() {
+        if (currentSpecials.instruments && currentSpecials.instruments.length > 0) {
+            
+            return (
+                <>
+                    <div className="grenze">Instruments</div>
+                    {currentSpecials.instruments.map((instrument, i) => {
+                        return (
+                            <InputGroup key={i} className="my-1">
+                                <InputGroup.Text className="w-75"><div>{instrument}</div></InputGroup.Text>
+                            </InputGroup>
+                        )
+                    })}
+                    <InputGroup className="my-1">
+                        <InputGroup.Text className="w-75"><div>Sing</div></InputGroup.Text>
+                        <InputGroup.Append>
+                            <Button onClick={() => setCanSing(!canSing)} variant={canSing ? "success" : "secondary"}>{canSing ? "Free Song" : "End Scene"}</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </>
+            )
+        }
     }
 
     function songsDisp() {
@@ -102,32 +119,10 @@ export default function Minstrel(props) {
                     return (
                         <InputGroup key={i} className="my-1">
                             <InputGroup.Text className="w-75">
-                                <strong>{song}</strong>
+                                <strong className="grenze">{song} </strong> - {songEffects(song)}
                             </InputGroup.Text>
                             <InputGroup.Append>
-                                <DropdownButton variant="secondary" title="Effect">
-                                    <Dropdown.Item>{songEffects(song)}</Dropdown.Item>
-                                </DropdownButton>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    )
-                })}
-                </>
-            )
-        }
-    }
-
-    function notesDisp() {
-        if (currentSpecials.notes && currentSpecials.notes.length > 0) {
-            return (
-                <>
-                <div className="grenze">Notes</div>
-                {currentSpecials.notes.map((note, i) => {
-                    return (
-                        <InputGroup key={i} className="my-1">
-                            <InputGroup.Text className="w-75"><div><strong>{note}</strong> Note</div></InputGroup.Text>
-                            <InputGroup.Append>
-                                <Button variant="outline-dark" onClick={() => spendNote(i)}>🎵</Button>
+                                <Button variant="secondary"></Button>
                             </InputGroup.Append>
                         </InputGroup>
                     )
@@ -142,14 +137,14 @@ export default function Minstrel(props) {
         let newSongs = currentSpecials.songs;
         const newSong = randomize ? randomSong() : input1.current.value
         newSongs.push(newSong);
-        props.updateState('currentSpecials', { 'songs': newSongs, 'notes': currentSpecials.notes }, { gain_resource: { category: 'Song', string: newSong } });
+        props.updateState('currentSpecials', { 'songs': newSongs, 'instruments': currentSpecials.instruments }, { gain_resource: { category: 'Song', string: newSong } });
     }
 
-    function addCustomNote(randomize) {
-        let newNotes = currentSpecials.notes;
-        const newNote = randomize ? randomNote() : input2.current.value
-        newNotes.push(newNote);
-        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'notes': newNotes }, { gain_resource: { category: 'Note', string: newNote } });
+    function addCustomInstrument(randomize) {
+        let newInstruments = currentSpecials.instruments;
+        const newInstrument = randomize ? randomInstrument() : input2.current.value
+        newInstruments.push(newInstrument);
+        props.updateState('currentSpecials', { 'songs': currentSpecials.songs, 'instruments': newInstruments }, { gain_resource: { category: 'Instrument', string: newInstrument } });
     }
     
     return (
@@ -174,11 +169,8 @@ export default function Minstrel(props) {
                     </ClassDescription>
                 </Col>
                 <Col xs={12} md={7} className="mt-3">
-                    <Row className="justify-content-center">
-                        {skillHarmonyDisp()}
-                    </Row>
+                    {instrumentsDisp()}
                     {songsDisp()}
-                    {notesDisp()}
                     <Form>
                         <InputGroup>
                             <InputGroup.Prepend><InputGroup.Text>Add Song</InputGroup.Text></InputGroup.Prepend>
@@ -189,15 +181,15 @@ export default function Minstrel(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomSong(true)}>🎲</Button>
                         </Form.Group>
                         <InputGroup>
-                            <InputGroup.Prepend><InputGroup.Text>Add Note</InputGroup.Text></InputGroup.Prepend>
+                            <InputGroup.Prepend><InputGroup.Text>Add Instrument</InputGroup.Text></InputGroup.Prepend>
                             <Form.Control ref={input2} />
                         </InputGroup>
                         <Form.Group className="d-flex justify-content-around">
-                            <Button size="lg" variant="dark" onClick={() => addCustomNote(false)}>+</Button>
-                            <Button size="lg" variant="dark" onClick={() => addCustomNote(true)}>🎲</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomInstrument(false)}>+</Button>
+                            <Button size="lg" variant="dark" onClick={() => addCustomInstrument(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="success" className="ability-randomize-button" onClick={createSongsAndNotes}>Rest<br/>Refresh Songs and Notes</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createSongsAndInstruments}>Rest<br/>Refresh Songs and Instruments</Button>
                         </Form.Group>
                     </Form>
                 </Col>
