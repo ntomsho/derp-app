@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ROGUE_TRICKS } from '../../../dndb-tables';
+import { random, ROGUE_TRICKS } from '../../../dndb-tables';
 import ClassDescription from '../class_description';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 
 export default function Neerdowell(props) {
     const { currentSpecials } = props;
-    const [cunningUsed, setCunningUsed] = useState(props.trainedSkill.includes("Creepin'"))
+    const [cunningUsed, setCunningUsed] = useState(false);
     const input = React.createRef();
 
     useEffect(() => {
@@ -21,7 +21,8 @@ export default function Neerdowell(props) {
 
     function createTricks() {
         let tricks = [];
-        for (let i = 0; i < 4; i++) {
+        const maxTricks = props.trainedSkills.includes("Creepin'") ? 5 : 4;
+        for (let i = 0; i < maxTricks; i++) {
             let newTrick = random(ROGUE_TRICKS)
             while (tricks.includes(newTrick)) {
                 newTrick = random(ROGUE_TRICKS);
@@ -44,8 +45,16 @@ export default function Neerdowell(props) {
         props.updateState('currentSpecials', { 'tricks': newTricks }, { gain_resource: { category: "Rogue Trick", string: newItem } })
     }
 
-    function cunningDisplay() {
-        
+    function cunningDisp() {
+        if (props.trainedSkills.includes("Creepin'")) return;
+        return (
+            <div className="d-flex align-items-center">
+            <h3 className="text-center">Cunning<br />{cunningUsed ? "Expended" : "Available"}</h3>
+            <Button className="absolute-button-right" variant={cunningUsed ? "secondary" : "dark"} onClick={() => setCunningUsed(!cunningUsed)}>
+                {cunningUsed ? "End Scene" : "Use Cunning"}
+            </Button>
+            </div>
+        )
     }
 
     function tricksDisp() {
@@ -83,6 +92,9 @@ export default function Neerdowell(props) {
                     </ClassDescription>
                 </Col>
                 <Col xs={12} md={5} className="mt-3">
+                    <Row className="justify-content-center">
+                        {cunningDisp()}
+                    </Row>
                     {tricksDisp()}
                     <Form>
                         <InputGroup>
@@ -94,7 +106,7 @@ export default function Neerdowell(props) {
                             <Button size="lg" variant="dark" onClick={() => addCustomTrick(true)}>🎲</Button>
                         </Form.Group>
                         <Form.Group className="d-flex justify-content-center">
-                            <Button variant="success" className="ability-randomize-button" onClick={createItems}>Rest<br/>Refresh Rogue Tricks</Button>
+                            <Button variant="success" className="ability-randomize-button" onClick={createTricks}>Rest<br/>Refresh Rogue Tricks</Button>
                         </Form.Group>
                     </Form>
                 </Col>
