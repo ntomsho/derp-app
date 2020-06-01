@@ -107,13 +107,13 @@ export default function CharGenSkills(props) {
         return (
             <>
                 <Row className="justify-content-center">
-                    <Col xs={6}>
+                    <Col xs={10} sm={6}>
                         <h1 className="text-center">Select Fightin' Skill</h1>
                         <div className="text-center">This Skill will be your primary combat trait.</div>
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
-                    <Col xs={6}>
+                    <Col xs={10} sm={6}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {CLASS_FIGHTING_SKILLS[props.cClass].map((skill, i) => {
                                 return (
@@ -141,13 +141,13 @@ export default function CharGenSkills(props) {
         return (
             <>
                 <Row className="justify-content-center">
-                    <Col xs={6}>
+                    <Col xs={10} sm={6}>
                         <h1 className="text-center">Select Casting Skill</h1>
                         <div className="text-center">This Skill will be used for some rolls with your magic class feature.</div>
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
-                    <Col xs={6}>
+                    <Col xs={10} sm={6}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             {Object.keys(CLASS_CASTING_SKILLS[props.cClass]).map((skill, i) => {
                                 return (
@@ -190,7 +190,7 @@ export default function CharGenSkills(props) {
         return (
             <>
                 <Row className="justify-content-center">
-                    <Col xs={6}>
+                    <Col xs={10} sm={6}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <Button
                                 variant={props.selectedFightingSkill ? "warning" : "info"}
@@ -209,7 +209,7 @@ export default function CharGenSkills(props) {
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
-                    <Col xs={6} className="d-flex flex-column align-items-center">
+                    <Col xs={10} sm={6} className="d-flex flex-column align-items-center">
                         {chosenHumanSkill ? 
                             <Button className="my-3" size="lg" variant="primary" onClick={() => selectSkill(chosenHumanSkill, false)}>Select</Button> : 
                             null
