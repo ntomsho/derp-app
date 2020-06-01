@@ -254,6 +254,10 @@ export default function Wizcaster(props) {
                         <div>Whenever you cast a spell, you can choose one Word to keep. Any others used in the spell are lost.</div>
                         <div>You also gain the Missile Form word which can be used to build spells as normal, but cannot be kept and is restored at the end of every scene.</div>
                         <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Creepin':</strong> Rolls for non-attack, non-destructive spells</div>
+                        <div><strong>Thinkiness:</strong> Rolls for attack and destructive spells</div>
+                        <br />
                         <div>Resource Item:<br/><strong>Scrolls of Power</strong></div>
                         <div>Spend a Scroll of Power to add its word to your current Words of Power.</div>
                         <br />

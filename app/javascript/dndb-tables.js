@@ -19,22 +19,31 @@ export const CLASS_SKILLS = {
     "Hippy": ["Cardio", "Man vs. Wild"],
     "Knight of Tushuze": ["Believe in Yourself"],
     "Minstrel": ["Believe in Yourself", "Creepin'"],
-    "Mixologist": ["Macgyver", "Thinkiness"],
+    "Mixologist": ["Macgyver", "Man vs. Wild"],
     "Ne'erdowell": ["Creepin'"],
     "Ragesmasher": ["Man vs. Wild"],
     "Runegoon": ["Cardio", "Macgyver"],
     "Verbpriest": ["Believe in Yourself", "Thinkiness"],
-    "Wizcaster": ["Macgyver", "Thinkiness"],
+    "Wizcaster": ["Creepin'", "Thinkiness"],
     "Zoomaster": ["Man vs. Wild"]
 };
 
 export const CLASS_FIGHTING_SKILLS = {
     "Battlebro": ["Brute Force", "Rad Moves"],
-    "Bowslinger": ["Shootin'"],
+    "Bowslinger": ["Ocular Prowess"],
     "Knight of Tushuze": ["Brute Force"],
-    "Ne'erdowell": ["Rad Moves", "Shootin'"],
+    "Ne'erdowell": ["Rad Moves", "Ocular Prowess"],
     "Ragesmasher": ["Brute Force"],
-    "Zoomaster": ["Rad Moves", "Shootin'"]
+    "Zoomaster": ["Rad Moves", "Ocular Prowess"]
+}
+
+export const CLASS_CASTING_SKILLS = {
+    "Hippy": { "Cardio": "Any roll in animal form that would use Brute Force or Rad Moves", "Man vs. Wild": "Any roll in animal form that wouldn't use Brute Force or Rad Moves" },
+    "Minstrel": { "Believe in Yourself": "Rolls for arias, ballads, jigs, shanties, power chords, and solos", "Creepin'": "Rolls for grooves, hoedowns, dirges, lullabies, limericks, and rap battles" },
+    "Mixologist": { "Macgyver": "Rolls for bombs, brews, emulsions, grenades, infusions, and oils", "Man vs. Wild": "Rolls for decoctions, elixirs, poisons, potions, powders, and resins" },
+    "Runegoon": { "Cardio": "Rolls for Element Runes", "Macgyver": "Rolls for Verb Runes" },
+    "Verbpriest": { "Believe in Yourself": "Rolls to command people", "Thinkiness": "Rolls to command beasts and objects" },
+    "Wizcaster": { "Creepin'": "Rolls for non-attack, non-destructive spells", "Thinkiness": "Rolls for attack and destructive spells" }
 }
 
 export const CLASS_COLORS = {
@@ -74,15 +83,15 @@ export const SKILLS = [
     "Creepin'",
     "Macgyver",
     "Man vs. Wild",
+    "Ocular Prowess",
     "Rad Moves",
-    "Shootin'",
     "Thinkiness"
 ];
 
 export const FIGHTING_SKILLS = [
     "Brute Force",
-    "Rad Moves",
-    "Shootin'"
+    "Ocular Prowess",
+    "Rad Moves"
 ];
 
 export const CIVILIZED_SKILLS = [
@@ -102,7 +111,7 @@ export const SKILL_USES = {
     "Macgyver": "Crafting, building, forging, making stuff",
     "Man vs. Wild": "Surviving, foraging, riding, animal handling, nature knowledge",
     "Rad Moves": "Dodging, running, jumping, acrobatics, balance",
-    "Shootin'": "Shooting, looking, noticing, awareness, precision",
+    "Ocular Prowess": "Shooting, looking, noticing, awareness, precision",
     "Thinkiness": "Knowing, remembering, wits, historical, scientific, and arcane knowledge"
 }
 
@@ -576,6 +585,27 @@ export const MATERIALS = [
     "Zirconium"
 ]
 
+export const MUSICAL_INSTRUMENTS = [
+    "Accordion",
+    "Bagpipes",
+    "Bass Guitar",
+    "Fiddle",
+    "Flute",
+    "Glockenspiel",
+    "Guitar",
+    "Horn",
+    "Keytar",
+    "Lute",
+    "Oboe",
+    "Snare Drum",
+    "Taiko",
+    "Tampourine",
+    "Theramin",
+    "Tuba",
+    "Trumpet",
+    "Vuvuzela"
+]
+
 export const EQUIPMENT = [
     `${random(BACKGROUNDS)} tools`,
     `Bear trap`,
@@ -599,7 +629,7 @@ export const EQUIPMENT = [
     `Medicine`,
     `${random(WEAPONS.slice(0,18))}`,
     `Mirror`,
-    `Musical instrument`,
+    `${random(MUSICAL_INSTRUMENTS)}`,
     `Net`,
     `Spare ammo`,
     `${random(WEAPONS.slice(19,36))}`,
@@ -613,6 +643,45 @@ export const EQUIPMENT = [
     `Tripwire`,
     `Vial of acid`,
     `Vial of poison`
+];
+
+export const EQUIPMENT_BASE = [
+    `${random(BACKGROUNDS)} tools`,
+    `Trap`,
+    `Bomb`,
+    `Caltrops`,
+    `Chain`,
+    `Crowbar`,
+    `Disguise`,
+    `Food`,
+    `Oil`,
+    `Glue`,
+    `Grappling hook`,
+    `Chisel`,
+    `Horn`,
+    `Hourglass`,
+    `Ladder`,
+    `Lantern`,
+    `Lockpicks`,
+    `Stick`,
+    `Manacles`,
+    `Medicine`,
+    `${random(WEAPONS.slice(0, 18))}`,
+    `Mirror`,
+    `${random(MUSICAL_INSTRUMENTS)}`,
+    `Net`,
+    `Ammo`,
+    `${random(WEAPONS.slice(19, 36))}`,
+    `Rope`,
+    `Sack`,
+    `Shield`,
+    `Shovel`,
+    `Spyglass`,
+    `Torch`,
+    `${random(TRINKETS)}`,
+    `Tripwire`,
+    `Acid`,
+    `Poison`
 ];
 
 export const AERIAL_CREATURES = [
@@ -868,12 +937,18 @@ export const ADJECTIVE_MUTATIONS = [
 ]
 
 export const SONGS = [
-    random(["Aria", "Ballad"]),
-    random(["Groove", "Hoedown"]),
-    random(["Jig", "Shanty"]),
-    random(["Dirge", "Lullaby"]),
-    random(["Power Chord", "Solo"]),
-    random(["Limerick", "Rap Battle"])
+    "Aria",
+    "Ballad",
+    "Groove",
+    "Hoedown",
+    "Jig",
+    "Shanty",
+    "Dirge",
+    "Lullaby",
+    "Power Chord",
+    "Solo",
+    "Limerick",
+    "Rap Battle"
 ]
 
 export const BASES = [
@@ -934,6 +1009,27 @@ export const COMMANDS = [
     "Take",
     "Throw",
     "Wallop"
+]
+
+export const ROGUE_TRICKS = [
+    `${random(ELEMENTS)} caltrops`,
+    `${random(ELEMENTS)} weapon enhancement`,
+    `${random(GERUNDS)} weapon enhancement`,
+    "Amnesia draught",
+    "Counterfeit coins",
+    "Decoy dummy",
+    "Fake mustache",
+    "Featherfall cape",
+    "Firecrackers",
+    "Flash charge",
+    "Living rope",
+    "Paralytic poison",
+    "Shadow cloak",
+    "Silence oil",
+    "Sleep dust",
+    "Smoke bomb",
+    "Spiderclimb shoes",
+    "Telekinesis gloves"
 ]
 
 export const RESOURCE_ITEMS = [
@@ -1010,11 +1106,11 @@ export function randomAnimal() {
 
 export function randomMagicItem() {
     return random([
-        `${random(ELEMENTS)} ${random(EQUIPMENT)}`,
+        `${random(ELEMENTS)} ${random(EQUIPMENT_BASE)}`,
         `${random(ELEMENTS)} ${random(TRINKETS)}`,
-        `${random(GERUNDS)} ${random(EQUIPMENT)}`,
+        `${random(GERUNDS)} ${random(EQUIPMENT_BASE)}`,
         `${random(GERUNDS)} ${random(TRINKETS)}`,
-        `${random(EQUIPMENT)} of ${random(GERUNDS)}`,
+        `${random(EQUIPMENT_BASE)} of ${random(GERUNDS)}`,
         `${random(TRINKETS)} of ${random(GERUNDS)}`,
         `${random(GERUNDS)} ${random(WEAPONS)}`,
         `${random(ELEMENTS)} ${random(WEAPONS)}`,

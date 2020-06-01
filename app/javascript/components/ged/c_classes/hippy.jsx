@@ -31,8 +31,14 @@ export default function Hippy(props) {
                 newForm = randomAnimal();
             }
             forms.push(newForm);
-            gifts.push(random(MUTATIONS));
         };
+        for (let i = 0; i < 5; i++) {
+            let newGift = random(MUTATIONS);
+            while (gifts.includes(newGift)) {
+                newGift = random(MUTATIONS);
+            }
+            gifts.push(newGift);
+        }
         props.updateState('currentSpecials', { 'forms': forms, 'gifts': gifts }, { rest: true });
     }
 
@@ -69,6 +75,7 @@ export default function Hippy(props) {
     }
 
     function activateGift(giftInd) {
+        setCurrentForm(null);
         setCurrentMutation(currentSpecials.gifts[giftInd])
         consumeGift(giftInd);
     }
@@ -87,6 +94,14 @@ export default function Hippy(props) {
         props.updateState('currentSpecials', newResources, { gain_resource: { category: "Gift", string: newGift } })
     }
 
+    function changeForm(form) {
+        if (!currentForm) {
+            setCurrentForm(form);
+        } else {
+            if (currentForm === form) setCurrentForm(null);
+        }
+    }
+
     function formsDisp() {
         if (currentSpecials.forms && currentSpecials.forms.length > 0) {
             return (
@@ -95,13 +110,13 @@ export default function Hippy(props) {
                 {currentSpecials.forms.map((form, i) => {
                     return (
                         <InputGroup key={i} className="my-1">
-                            <Button variant={currentForm === form ? "success" : "outline-success"} onClick={() => setCurrentForm(form)} className="w-75"><div><strong>{form}</strong> Form</div></Button>
+                            <Button variant={currentForm ? currentForm === form ? "success" : "secondary" : "outline-success" } onClick={() => changeForm(form)} className="w-75"><div><strong>{currentMutation ? currentMutation + " " : ""}{form}</strong> Form</div></Button>
                             <Button variant="danger" onClick={() => sacrificeForm(i)}>X</Button>
                         </InputGroup>
                     )
                 })}
                 <InputGroup className="my-1">
-                    <Button variant={currentForm ? "outline-success" : "success"} onClick={() => setCurrentForm(null)}><div><strong>Human</strong> Form</div></Button>
+                    <Button variant={currentForm ? "outline-success" : "success"} onClick={() => setCurrentForm(null)}><div><strong>{props.raceString}</strong> Form</div></Button>
                 </InputGroup>
                 </>
             )
@@ -161,14 +176,18 @@ export default function Hippy(props) {
                 <Col xs={12} md={5} className="mt-3">
                     <ClassDescription>
                         <div>Magic Ability:<br /><strong>Nature's Gifts & Animal Forms</strong></div>
-                        <div>Whenever you rest, you are given a set of three animal forms that you can shift between at will and three Gifts, each of which is associated with a mutation.</div>
+                        <div>Whenever you rest, you are given a set of three animal forms and three Gifts, each of which is associated with a mutation.</div>
+                        <div>Once per scene, you can change into one of your animal forms or you can spend a Gift to change into one of your forms with the Gift's mutation applied to it.</div>
                         <div>When in an animal form, you gain Magic Advantage on any actions the form is well suited for. You can give up one of your animal forms to gain a new random Gift.</div>
                         <div>You can spend a Gift to: </div>
                         <ul>
-                            <li>Apply that mutation to any of your forms for the duration of the scene.</li>
                             <li>Change one of your forms to a new random animal.</li>
                             <li>Produce 1d6 healing Goodberries. Eating one within a day of its creation restores 1 Health.</li>
                         </ul>
+                        <br/>
+                        <strong className="grenze">Casting Skills</strong>
+                        <div><strong>Cardio:</strong> Any roll in animal form that would use Brute Force or Rad Moves</div>
+                        <div><strong>Man vs. Wild:</strong> Any roll in animal form that wouldn't use Brute Force or Rad Moves</div>
                         <br/>
                         <div>Resource Item:<br/><strong>Animal Totems</strong></div>
                         <div>Spend an Animal Totem to gain a form that is the totem's animal.</div>

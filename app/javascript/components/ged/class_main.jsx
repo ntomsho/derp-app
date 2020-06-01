@@ -27,7 +27,7 @@ export default function ClassMain(props) {
                 break;
             case "Hippy":
                 //Standardize health prop passing?
-                classComp = <Hippy health={props.health} maxHealth={props.maxHealth} currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
+                classComp = <Hippy health={props.health} raceString={props.raceString} maxHealth={props.maxHealth} currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
                 break;
             case "Knight of Tushuze":
                 classComp = <KnightOfTushuze currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
@@ -39,7 +39,7 @@ export default function ClassMain(props) {
                 classComp = <Mixologist currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
                 break;
             case "Ne'erdowell":
-                classComp = <Neerdowell currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
+                classComp = <Neerdowell trainedSkills={props.trainedSkills} currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />
                 break;
             case "Ragesmasher":
                 classComp = <Ragesmasher currentSpecials={props.currentSpecials} updateState={props.updateState} favoriteTags={props.favoriteTags} savedTag={props.savedTag} />

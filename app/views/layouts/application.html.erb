@@ -19,6 +19,12 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     
     <%= javascript_pack_tag 'derp-app' %>
+
+    <script type="text/javascript">
+      window.skull = "<%= image_url('skull-icon.png') %>"
+      window.heartFull = "<%= image_url('Heart-icon.png') %>"
+      window.heartEmpty = "<%= image_url('empty-heart-icon.png') %>"
+    </script>
   </head>
 
   <body>

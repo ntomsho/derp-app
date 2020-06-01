@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CLASS_SKILLS, CLASS_COLORS, SKILLS, FIGHTING_SKILLS, CIVILIZED_SKILLS, SKILL_USES, random, RACE_TRAITS } from '../../dndb-tables';
+import { CLASS_SKILLS, CLASS_COLORS, FIGHTING_SKILLS, CIVILIZED_SKILLS, SKILL_USES, CLASS_CASTING_SKILLS, CLASS_FIGHTING_SKILLS } from '../../dndb-tables';
 import SkillButton from './skill_button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -33,6 +33,14 @@ export default function Skills(props) {
         const trained = (props.selectedFightingSkill === highlightedSkill || props.trainedSkills.includes(highlightedSkill));
         if (highlightedSkill) {
             const uses = SKILL_USES[highlightedSkill].split(", ");
+            let casting = null;
+            if (CLASS_CASTING_SKILLS[props.cClass]) {
+                casting = (
+                    <Row style={{color: CLASS_COLORS[props.cClass]}} className="grenze text-center justify-content-center">
+                        {CLASS_CASTING_SKILLS[props.cClass][highlightedSkill]}
+                    </Row>
+                )
+            }
             return (
                 <>
                 <Row className="justify-content-center">
@@ -55,6 +63,7 @@ export default function Skills(props) {
                         })}
                     </div>
                 </Row>
+                {casting}
                 <Row className="justify-content-center mt-3">
                     <Button variant="outline-secondary" onClick={() => setHighlightedSkill("")}>Close</Button>
                 </Row>
@@ -64,12 +73,14 @@ export default function Skills(props) {
     }
 
     function createSkillRow(i) {
-        const skills = i === 0 ? FIGHTING_SKILLS : CIVILIZED_SKILLS.slice(i - 3, i);        
+        const skills = i === 0 ? FIGHTING_SKILLS : CIVILIZED_SKILLS.slice(i - 3, i);
         return skills.map((skill, ind) => {
+            let castingSkill
+            if (CLASS_CASTING_SKILLS[props.cClass]) castingSkill = CLASS_CASTING_SKILLS[props.cClass].includes(skill)
             return (
                 <Col className="px-1 my-1" style={{minHeight: '88px'}} key={ind} xs={4}>
                     <SkillButton
-                        classSkill={classSkills.includes(skill)}
+                        classSkill={castingSkill}
                         selected={props.selectedFightingSkill === skill || props.trainedSkills.includes(skill)}
                         setHighlightedSkill={setHighlightedSkill}
                         classColor={CLASS_COLORS[props.cClass]}

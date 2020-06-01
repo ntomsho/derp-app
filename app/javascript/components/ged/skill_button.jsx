@@ -16,7 +16,7 @@ const SkillButton = (props) => {
         variant={buttonVariant()}
         block
         onClick={() => props.setHighlightedSkill(props.children)}
-            style={props.classSkill ? { borderColor: props.classColor }: {}}
+            style={props.classSkill ? { boxShadow: `0 0 0.5rem ${props.classColor}` }: {}}
         >
             <h3>{props.children}</h3>
         </Button>
