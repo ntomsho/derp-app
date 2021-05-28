@@ -86,6 +86,7 @@ const Home = (props) => {
                             <p>Use this app to create characters and manage campaigns in your favorite DERP System games.</p>
                             <p>Sign up today!</p>
                             <p><small>Please.</small></p>
+                            <Button block className="mt-3" variant="info"><Link to="/ged/newsheet">+ New Character Sheet</Link></Button>
                         </Col>
                     </Row>
                     </>}
